@@ -26,8 +26,6 @@ export default function Licenses({ menu }) {
       </Typography>
       <BaseCard
         style={{
-          backgroundColor: "#fdfdfdd9",
-          backdropFilter: "saturate(180%) blur(5px)",
           paddingLeft: 32,
         }}
       >

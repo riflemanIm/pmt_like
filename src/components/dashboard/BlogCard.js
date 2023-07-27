@@ -30,7 +30,7 @@ const BlogCard = () => {
               }}
             >
               <div
-                style={{ position: "relative", width: "100%", height: "300px" }}
+                style={{ position: "relative", width: "100%", height: "220px" }}
               >
                 <Image
                   fill

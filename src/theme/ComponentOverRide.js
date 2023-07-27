@@ -92,7 +92,8 @@ const components = {
       root: {
         borderRadius: 18,
         padding: "14px",
-
+        backgroundColor: "#fdfdfdd9",
+        backdropFilter: "saturate(180%) blur(5px)",
         boxShadow: "0px 7px 30px 0px rgba(90, 114, 123, 0.11)",
       },
     },
