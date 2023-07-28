@@ -1,6 +1,10 @@
-# pmt
+# PMT corp site
 
-## stack
+## Install
+
+- `yarn build`
+
+## Stack
 
 - nodejs, yarn
 - nextjs, MUI5
