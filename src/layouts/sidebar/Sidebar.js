@@ -35,13 +35,13 @@ const Sidebar = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
 
   const SidebarContent = (
     <Grid container px={1}>
-      <Grid xs={6} p={2}>
+      <Grid item xs={12} p={2}>
         <LogoIcon />
       </Grid>
       {/* <Grid xs={6} p={0.5}>
         <ProfileDD />
       </Grid> */}
-      <Grid xs={12}>
+      <Grid item xs={12}>
         <List>
           {Menuitems.map((item, index) => (
             <ListItem
