@@ -4,9 +4,9 @@
 
 - `yarn build`
 
-## Stack
+## Stack tec
 
 - nodejs, yarn
 - nextjs, MUI5
 
-# pmt
+# redisign old pmt site https://pmtech.ru/
