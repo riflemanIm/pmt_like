@@ -8,7 +8,7 @@ import Effect from "../src/components/dashboard/Effekt";
 import img from "../assets/images/bg/bg19.jpg";
 
 export default function Index({ menu }) {
-  console.log("menu", menu);
+  //console.log("menu", menu);
   return (
     <FullLayout menu={menu} img={img.src}>
       <Grid container spacing={0}>
