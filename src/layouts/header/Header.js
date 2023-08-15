@@ -31,7 +31,7 @@ const Header = ({ sx, customClass, toggleMobileSidebar, position }) => {
         {/* <SearchDD /> */}
         {/* ------------ End Menu icon ------------- */}
 
-        <ProfileDD />
+        {/* <ProfileDD /> */}
         {/* ------------------------------------------- */}
         {/* Profile Dropdown */}
         {/* ------------------------------------------- */}
