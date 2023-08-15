@@ -1,13 +1,8 @@
 const Menuitems = [
   {
-    title: "Новости",
-    icon: "info",
-    href: "/",
-  },
-  {
     title: "Решения",
     icon: "sun",
-    href: "/solutions",
+    href: "/",
   },
   {
     title: "Продукты",
