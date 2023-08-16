@@ -176,7 +176,7 @@ export default function Licenses({ menu }) {
               наборов модулей, адаптированных для медицинский учреждений разных
               типов.
             </Typography>
-            <ProductTariffs />
+            {/* <ProductTariffs /> */}
           </AccordionDetails>
         </Accordion>
       </div>
