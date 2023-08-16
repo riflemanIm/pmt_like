@@ -43,35 +43,45 @@ const Sidebar = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
       </Grid> */}
       <Grid item xs={12}>
         <List>
-          {Menuitems.map((item, index) => (
-            <ListItem
-              key={index}
-              onClick={() => handleClick(index)}
-              href={item.href}
-              target={item.href.startsWith("http") ? "_blank" : null}
-              component={Link}
-              sx={{
-                mb: 1,
-                ...(location === item.href && {
-                  color: (theme) => `${theme.palette.text.primary} !important`,
-                  backgroundColor: (theme) => theme.palette.action.active,
-                }),
-              }}
-            >
-              <ListItemIcon
+          {Menuitems.map((item, index) => {
+            const MuiIcon = item.muiIcon;
+            return (
+              <ListItem
+                key={index}
+                onClick={() => handleClick(index)}
+                href={item.href}
+                target={item.href.startsWith("http") ? "_blank" : null}
+                component={Link}
                 sx={{
-                  color:
-                    location === item.href
-                      ? (theme) => `${theme.palette.text.primary} !important`
-                      : (theme) => theme.palette.primary.dark,
+                  mb: 1,
+                  ...(location === item.href && {
+                    color: (theme) =>
+                      `${theme.palette.text.primary} !important`,
+                    backgroundColor: (theme) => theme.palette.action.active,
+                  }),
                 }}
               >
-                <FeatherIcon icon={item.icon} width="20" height="20" />
-              </ListItemIcon>
+                <ListItemIcon
+                  sx={{
+                    color:
+                      location === item.href
+                        ? (theme) => `${theme.palette.text.primary} !important`
+                        : (theme) => theme.palette.primary.dark,
+                  }}
+                >
+                  {item.muiIcon != null ? (
+                    <MuiIcon />
+                  ) : (
+                    <FeatherIcon icon={item.icon} width="20" height="20" />
+                  )}
+                </ListItemIcon>
 
-              <ListItemText onClick={onSidebarClose}>{item.title}</ListItemText>
-            </ListItem>
-          ))}
+                <ListItemText onClick={onSidebarClose}>
+                  {item.title}
+                </ListItemText>
+              </ListItem>
+            );
+          })}
         </List>
       </Grid>
     </Grid>
