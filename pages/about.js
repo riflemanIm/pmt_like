@@ -11,8 +11,9 @@ import { Grid, useMediaQuery } from "@mui/material";
 const Accordion = styled((props) => (
   <MuiAccordion elevation={0} square {...props} />
 ))();
-const isMobile = useMediaQuery((theme) => theme.breakpoints.down("lg"));
+
 export default function Solution({ menu }) {
+  const isMobile = useMediaQuery((theme) => theme.breakpoints.down("lg"));
   return (
     <FullLayout menu={menu} img={img.src}>
       {!isMobile && (
