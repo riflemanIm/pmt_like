@@ -6,49 +6,51 @@ import FullLayout from "../src/layouts/FullLayout";
 import BaseCard from "../src/components/baseCard/BaseCard";
 import img from "../assets/images/bg/bg20.jpg";
 import { css } from "@emotion/css";
-import { Grid } from "@mui/material";
+import { Grid, useMediaQuery } from "@mui/material";
 
 const Accordion = styled((props) => (
   <MuiAccordion elevation={0} square {...props} />
 ))();
-
+const isMobile = useMediaQuery((theme) => theme.breakpoints.down("lg"));
 export default function Solution({ menu }) {
   return (
     <FullLayout menu={menu} img={img.src}>
-      <div
-        className={css`
-          position: absolute;
-          top: 628px;
-          left: 75vw;
-          z-index: 1;
-          width: 251px;
-          height: 251px;
-          border-radius: 100%;
-          background-color: #3b5f77;
-        `}
-        data-aos="fade-up"
-        data-aos-duration="1200"
-        data-aos-delay="300"
-      >
+      {!isMobile && (
         <div
           className={css`
             position: absolute;
-            top: 50%;
-            left: 50%;
-            text-align: center;
-            width: 100%;
-            transform: translate(-50%, -50%);
-            padding: 10px;
+            top: 628px;
+            left: 75vw;
+            z-index: 1;
+            width: 251px;
+            height: 251px;
+            border-radius: 100%;
+            background-color: #3b5f77;
           `}
+          data-aos="fade-up"
+          data-aos-duration="1200"
+          data-aos-delay="300"
         >
-          <Typography variant="h2" sx={{ color: "#fff", fontSize: 44 }}>
-            24 года
-          </Typography>
-          <Typography variant="body2" mt={2} sx={{ color: "#fff" }}>
-            Компания основана в 1999 году.
-          </Typography>
+          <div
+            className={css`
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              text-align: center;
+              width: 100%;
+              transform: translate(-50%, -50%);
+              padding: 10px;
+            `}
+          >
+            <Typography variant="h2" sx={{ color: "#fff", fontSize: 44 }}>
+              24 года
+            </Typography>
+            <Typography variant="body2" mt={2} sx={{ color: "#fff" }}>
+              Компания основана в 1999 году.
+            </Typography>
+          </div>
         </div>
-      </div>
+      )}
       <Typography variant="h1" mb={8}>
         О компании
       </Typography>
