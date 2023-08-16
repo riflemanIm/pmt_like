@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FullLayout from "../src/layouts/FullLayout";
 import BaseCard from "../src/components/baseCard/BaseCard";
-import img from "../assets/images/bg/bg4.jpg";
+import img from "../assets/images/bg/bg3.jpg";
 
 const Accordion = styled((props) => (
   <MuiAccordion elevation={0} square {...props} />

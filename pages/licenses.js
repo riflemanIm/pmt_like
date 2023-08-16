@@ -8,7 +8,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FullLayout from "../src/layouts/FullLayout";
 import BaseCard from "../src/components/baseCard/BaseCard";
 import ProductTariffs from "../src/components/dashboard/ProductTariffs";
-import img from "../assets/images/bg/bg17.jpg";
+import img from "../assets/images/bg/bg23.jpg";
 import FeatherIcon from "feather-icons-react/build/FeatherIcon";
 
 const Accordion = styled((props) => (

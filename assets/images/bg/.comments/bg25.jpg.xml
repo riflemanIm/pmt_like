@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<comment version="3.0">
+  <caption>Doctor</caption>
+  <note>Medicine. Beautiful doctor in the hospital</note>
+  <place/>
+  <categories>
+    <category value="doctor"/>
+    <category value="woman"/>
+    <category value="medical"/>
+    <category value="white"/>
+    <category value="background"/>
+    <category value="female"/>
+    <category value="health"/>
+    <category value="nurse"/>
+    <category value="stethoscope"/>
+    <category value="medicine"/>
+    <category value="hospital"/>
+    <category value="healthcare"/>
+    <category value="professional"/>
+    <category value="young"/>
+    <category value="clinic"/>
+    <category value="occupation"/>
+    <category value="worker"/>
+    <category value="people"/>
+    <category value="practitioner"/>
+    <category value="uniform"/>
+    <category value="beautiful"/>
+    <category value="clinical"/>
+    <category value="specialist"/>
+    <category value="job"/>
+    <category value="profession"/>
+    <category value="apothecary"/>
+    <category value="pharmacist"/>
+    <category value="healthy"/>
+    <category value="intern"/>
+    <category value="medic"/>
+    <category value="confident"/>
+    <category value="caucasian"/>
+    <category value="work"/>
+    <category value="success"/>
+    <category value="table"/>
+    <category value="workplace"/>
+    <category value="window"/>
+    <category value="computer"/>
+    <category value="pc"/>
+    <category value="laptop"/>
+    <category value="tablet"/>
+  </categories>
+</comment>

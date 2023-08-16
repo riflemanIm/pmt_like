@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<comment version="3.0">
+  <caption>Business people shaking hands for greeting</caption>
+  <note>Business people shaking hands for greeting</note>
+  <place/>
+  <categories>
+    <category value="achievement"/>
+    <category value="agreement"/>
+    <category value="business"/>
+    <category value="business agreement"/>
+    <category value="business deal"/>
+    <category value="businessman"/>
+    <category value="collaboration"/>
+    <category value="colleague"/>
+    <category value="communication"/>
+    <category value="connection"/>
+    <category value="contract"/>
+    <category value="cooperation"/>
+    <category value="data"/>
+    <category value="deal"/>
+    <category value="department"/>
+    <category value="gesture"/>
+    <category value="greeting"/>
+    <category value="hands"/>
+    <category value="handshake"/>
+    <category value="help"/>
+    <category value="helping"/>
+    <category value="helping hands"/>
+    <category value="marketing"/>
+    <category value="meeting"/>
+    <category value="men"/>
+    <category value="network"/>
+    <category value="partners"/>
+    <category value="partnership"/>
+    <category value="people"/>
+    <category value="power"/>
+    <category value="promise"/>
+    <category value="shake"/>
+    <category value="shake hands"/>
+    <category value="startup"/>
+    <category value="success"/>
+    <category value="support"/>
+    <category value="team"/>
+    <category value="team building"/>
+    <category value="teamwork"/>
+    <category value="tech"/>
+    <category value="together"/>
+    <category value="togetherness"/>
+    <category value="trust"/>
+    <category value="unity"/>
+  </categories>
+</comment>
