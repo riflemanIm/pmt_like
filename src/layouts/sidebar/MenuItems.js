@@ -45,7 +45,7 @@ const Menuitems = [
     href: "/contacts",
   },
   {
-    title: "Вход для пользователя (old)",
+    title: "Вход для пользователя",
     icon: "user",
     href: "https://old.medialog.ru/?action=login",
   },
