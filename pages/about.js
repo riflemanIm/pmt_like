@@ -1,35 +1,25 @@
 import React from "react";
 import { styled } from "@mui/material/styles";
 import MuiAccordion from "@mui/material/Accordion";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FullLayout from "../src/layouts/FullLayout";
 import BaseCard from "../src/components/baseCard/BaseCard";
 import img from "../assets/images/bg/bg20.jpg";
 import { css } from "@emotion/css";
-import { Card, CardContent, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 
 const Accordion = styled((props) => (
   <MuiAccordion elevation={0} square {...props} />
 ))();
 
 export default function Solution({ menu }) {
-  //console.log("menu", menu);
-  const [expanded, setExpanded] = React.useState(false);
-
-  const handleChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
-  };
-
   return (
     <FullLayout menu={menu} img={img.src}>
       <div
         className={css`
           position: absolute;
           top: 628px;
-          left: 80vw;
+          left: 75vw;
           z-index: 1;
           width: 251px;
           height: 251px;
