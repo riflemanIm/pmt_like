@@ -40,6 +40,11 @@ const Menuitems = [
     href: "/docs",
   },
   {
+    title: "О компании",
+    icon: "about",
+    href: "/about",
+  },
+  {
     title: "Контакты",
     icon: "phone",
     href: "/contacts",
