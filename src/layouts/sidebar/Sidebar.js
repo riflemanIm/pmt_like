@@ -48,6 +48,7 @@ const Sidebar = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
               key={index}
               onClick={() => handleClick(index)}
               href={item.href}
+              target={item.href.startsWith("http") ? "_blank" : null}
               component={Link}
               sx={{
                 mb: 1,

@@ -44,6 +44,11 @@ const Menuitems = [
     icon: "phone",
     href: "/contacts",
   },
+  {
+    title: "Вход для пользователя (old)",
+    icon: "user",
+    href: "https://old.medialog.ru/?action=login",
+  },
 ];
 
 export default Menuitems;
