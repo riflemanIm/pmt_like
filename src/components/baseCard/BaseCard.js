@@ -9,9 +9,7 @@ const BaseCard = (props) => {
           <Typography variant="h2">{props.title}</Typography>
         </Box>
       )}
-      <CardContent>
-        <Typography variant="h6">{props.children}</Typography>
-      </CardContent>
+      <CardContent>{props.children}</CardContent>
     </Card>
   );
 };

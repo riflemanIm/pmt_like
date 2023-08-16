@@ -31,7 +31,7 @@ export default function Licenses({ menu }) {
       >
         <Box mb={5}>
           <Typography variant="h4" my={2}>
-            Документация Медиалог 7.50+
+            Документация <strong> Медиалог</strong> 7.50+
           </Typography>
           <Button
             component={Link}
