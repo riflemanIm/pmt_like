@@ -20,6 +20,7 @@ const MainWrapper = experimentalStyled("div")(({ img }) => ({
   backgroundRepeat: "no-repeat",
   backgroundAttachment: "fixed",
   alignItems: "center",
+  //transform: "translate3d(0,0px,0)",
 }));
 
 const PageWrapper = experimentalStyled("div")(({ theme }) => ({

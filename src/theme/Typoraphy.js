@@ -26,7 +26,7 @@ const typography = {
   fontWeightMedium: 500,
   fontWeightBold: 600,
   h1: {
-    fontSize: "2.8rem",
+    fontSize: "5.1rem",
     fontWeight: 500,
     textShadow: "3px 2px 3px rgba(255,255,255,.2)",
   },
