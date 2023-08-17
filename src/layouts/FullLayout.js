@@ -14,12 +14,15 @@ const MainWrapper = experimentalStyled("div")(({ img }) => ({
   minHeight: "100vh",
   overflow: "hidden",
   width: "100%",
-  backgroundImage: `url(${img})`,
+  //backgroundImage: `url(${img})`,
   backgroundPosition: "top",
   backgroundSize: "cover",
   backgroundRepeat: "no-repeat",
   backgroundAttachment: "fixed",
   alignItems: "center",
+  backgroundImage: `
+        linear-gradient(to bottom, rgba(113,132,184, .10), rgba(113,132,184, .90)), 
+        url(${img})`,
   //filter: "blur(5px)",
 }));
 
