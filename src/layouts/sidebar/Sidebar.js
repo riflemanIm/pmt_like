@@ -54,19 +54,24 @@ const Sidebar = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
                 component={Link}
                 sx={{
                   mb: 1,
-                  ...(location === item.href && {
-                    color: (theme) =>
-                      `${theme.palette.text.primary} !important`,
-                    backgroundColor: (theme) => theme.palette.action.active,
-                  }),
+                  ...(location === item.href
+                    ? {
+                        color: (theme) =>
+                          `${theme.palette.text.main} !important`,
+                        backgroundColor: (theme) => theme.palette.action.active,
+                      }
+                    : {
+                        color: (theme) =>
+                          `${theme.palette.primary.main} !important`,
+                      }),
                 }}
               >
                 <ListItemIcon
                   sx={{
                     color:
                       location === item.href
-                        ? (theme) => `${theme.palette.text.primary} !important`
-                        : (theme) => theme.palette.primary.dark,
+                        ? (theme) => `${theme.palette.text.main} !important`
+                        : (theme) => `${theme.palette.primary.main} !important`,
                   }}
                 >
                   {item.muiIcon != null ? (
