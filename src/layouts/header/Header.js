@@ -12,7 +12,15 @@ const Header = ({ sx, customClass, toggleMobileSidebar, position }) => {
   return (
     <AppBar sx={sx} position={position} elevation={0} className={customClass}>
       <Toolbar>
-        <Box ml={3}>
+        <Box
+          ml={3}
+          sx={{
+            display: {
+              lg: "none",
+              xs: "flex",
+            },
+          }}
+        >
           <LogoIcon />
         </Box>
         <Box flexGrow={1} />
