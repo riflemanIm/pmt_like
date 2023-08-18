@@ -1,6 +1,8 @@
 import React from "react";
-import FeatherIcon from "feather-icons-react";
+//import FeatherIcon from "feather-icons-react";
+import MenuIcon from "@mui/icons-material/Menu";
 import { AppBar, Box, IconButton, Toolbar } from "@mui/material";
+import LogoIcon from "../logo/LogoIcon";
 import PropTypes from "prop-types";
 // Dropdown Component
 // import SearchDD from "./SearchDD";
@@ -10,6 +12,10 @@ const Header = ({ sx, customClass, toggleMobileSidebar, position }) => {
   return (
     <AppBar sx={sx} position={position} elevation={0} className={customClass}>
       <Toolbar>
+        <Box ml={3}>
+          <LogoIcon />
+        </Box>
+        <Box flexGrow={1} />
         <IconButton
           size="large"
           color="inherit"
@@ -20,14 +26,15 @@ const Header = ({ sx, customClass, toggleMobileSidebar, position }) => {
               lg: "none",
               xs: "flex",
             },
+            ml: 10,
           }}
         >
-          <FeatherIcon icon="menu" width="20" height="20" />
+          <MenuIcon color="primary" />
         </IconButton>
         {/* ------------------------------------------- */}
         {/* Search Dropdown */}
         {/* ------------------------------------------- */}
-        <Box flexGrow={1} />
+
         {/* <SearchDD /> */}
         {/* ------------ End Menu icon ------------- */}
 
