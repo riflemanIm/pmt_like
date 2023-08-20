@@ -21,7 +21,7 @@ const MainWrapper = experimentalStyled("div")(({ img }) => ({
   backgroundAttachment: "fixed",
   alignItems: "center",
   backgroundImage: `
-        linear-gradient(to bottom, rgba(113,132,184, .10), rgba(113,132,184, .90)), 
+        linear-gradient(to bottom, rgba(113,132,184, .1), rgba(113,132,184, .45)), 
         url(${img})`,
   //filter: "blur(5px)",
 }));
