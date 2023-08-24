@@ -1,7 +1,7 @@
 import React from "react";
 //import FeatherIcon from "feather-icons-react";
 import MenuIcon from "@mui/icons-material/Menu";
-import { AppBar, Box, IconButton, Toolbar } from "@mui/material";
+import { AppBar, Box, IconButton, NoSsr, Toolbar } from "@mui/material";
 import LogoIcon from "../logo/LogoIcon";
 import PropTypes from "prop-types";
 // Dropdown Component
@@ -50,7 +50,9 @@ const Header = ({ sx, customClass, toggleMobileSidebar, position }) => {
         {/* ------------------------------------------- */}
         {/* <SearchDD /> */}
         {/* ------------ End Menu icon ------------- */}
-        {isAuthenticated ? <UserMenu user={user} /> : <UsersSign />}
+        <NoSsr>
+          {isAuthenticated ? <UserMenu user={user} /> : <UsersSign />}
+        </NoSsr>
         {/* ------------------------------------------- */}
         {/* Profile Dropdown */}
         {/* ------------------------------------------- */}
