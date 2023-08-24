@@ -6,9 +6,16 @@ import LogoIcon from "../logo/LogoIcon";
 import PropTypes from "prop-types";
 // Dropdown Component
 // import SearchDD from "./SearchDD";
-// import ProfileDD from "./ProfileDD";
+import UserMenu from "./UserMenu";
+import { useUserStateDispatch } from "../../context/UserContext";
+import UsersSign from "./UsersSign";
 
 const Header = ({ sx, customClass, toggleMobileSidebar, position }) => {
+  const {
+    userState: { isAuthenticated, user },
+    userDispatch,
+  } = useUserStateDispatch();
+
   return (
     <AppBar sx={sx} position={position} elevation={0} className={customClass}>
       <Toolbar>
@@ -42,11 +49,9 @@ const Header = ({ sx, customClass, toggleMobileSidebar, position }) => {
         {/* ------------------------------------------- */}
         {/* Search Dropdown */}
         {/* ------------------------------------------- */}
-
         {/* <SearchDD /> */}
         {/* ------------ End Menu icon ------------- */}
-
-        {/* <ProfileDD /> */}
+        {isAuthenticated ? <UserMenu /> : <UsersSign />}
         {/* ------------------------------------------- */}
         {/* Profile Dropdown */}
         {/* ------------------------------------------- */}

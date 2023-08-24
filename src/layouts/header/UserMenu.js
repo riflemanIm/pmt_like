@@ -14,7 +14,7 @@ import {
   Divider,
   Toolbar,
 } from "@mui/material";
-const ProfileDD = () => {
+const UserMenu = () => {
   const [anchorEl4, setAnchorEl4] = React.useState(null);
 
   const handleClick4 = (event) => {
@@ -24,6 +24,7 @@ const ProfileDD = () => {
   const handleClose4 = () => {
     setAnchorEl4(null);
   };
+
   return (
     <>
       <Toolbar title=" Maria Stepanovna Ivanova  ">
@@ -120,4 +121,4 @@ const ProfileDD = () => {
   );
 };
 
-export default ProfileDD;
+export default UserMenu;
