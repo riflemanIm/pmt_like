@@ -1,6 +1,6 @@
-import { q } from "../../lib/db";
-import isEmpty from "../../helpers";
-import SENDMAIL, { HTML_TEMPLATE } from "../../helpers/mail";
+import { q } from "../../src/lib/db";
+import isEmpty from "../../src/helpers";
+import SENDMAIL, { HTML_TEMPLATE } from "../../src/helpers/mail";
 
 export default async function handler(req, res) {
   try {

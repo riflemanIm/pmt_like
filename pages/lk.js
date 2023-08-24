@@ -4,57 +4,27 @@ import Typography from "@mui/material/Typography";
 import FullLayout from "../src/layouts/FullLayout";
 import BaseCard from "../src/components/baseCard/BaseCard";
 import img from "../assets/images/bg/bg6.jpg";
-import SignInForm from "../src/components/Forms/SignInForm";
 
 import { useUserStateDispatch } from "../src/context/UserContext";
-import { loginUser } from "../src/actions/user";
-import useForm from "../src/hooks/useForm";
-import validate from "../src/validation/validationSignIn";
 
 export default function SignIn({ menu }) {
   const {
-    userState: { loaded, serverResponse, isAuthenticated, user },
-    userDispatch,
+    userState: { isAuthenticated },
   } = useUserStateDispatch();
-
-  const login = () => {
-    loginUser(userDispatch, values.login, values.password);
-  };
-
-  const { values, errors, handleChange, handleSubmit, setValues } = useForm(
-    login,
-    validate
-  );
 
   useEffect(() => {
     //console.log("locale", locale);
-    if (isAuthenticated) {
-      Router.push("lk");
+    if (!isAuthenticated) {
+      Router.push("signin");
     }
   }, [isAuthenticated]);
-
-  useEffect(() => {
-    setValues({
-      login: "rtyshko",
-      password: "valera",
-    });
-  }, []);
 
   return (
     <FullLayout menu={menu} img={img.src}>
       <Typography variant="h1" mb={8}>
-        Вход для пользователя
+        Личный кабинет
       </Typography>
-      <BaseCard>
-        <SignInForm
-          values={values}
-          errors={errors}
-          serverResponse={serverResponse}
-          handleChange={handleChange}
-          handleSubmit={handleSubmit}
-          isLoading={!loaded}
-        />
-      </BaseCard>
+      <BaseCard>фффф</BaseCard>
     </FullLayout>
   );
 }

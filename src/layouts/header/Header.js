@@ -13,7 +13,6 @@ import UsersSign from "./UsersSign";
 const Header = ({ sx, customClass, toggleMobileSidebar, position }) => {
   const {
     userState: { isAuthenticated, user },
-    userDispatch,
   } = useUserStateDispatch();
 
   return (
@@ -51,7 +50,7 @@ const Header = ({ sx, customClass, toggleMobileSidebar, position }) => {
         {/* ------------------------------------------- */}
         {/* <SearchDD /> */}
         {/* ------------ End Menu icon ------------- */}
-        {isAuthenticated ? <UserMenu /> : <UsersSign />}
+        {isAuthenticated ? <UserMenu user={user} /> : <UsersSign />}
         {/* ------------------------------------------- */}
         {/* Profile Dropdown */}
         {/* ------------------------------------------- */}

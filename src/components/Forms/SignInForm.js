@@ -61,7 +61,7 @@ export default function SignInForm({
   const loginLabel = () => {
     switch (authIdentifiers) {
       case "email": {
-        return "Email";
+        return "Email или логин";
       }
       case "phone": {
         return "Телефон";
@@ -188,7 +188,7 @@ export default function SignInForm({
                 variant="text"
                 className={classes.submitButton}
               >
-                регистрация
+                Регистрация
               </Button>
             </>
           )}

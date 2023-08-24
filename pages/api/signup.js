@@ -1,6 +1,6 @@
-import { q } from "../../lib/db";
-import isEmpty, { password } from "../../helpers";
-import { isValidEmail } from "../../validation/validators";
+import { q } from "../../src/lib/db";
+import isEmpty, { password } from "../../src/helpers";
+import { isValidEmail } from "../../src/validation/validators";
 
 export default async function handler(req, res) {
   try {

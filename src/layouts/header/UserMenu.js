@@ -13,8 +13,9 @@ import {
   Button,
   Divider,
   Toolbar,
+  Avatar,
 } from "@mui/material";
-const UserMenu = () => {
+const UserMenu = ({ user }) => {
   const [anchorEl4, setAnchorEl4] = React.useState(null);
 
   const handleClick4 = (event) => {
@@ -27,7 +28,7 @@ const UserMenu = () => {
 
   return (
     <>
-      <Toolbar title=" Maria Stepanovna Ivanova  ">
+      <Toolbar title={user.name}>
         <Button
           aria-label="menu"
           color="inherit"
@@ -35,14 +36,8 @@ const UserMenu = () => {
           aria-haspopup="true"
           onClick={handleClick4}
         >
-          <Box display="flex" alignItems="center" my={2}>
-            <Image
-              src={userimg}
-              alt={userimg}
-              width="30"
-              height="30"
-              className="roundedCircle"
-            />
+          <Box display="flex" alignItems="center">
+            <Avatar alt={user.name} />
             <Box
               sx={{
                 display: {
@@ -52,23 +47,16 @@ const UserMenu = () => {
                 alignItems: "center",
               }}
             >
-              {/* <Typography
-              color="textSecondary"
-              variant="h5"
-              fontWeight="400"
-              sx={{ ml: 1 }}
-            >
-              Hi,
-            </Typography>
-            <Typography
-              variant="h5"
-              fontWeight="700"
-              sx={{
-                ml: 1,
-              }}
-            >
-              Julia
-            </Typography> */}
+              <Typography
+                variant="h5"
+                color="primary"
+                fontWeight="500"
+                sx={{
+                  ml: 1,
+                }}
+              >
+                {user.name}
+              </Typography>
               <FeatherIcon icon="chevron-down" width="20" height="20" />
             </Box>
           </Box>
