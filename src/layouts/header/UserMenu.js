@@ -1,7 +1,5 @@
 import React from "react";
 import FeatherIcon from "feather-icons-react";
-import Image from "next/image";
-import userimg from "../../../assets/images/users/user2.jpg";
 import {
   Box,
   Menu,
@@ -52,7 +50,7 @@ const UserMenu = ({ user }) => {
                 color="primary"
                 fontWeight="500"
                 sx={{
-                  ml: 1,
+                  mx: 2,
                 }}
               >
                 {user.name}
@@ -81,18 +79,10 @@ const UserMenu = ({ user }) => {
               aria-label="secondary mailbox folder"
               onClick={handleClose4}
             >
-              <ListItemButton
-                color="primary"
-                sx={{ color: "primary.light" }}
-                href="/profile"
-              >
+              <ListItemButton color="primary" href="/profile">
                 Профиль
               </ListItemButton>
-              <ListItemButton
-                color="primary"
-                href="/generate_rescue_license"
-                sx={{ color: "primary.light" }}
-              >
+              <ListItemButton color="primary" href="/generate_rescue_license">
                 Получение аварийной лицензии
               </ListItemButton>
             </List>

@@ -86,7 +86,22 @@ const components = {
       },
     },
   },
+  MuiListItemButton: {
+    styleOverrides: {
+      root: {
+        color: palette.primary.light,
+        borderRadius: "9px",
+      },
+    },
+  },
 
+  MuiListItemIcon: {
+    styleOverrides: {
+      root: {
+        minWidth: "40px",
+      },
+    },
+  },
   MuiCard: {
     styleOverrides: {
       root: {
@@ -141,13 +156,6 @@ const components = {
         borderRadius: 18,
         //borderTop: "1px solid rgba(0, 0, 0, .125)",
         borderBottom: `1px solid ${palette.action.hover}`,
-      },
-    },
-  },
-  MuiListItemIcon: {
-    styleOverrides: {
-      root: {
-        minWidth: "40px",
       },
     },
   },
