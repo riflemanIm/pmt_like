@@ -18,10 +18,7 @@ export default async function handler(req, res) {
   try {
     let pool = await sql.connect(config);
 
-    let result1 = await pool
-      .request()
-      .input("input_parameter", sql.Int, value)
-      .query("select * from temp ");
+    let result1 = await pool.request().query("select * from temp ");
 
     console.dir(result1);
 
