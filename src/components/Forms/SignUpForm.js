@@ -198,7 +198,7 @@ function SignUpForm({
           <Grid item xs={12} sm={6}>
             <FormControl variant="outlined" fullWidth>
               <InputLabel htmlFor="outlined-adornment-password">
-                {t("COMPONENT.FORM_PASS")}
+                Пароль
               </InputLabel>
               <OutlinedInput
                 name="password"
@@ -206,7 +206,7 @@ function SignUpForm({
                 variant="outlined"
                 value={values.password || ""}
                 onChange={handleChange}
-                label={t("COMPONENT.FORM_PASS")}
+                label="Пароль"
                 type={visibilePass ? "text" : "password"}
                 required
                 error={errors?.password != null}

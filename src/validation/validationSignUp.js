@@ -3,7 +3,7 @@ import { isValidEmail } from "./validators";
 export default function validate(values, intl) {
   let errors = {};
   if (values.login != null && !isValidEmail(values.login)) {
-    errors.login = intl.formatMessage({ id: "page.form.error.email" });
+    errors.login = "Введите Email";
   }
 
   if (values.password != null) {
