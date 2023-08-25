@@ -9,7 +9,7 @@ export default async function handler(req, res) {
   const config = {
     user: "pmtsite",
     password: "licretreiver",
-    server: "Alligator2000", // You can use 'localhost\\instance' to connect to named instance
+    server: "localhost\\instance", // You can use 'localhost\\instance' to connect to named instance
     database: "CB",
   };
   try {
