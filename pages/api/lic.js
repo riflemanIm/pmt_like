@@ -16,14 +16,14 @@ export default async function handler(req, res) {
     },
   };
   try {
-    let connect = await sql.connect(config);
-    console.log("connect", connect);
-    // let result1 = await pool
-    //   .request()
-    //   .input("input_parameter", sql.Int, value)
-    //   .query("select * from mytable where id = @input_parameter");
+    let pool = await sql.connect(config);
 
-    // console.dir(result1);
+    let result1 = await pool
+      .request()
+      .input("input_parameter", sql.Int, value)
+      .query("select * from temp ");
+
+    console.dir(result1);
 
     // // Stored procedure
 
