@@ -13,8 +13,8 @@ export default async function handler(req, res) {
     database: "CB",
   };
   try {
-    let pool = await sql.connect(config);
-    console.log("pool", pool);
+    let connect = await sql.connect(config);
+    console.log("connect", connect);
     // let result1 = await pool
     //   .request()
     //   .input("input_parameter", sql.Int, value)
