@@ -1,6 +1,6 @@
 import { isValidEmail } from "./validators";
 
-export default function validate(values, intl) {
+export default function validate(values) {
   let errors = {};
   if (values.login != null && !isValidEmail(values.login)) {
     errors.login = "Введите Email";
@@ -46,20 +46,17 @@ export default function validate(values, intl) {
     ) {
       delete errors?.passRules;
     } else {
-      errors.password = intl.formatMessage({ id: "page.reg.error.pass" });
+      errors.password =
+        "Пароль должен содержать: хотя бы одно число, хотя бы одну латинскую букву в нижнем и верхнем регистре, хотя бы один специальный символ и должен быть не менее, чем из 5 символов";
     }
   }
 
   if (values.repassword != null && values.password !== values.repassword) {
-    errors.repassword = intl.formatMessage({
-      id: "page.reg.error.up_not_match_pass",
-    });
+    errors.repassword = "Пароли не совпадают";
   }
 
   if (values.name != null && !values.name) {
-    errors.name = intl.formatMessage({
-      id: "page.form.error.name",
-    });
+    errors.name = "Введите Имя";
   }
 
   return errors;

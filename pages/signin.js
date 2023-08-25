@@ -29,7 +29,7 @@ export default function SignIn({ menu }) {
   useEffect(() => {
     //console.log("locale", locale);
     if (isAuthenticated) {
-      Router.push("lk");
+      Router.push("/lk");
     }
   }, [isAuthenticated]);
 

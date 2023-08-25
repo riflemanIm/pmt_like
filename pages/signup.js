@@ -7,8 +7,9 @@ import img from "../assets/images/bg/bg6.jpg";
 import SignUpForm from "../src/components/Forms/SignUpForm";
 
 import { useUserStateDispatch } from "../src/context/UserContext";
-import { loginUser } from "../src/actions/user";
+import { createUser } from "../src/actions/user";
 import useForm from "../src/hooks/useForm";
+import useInterval from "../src/hooks/useInterval";
 import validate from "../src/validation/validationSignUp";
 
 export default function SignIn({ menu }) {
@@ -17,19 +18,46 @@ export default function SignIn({ menu }) {
     userDispatch,
   } = useUserStateDispatch();
 
-  const login = () => {
-    loginUser(userDispatch, values.login, values.password);
+  useInterval(
+    () => {
+      if (
+        serverResponse === "SOMETHING_WRONG" ||
+        serverResponse === "EMAIL_EXISTS"
+      ) {
+        userDispatch({
+          type: "SET_SERVER_RESPONSE",
+          payload: null,
+        });
+        Router.push("/signup");
+      }
+
+      if (serverResponse === "SUCCESS_CREATE") {
+        userDispatch({
+          type: "SET_SERVER_RESPONSE",
+          payload: null,
+        });
+        Router.push(getUrlbyLang("signin", locale));
+      }
+    },
+    serverResponse !== null,
+    5000
+  );
+
+  const submit = () => {
+    console.log("submit");
+    delete values.repassword;
+    createUser(userDispatch, values);
   };
 
   const { values, errors, handleChange, handleSubmit, setValues } = useForm(
-    login,
+    submit,
     validate
   );
 
   useEffect(() => {
     //console.log("locale", locale);
     if (isAuthenticated) {
-      Router.push("lk");
+      Router.push("/lk");
     }
   }, [isAuthenticated]);
 
