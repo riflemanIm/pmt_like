@@ -23,8 +23,32 @@ export default async function handler(req, res) {
     // console.dir(result1);
 
     // // Stored procedure
+    // // Output example
+    // const output = {
+    //   result2: {
+    //     recordsets: [
+    //       [
+    //         {
+    //           ExitCode: 0,
+    //           DemoLicense:
+    //             "34E85FECA7A588D887EE0D8752B2763EF9411A0C128F0D10227B7442FE8AEE8C27830E101E8FB7E1D4C4A061425861D9C20C500B2BA67F398C57CF9339617CE95FE5CF59280029D9F8BC2724",
+    //         },
+    //       ],
+    //     ],
+    //     recordset: [
+    //       {
+    //         ExitCode: 0,
+    //         DemoLicense:
+    //           "34E85FECA7A588D887EE0D8752B2763EF9411A0C128F0D10227B7442FE8AEE8C27830E101E8FB7E1D4C4A061425861D9C20C500B2BA67F398C57CF9339617CE95FE5CF59280029D9F8BC2724",
+    //       },
+    //     ],
+    //     output: {},
+    //     rowsAffected: [2, 1, 0, 1, 1, 1, 1],
+    //     returnValue: 0,
+    //   },
+    // };
 
-    let result2 = await pool
+    const result = await pool
       .request()
       .input("uLogin", sql.VarChar(30), "support")
       .input("uPassword", sql.VarChar(30), "pmtsupport")
@@ -35,8 +59,8 @@ export default async function handler(req, res) {
       //.output("output_parameter", sql.VarChar(250))
       .execute("GenerateRescueLicenseWeb");
 
-    //console.dir(result2);
-    res.status(200).json({ result2 });
+    //console.dir(result);
+    res.status(200).json({ result });
   } catch (err) {
     res.status(500).json({ message: err.message });
 

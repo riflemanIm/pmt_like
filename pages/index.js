@@ -32,7 +32,7 @@ export default function Solution({ menu }) {
         <div
           className={css`
             position: absolute;
-            top: 408px;
+            top: 108px;
             left: 77vw;
             z-index: 1;
             width: 251px;

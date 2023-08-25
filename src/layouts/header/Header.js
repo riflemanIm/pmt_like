@@ -24,6 +24,8 @@ const Header = ({ sx, customClass, toggleMobileSidebar, position }) => {
             display: {
               lg: "none",
               xs: "flex",
+              width: 99,
+              height: 45,
             },
           }}
         >
@@ -50,9 +52,9 @@ const Header = ({ sx, customClass, toggleMobileSidebar, position }) => {
         {/* ------------------------------------------- */}
         {/* <SearchDD /> */}
         {/* ------------ End Menu icon ------------- */}
-        {/* <NoSsr>
+        <NoSsr>
           {isAuthenticated ? <UserMenu user={user} /> : <UsersSign />}
-        </NoSsr> */}
+        </NoSsr>
         {/* ------------------------------------------- */}
         {/* Profile Dropdown */}
         {/* ------------------------------------------- */}

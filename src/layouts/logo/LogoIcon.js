@@ -32,11 +32,7 @@ const Logo = (props) => (
 );
 const LogoIcon = () => {
   const classes = useStyles();
-  return (
-    <Link href="/">
-      <Logo className={classes.logoDark} />
-    </Link>
-  );
+  return <Logo className={classes.logoDark} />;
 };
 
 export default LogoIcon;

@@ -4,19 +4,19 @@ function pxToRem(value) {
   return `${value / 16}rem`;
 }
 
-// function responsiveFontSizes({ sm, md, lg }) {
-//   return {
-//     '@media (min-width:600px)': {
-//       fontSize: pxToRem(sm),
-//     },
-//     '@media (min-width:900px)': {
-//       fontSize: pxToRem(md),
-//     },
-//     '@media (min-width:1200px)': {
-//       fontSize: pxToRem(lg),
-//     },
-//   };
-// }
+function responsiveFontSizes({ sm, md, lg }) {
+  return {
+    "@media (min-width:600px)": {
+      fontSize: pxToRem(sm),
+    },
+    "@media (min-width:900px)": {
+      fontSize: pxToRem(md),
+    },
+    "@media (min-width:1200px)": {
+      fontSize: pxToRem(lg),
+    },
+  };
+}
 
 const FONT_PRIMARY = "Avenir Next Cyr";
 
@@ -26,30 +26,66 @@ const typography = {
   fontWeightMedium: 500,
   fontWeightBold: 600,
   h1: {
-    fontSize: "5.1rem",
     fontWeight: 500,
     textShadow: "3px 2px 3px rgba(255,255,255,.2)",
+    lineHeight: 80 / 64,
+    fontSize: pxToRem(40),
+    ...responsiveFontSizes({
+      sm: 52,
+      md: 58,
+      lg: 64,
+    }),
   },
   h2: {
-    fontSize: "1.7rem",
     fontWeight: 500,
     textShadow: "3px 2px 3px rgba(255,255,255,.2)",
+    lineHeight: 64 / 48,
+    fontSize: pxToRem(32),
+    ...responsiveFontSizes({
+      sm: 40,
+      md: 44,
+      lg: 48,
+    }),
   },
   h3: {
-    fontSize: "1.64rem",
     fontWeight: 500,
     textShadow: "3px 2px 3px rgba(255,255,255,.2)",
+    lineHeight: 1.4,
+    fontSize: pxToRem(24),
+    ...responsiveFontSizes({
+      sm: 26,
+      md: 30,
+      lg: 32,
+    }),
   },
   h4: {
-    fontSize: "1.5rem",
     textShadow: "3px 2px 3px rgba(255,255,255,.2)",
+    lineHeight: 1.4,
+    fontSize: pxToRem(20),
+    ...responsiveFontSizes({
+      sm: 20,
+      md: 24,
+      lg: 24,
+    }),
   },
   h5: {
-    fontSize: "1.285rem",
     textShadow: "3px 2px 3px rgba(255,255,255,.2)",
+    lineHeight: 1.4,
+    fontSize: pxToRem(18),
+    ...responsiveFontSizes({
+      sm: 19,
+      md: 20,
+      lg: 20,
+    }),
   },
   h6: {
-    fontSize: "1.05rem",
+    lineHeight: 28 / 18,
+    fontSize: pxToRem(17),
+    ...responsiveFontSizes({
+      sm: 18,
+      md: 18,
+      lg: 18,
+    }),
   },
   subtitle1: {
     fontWeight: 400,

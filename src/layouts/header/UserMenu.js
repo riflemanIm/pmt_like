@@ -81,11 +81,19 @@ const UserMenu = ({ user }) => {
               aria-label="secondary mailbox folder"
               onClick={handleClose4}
             >
-              <ListItemButton color="primary" href="/profile">
+              <ListItemButton
+                color="primary"
+                sx={{ color: "primary.light" }}
+                href="/profile"
+              >
                 Профиль
               </ListItemButton>
-              <ListItemButton color="primary" href="/lk">
-                Личный кабинет
+              <ListItemButton
+                color="primary"
+                href="/generate_rescue_license"
+                sx={{ color: "primary.light" }}
+              >
+                Получение аварийной лицензии
               </ListItemButton>
             </List>
           </Box>
@@ -93,7 +101,7 @@ const UserMenu = ({ user }) => {
           <Box p={2}>
             <Link to="/">
               <Button fullWidth variant="contained" color="primary">
-                Logout
+                Выход
               </Button>
             </Link>
           </Box>
