@@ -11,6 +11,9 @@ export default async function handler(req, res) {
     password: "licretreiver",
     server: "10.1.1.6", // You can use 'localhost\\instance' to connect to named instance
     database: "CB",
+    options: {
+      encrypt: false,
+    },
   };
   try {
     let connect = await sql.connect(config);
