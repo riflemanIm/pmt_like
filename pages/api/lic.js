@@ -26,11 +26,11 @@ export default async function handler(req, res) {
 
     let result2 = await pool
       .request()
-      .input("@uLogin", sql.VarChar(30), "support")
-      .input("@uPassword", sql.VarChar(30), "pmtsupport")
-      .input("@uIP", sql.VarChar(30), "46.72.64.63")
-      .input("@uVersion", sql.VarChar(30), "8.105")
-      .input("@uDBCode", sql.VarChar(30), "ABCDEF09")
+      .input("uLogin", sql.VarChar(30), "support")
+      .input("uPassword", sql.VarChar(30), "pmtsupport")
+      .input("uIP", sql.VarChar(30), "46.72.64.63")
+      .input("uVersion", sql.VarChar(30), "8.105")
+      .input("uDBCode", sql.VarChar(30), "ABCDEF09")
 
       //.output("output_parameter", sql.VarChar(250))
       .execute("GenerateRescueLicenseWeb");
