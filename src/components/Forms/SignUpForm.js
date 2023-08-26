@@ -29,14 +29,10 @@ import isEmpty from "../../helpers";
 const useStyles = makeStyles((theme) => ({
   creatingButtonContainer: {
     marginBottom: theme.spacing(3),
-
-    height: 46,
     display: "flex",
   },
   submitButton: {
-    height: 46,
     textTransform: "none",
-    minWidth: 200,
     width: "100%",
   },
   errorMessage: {
@@ -171,7 +167,16 @@ function SignUpForm({
                 </InputAdornment>
               }
             />
+            {!isEmpty(errors?.passRules) && (
+              <FormHelperText
+                className={classes.passwordError}
+                sx={{ mb: 1, fontWeight: 500, color: "error.main" }}
+              >
+                Пароль должен содержать:
+              </FormHelperText>
+            )}
           </FormControl>
+
           {!isEmpty(errors?.passRules) &&
             Object.keys(errors?.passRules).map((key) => {
               const clsName = errors?.passRules[key].valid

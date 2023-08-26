@@ -15,7 +15,7 @@ export default function SignIn({ menu }) {
   useEffect(() => {
     //console.log("locale", locale);
     if (!isAuthenticated) {
-      Router.push("signin");
+      Router.push("/signin");
     }
   }, [isAuthenticated]);
 

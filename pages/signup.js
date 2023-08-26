@@ -3,7 +3,7 @@ import Router from "next/router";
 import Typography from "@mui/material/Typography";
 import FullLayout from "../src/layouts/FullLayout";
 import BaseCard from "../src/components/baseCard/BaseCard";
-import img from "../assets/images/bg/bg6.jpg";
+import img from "../assets/images/bg/contact_bg.jpg";
 import SignUpForm from "../src/components/Forms/SignUpForm";
 
 import { useUserStateDispatch } from "../src/context/UserContext";
@@ -14,7 +14,7 @@ import validate from "../src/validation/validationSignUp";
 
 export default function SignIn({ menu }) {
   const {
-    userState: { loaded, serverResponse, isAuthenticated, user },
+    userState: { loaded, serverResponse, isAuthenticated },
     userDispatch,
   } = useUserStateDispatch();
 

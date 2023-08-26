@@ -1,35 +1,33 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { makeStyles } from '@mui/styles';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { makeStyles } from "@mui/styles";
 import {
   CircularProgress,
   TextField as Input,
   Collapse as Fade,
   Alert,
-} from '@mui/material';
+} from "@mui/material";
 
 // context
-import { useUserStateDispatch } from '../../context/UserContext';
+import { useUserStateDispatch } from "../../context/UserContext";
 
-import { confirmLogin } from '../../actions/user';
+import { confirmLogin } from "../../actions/user";
 
 //components
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 
 //form func
-import useForm from '../../hooks/useForm';
-import validate from './validationSignInCode';
+import useForm from "../../hooks/useForm";
+import validate from "./validationSignInCode";
 
 //i18n
-import { useTranslation } from 'react-i18next';
-import isEmpty from '../../helpers';
+import { useTranslation } from "react-i18next";
+import isEmpty from "../../helpers";
 
 const useStyles = makeStyles((theme) => ({
   submitButton: {
-    height: 46,
-    textTransform: 'none',
-    minWidth: 200,
+    textTransform: "none",
   },
   errorMessage: {
     //textAlign: 'center',
@@ -39,12 +37,12 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(4),
   },
   formButtons: {
-    width: '100%',
+    width: "100%",
     marginTop: theme.spacing(4),
     marginBottom: theme.spacing(4),
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 }));
 
@@ -70,13 +68,13 @@ function SignInConfirm() {
       navigate,
       setIsLoading,
       setServerResponse,
-      lang,
+      lang
     );
 
   const { values, errors, handleChange, handleSubmit } = useForm(
     confirm,
     validate,
-    appInfo,
+    appInfo
   );
 
   return isLoading ? (
@@ -86,9 +84,7 @@ function SignInConfirm() {
       <Fade
         in={!!serverResponse}
         style={
-          serverResponse == null
-            ? { display: 'none' }
-            : { display: 'flex' }
+          serverResponse == null ? { display: "none" } : { display: "flex" }
         }
       >
         <Alert severity="error" className={classes.errorMessage}>
@@ -101,7 +97,7 @@ function SignInConfirm() {
         value={values.code}
         onChange={handleChange}
         margin="normal"
-        label={t('COMPONENT.CONFIRM_CODE')}
+        label={t("COMPONENT.CONFIRM_CODE")}
         type="code"
         fullWidth
         required
@@ -116,12 +112,12 @@ function SignInConfirm() {
           disabled={isEmpty(values.code)}
           onClick={handleSubmit}
           onKeyDown={(e) => {
-            if (e.key === 'Enter') {
+            if (e.key === "Enter") {
               handleSubmit();
             }
           }}
         >
-          {t('SIGN.IN_BUTTON')}
+          {t("SIGN.IN_BUTTON")}
         </Button>
       </div>
     </>

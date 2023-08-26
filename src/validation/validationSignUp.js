@@ -18,11 +18,20 @@ export default function validate(values) {
   */
 
     const checkRules = {
-      one_digit: /(?=.*[0-9])/,
-      one_upper_letter: /(?=.*[A-Z])/,
-      one_lowecase_laeer: /(?=.*[a-z])/,
-      one_symbol: /(?=.*[,.!@#$%^&*_-])/,
-      min_length: ".{5,}",
+      ONE_DIGIT: /(?=.*[0-9])/,
+      ONE_UPPER_LETTER: /(?=.*[A-Z])/,
+      ONE_LOWECASE_LAEER: /(?=.*[a-z])/,
+      ONE_SYMBOL: /(?=.*[,.!@#$%^&*_-])/,
+      MIN_LENGTH: ".{5,}",
+    };
+
+    const errorText = {
+      ONE_DIGIT: "хотя бы одно число",
+      ONE_UPPER_LETTER: "хотя бы одна латинская буква в верхнем регистре",
+      ONE_LOWECASE_LAEER: "хотя бы одна латинская буква в нижнем регистре",
+      ONE_SYMBOL: "хотя бы один специальный символ",
+      MIN_LENGTH: "не менее, чем  5 вышеупомянутых символов",
+      CONFIRM_CODE_WRONG: "Неправильный код подтверждения",
     };
 
     Object.keys(checkRules).forEach((key) => {
@@ -33,7 +42,7 @@ export default function validate(values) {
           ...errors?.passRules,
           [key]: {
             valid: regex.test(values.password),
-            // ruleText: intl.formatMessage({ id: `page.reg.error.pass.${key}` }),
+            ruleText: errorText[key],
           },
         },
       };

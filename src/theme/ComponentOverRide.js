@@ -1,3 +1,4 @@
+import { alpha } from "@mui/material";
 import rawPalette from "./palette";
 
 const { palette } = rawPalette;
@@ -47,7 +48,7 @@ const components = {
       root: {
         paddingLeft: "15px !important",
         paddingRight: "15px !important",
-        maxWidth: "1600px",
+        maxWidth: 1600,
       },
     },
   },
@@ -57,7 +58,9 @@ const components = {
       root: {
         textTransform: "none",
         boxShadow: "none",
-
+        height: 46,
+        minWidth: 200,
+        borderRadius: 9,
         "&:hover": {
           boxShadow: "none",
         },
@@ -68,7 +71,7 @@ const components = {
   MuiListItem: {
     styleOverrides: {
       root: {
-        borderRadius: "9px",
+        borderRadius: 9,
 
         color: palette.primary.dark,
         "& .MuiListItemIcon-root": {
@@ -90,7 +93,7 @@ const components = {
     styleOverrides: {
       root: {
         color: palette.primary.light,
-        borderRadius: "9px",
+        borderRadius: 9,
       },
     },
   },
@@ -98,7 +101,7 @@ const components = {
   MuiListItemIcon: {
     styleOverrides: {
       root: {
-        minWidth: "40px",
+        minWidth: 40,
       },
     },
   },
@@ -106,7 +109,7 @@ const components = {
     styleOverrides: {
       root: {
         borderRadius: 18,
-        padding: "14px",
+        padding: 14,
         backgroundColor: "#fdfdfdd9",
         backdropFilter: "saturate(180%) blur(5px)",
         boxShadow: "0px 7px 30px 0px rgba(90, 114, 123, 0.11)",
@@ -163,7 +166,7 @@ const components = {
   MuiGridItem: {
     styleOverrides: {
       root: {
-        paddingTop: "30px",
+        paddingTop: 30,
         paddingLeft: "30px !important",
       },
     },
@@ -172,22 +175,82 @@ const components = {
     styleOverrides: {
       root: {
         backgroundColor: "#ecf0f2",
-        borderRadius: "6px",
+        borderRadius: 6,
       },
     },
   },
-  MuiMenuItem: {
-    styleOverrides: {
-      root: {
-        borderRadius: "0",
-      },
-    },
-  },
+  // MuiMenuItem: {
+  //   styleOverrides: {
+  //     root: {
+  //       borderRadius: 0,
+  //     },
+  //   },
+  // },
   MuiChip: {
     styleOverrides: {
       root: {
-        fontWeight: "500",
+        fontWeight: 500,
         fontSize: "0.75rem",
+      },
+    },
+  },
+  MuiInput: {
+    styleOverrides: {
+      underline: {
+        "&:before": {
+          borderBottom: "1px solid rgb(196 196 196)",
+        },
+        "&:hover:not(.Mui-disabled):before": {
+          borderBottom: "2px solid rgb(97, 87, 255, 0.3)",
+        },
+      },
+    },
+  },
+  MuiFilledInput: {
+    styleOverrides: {
+      root: {
+        backgroundColor: alpha(palette.primary.dark, 0.12),
+        "&:hover": {
+          backgroundColor: alpha(palette.primary.dark, 0.16),
+        },
+        "&.Mui-focused": {
+          backgroundColor: palette.action.focus,
+        },
+        "&.Mui-disabled": {
+          backgroundColor: palette.action.disabledBackground,
+        },
+      },
+      underline: {
+        "&:before": {
+          borderBottomColor: alpha(palette.primary.dark, 0.48),
+        },
+      },
+    },
+  },
+  MuiOutlinedInput: {
+    styleOverrides: {
+      root: {
+        borderRadius: 9,
+        backgroundColor: "transparent",
+        "&.Mui-focused": {
+          backgroundColor: "#fff",
+        },
+        "& fieldset": {
+          borderColor: alpha(palette.primary.dark, 0.32),
+        },
+        "&.Mui-disabled .MuiOutlinedInput-notchedOutline": {
+          borderColor: alpha(palette.primary.main, 0.2),
+        },
+        "&.Mui-disabled:hover .MuiOutlinedInput-notchedOutline": {
+          borderColor: alpha(palette.primary.main, 0.2),
+        },
+        "&:hover .MuiOutlinedInput-notchedOutline": {
+          borderColor: palette.primary.dark, // root border color
+          borderWidth: "2px",
+        },
+        "&.Mui-focused fieldset": {
+          borderWidth: "2px",
+        },
       },
     },
   },

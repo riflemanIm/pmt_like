@@ -22,7 +22,6 @@ import isEmpty from "../../helpers";
 const useStyles = makeStyles((theme) => ({
   form: { maxWidth: 400, margin: "auto" },
   submitButton: {
-    height: 46,
     textTransform: "none",
     width: "100%",
     margin: "24px auto",
@@ -186,6 +185,7 @@ export default function SignInForm({
               <Button
                 color="primary"
                 variant="text"
+                href="/signup"
                 className={classes.submitButton}
               >
                 Регистрация

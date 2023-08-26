@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { makeStyles } from '@mui/styles';
+import React, { useEffect, useState } from "react";
+import { makeStyles } from "@mui/styles";
 
 import {
   CircularProgress,
@@ -13,39 +13,34 @@ import {
   InputAdornment,
   FormHelperText,
   Alert,
-} from '@mui/material';
+} from "@mui/material";
 
-import {
-  initPasswordChanging,
-  changePassword,
-} from '../../actions/user';
+import { initPasswordChanging, changePassword } from "../../actions/user";
 
 //components
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 
 //i18n
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 //form func
-import useForm from '../../hooks/useForm';
+import useForm from "../../hooks/useForm";
 import {
   validateBoth,
   validateEmail,
   validatePhone,
-} from './validationChangePassword';
-import validateConfirmChangePassword from './validationConfirmChangePassword';
-import CheckIcon from '@mui/icons-material/Check';
-import CloseIcon from '@mui/icons-material/Close';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import isEmpty from '../../helpers';
-import { useUserStateDispatch } from '../../context/UserContext';
+} from "./validationChangePassword";
+import validateConfirmChangePassword from "./validationConfirmChangePassword";
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import isEmpty from "../../helpers";
+import { useUserStateDispatch } from "../../context/UserContext";
 
 const useStyles = makeStyles((theme) => ({
   submitButton: {
-    height: 46,
-    textTransform: 'none',
-    minWidth: 200,
+    textTransform: "none",
   },
   errorMessage: {
     //textAlign: 'center',
@@ -65,10 +60,10 @@ const useStyles = makeStyles((theme) => ({
   creatingButtonContainer: {
     marginBottom: theme.spacing(1),
     marginTop: theme.spacing(2),
-    height: 46,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
 }));
 /* eslint-disable react/prop-types */ // TODO: upgrade to latest eslint tooling
@@ -92,16 +87,16 @@ function ChangePassword({ valsTab, setValsTab }) {
   const confirmCodeAndChangePassword = () =>
     changePassword(values, setIsLoading, setServerResponse);
   const isConfirmForm =
-    serverResponse?.action === 'CONFIRM_CODE_SENT' ||
-    serverResponse?.action === 'WRONG_CONFIRMATION_CODE';
+    serverResponse?.action === "CONFIRM_CODE_SENT" ||
+    serverResponse?.action === "WRONG_CONFIRMATION_CODE";
 
   //console.log('serverResponse', serverResponse);
   const validateLogin = () => {
     switch (appInfo?.authIdentifiers) {
-      case 'email': {
+      case "email": {
         return validateEmail;
       }
-      case 'phone': {
+      case "phone": {
         return validatePhone;
       }
       default: {
@@ -113,11 +108,11 @@ function ChangePassword({ valsTab, setValsTab }) {
   const { values, errors, handleChange, handleSubmit } = useForm(
     isConfirmForm ? confirmCodeAndChangePassword : sendConfirmCode,
     isConfirmForm ? validateConfirmChangePassword : validateLogin(),
-    appInfo,
+    appInfo
   );
 
   useEffect(() => {
-    if (serverResponse?.action === 'OK')
+    if (serverResponse?.action === "OK")
       setValsTab({
         activeTabId: 0,
         login: valsTab?.login,
@@ -132,14 +127,14 @@ function ChangePassword({ valsTab, setValsTab }) {
   //console.log('serverResponse', serverResponse);
   const loginLabel = () => {
     switch (appInfo?.authIdentifiers) {
-      case 'email': {
-        return t('COMPONENT.FORM_EMAIL');
+      case "email": {
+        return t("COMPONENT.FORM_EMAIL");
       }
-      case 'phone': {
-        return t('COMPONENT.FORM_PHONE');
+      case "phone": {
+        return t("COMPONENT.FORM_PHONE");
       }
       default: {
-        return t('COMPONENT.FORM_EMAIL_OR_PHONE');
+        return t("COMPONENT.FORM_EMAIL_OR_PHONE");
       }
     }
   };
@@ -147,37 +142,35 @@ function ChangePassword({ valsTab, setValsTab }) {
     <>
       {valsTab?.warningNote != null && (
         <Typography className={classes.errorMessage} variant="h6">
-          {t('SIGN.IN_PASS_HAS_BEEN_EXPIRED')}
+          {t("SIGN.IN_PASS_HAS_BEEN_EXPIRED")}
         </Typography>
       )}
       <Fade
         in={serverResponse?.action || serverResponse?.error != null}
         style={
           serverResponse?.action != null || serverResponse?.error
-            ? { display: 'flex' }
-            : { display: 'none' }
+            ? { display: "flex" }
+            : { display: "none" }
         }
       >
         <Alert
-          severity={
-            serverResponse?.action === 'OK' ? 'success' : 'warning'
-          }
+          severity={serverResponse?.action === "OK" ? "success" : "warning"}
           className={classes.errorMessage}
         >
           <Typography variant="h6">
-            {serverResponse?.action === 'OK'
-              ? t('SIGN.CH_PASS_OK')
-              : serverResponse?.action === 'ACCOUNT_NOT_FOUND'
-              ? t('SIGN.CH_PASS_ACCOUNT_NOT_FOUND')
-              : serverResponse?.action === 'CONFIRM_CODE_SENT' &&
-                serverResponse?.deliveryMethod === 'Email'
-              ? t('SIGN.CH_CONFIRM_CODE_SENT_EMAIL')
-              : serverResponse?.action === 'CONFIRM_CODE_SENT' &&
-                serverResponse?.deliveryMethod === 'Sms'
-              ? t('SIGN.CH_CONFIRM_CODE_SENT_SMS')
-              : serverResponse?.action === 'CONFIRM_CODE_SENT' &&
-                serverResponse?.deliveryMethod === 'VoiceCall'
-              ? t('SIGN.CH_CONFIRM_CODE_SENT_VOICE')
+            {serverResponse?.action === "OK"
+              ? t("SIGN.CH_PASS_OK")
+              : serverResponse?.action === "ACCOUNT_NOT_FOUND"
+              ? t("SIGN.CH_PASS_ACCOUNT_NOT_FOUND")
+              : serverResponse?.action === "CONFIRM_CODE_SENT" &&
+                serverResponse?.deliveryMethod === "Email"
+              ? t("SIGN.CH_CONFIRM_CODE_SENT_EMAIL")
+              : serverResponse?.action === "CONFIRM_CODE_SENT" &&
+                serverResponse?.deliveryMethod === "Sms"
+              ? t("SIGN.CH_CONFIRM_CODE_SENT_SMS")
+              : serverResponse?.action === "CONFIRM_CODE_SENT" &&
+                serverResponse?.deliveryMethod === "VoiceCall"
+              ? t("SIGN.CH_CONFIRM_CODE_SENT_VOICE")
               : serverResponse?.error}
           </Typography>
         </Alert>
@@ -189,7 +182,7 @@ function ChangePassword({ valsTab, setValsTab }) {
             <Input
               name="login"
               variant="outlined"
-              value={values.login || ''}
+              value={values.login || ""}
               onChange={handleChange}
               //onChange={e => console.log("sss", e)}
               margin="normal"
@@ -199,12 +192,10 @@ function ChangePassword({ valsTab, setValsTab }) {
               required
               error={values.login != null && errors?.login != null}
               helperText={
-                values.login != null &&
-                errors?.login != null &&
-                errors?.login
+                values.login != null && errors?.login != null && errors?.login
               }
               onKeyDown={(e) => {
-                if (e.key === 'Enter') {
+                if (e.key === "Enter") {
                   handleSubmit();
                 }
               }}
@@ -214,10 +205,7 @@ function ChangePassword({ valsTab, setValsTab }) {
           <Grid item xs={12} sm={12}>
             <div className={classes.creatingButtonContainer}>
               {isLoading ? (
-                <CircularProgress
-                  size={26}
-                  className={classes.loginLoader}
-                />
+                <CircularProgress size={26} className={classes.loginLoader} />
               ) : (
                 <Button
                   disabled={values.login == null || !isEmpty(errors)}
@@ -228,7 +216,7 @@ function ChangePassword({ valsTab, setValsTab }) {
                   fullWidth
                   className={classes.submitButton}
                 >
-                  {t('SIGN.CH_BUTTON_SUBMIT')}
+                  {t("SIGN.CH_BUTTON_SUBMIT")}
                 </Button>
               )}
             </div>
@@ -238,39 +226,34 @@ function ChangePassword({ valsTab, setValsTab }) {
         <>
           <Input
             name="confirmationCode"
-            autoComplete={'off'}
+            autoComplete={"off"}
             variant="outlined"
             value={values.confirmationCode}
             onChange={handleChange}
             margin="normal"
-            label={t('SIGN.CH_CONFIRM_CODE')}
+            label={t("SIGN.CH_CONFIRM_CODE")}
             type="tel"
             fullWidth
             required
             error={errors?.confirmationCode != null}
             helperText={
-              errors?.confirmationCode != null &&
-              errors?.confirmationCode
+              errors?.confirmationCode != null && errors?.confirmationCode
             }
           />
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>
-              <FormControl
-                variant="outlined"
-                margin="normal"
-                fullWidth
-              >
+              <FormControl variant="outlined" margin="normal" fullWidth>
                 <InputLabel htmlFor="outlined-adornment-password">
-                  {t('COMPONENT.FORM_PASS')}
+                  {t("COMPONENT.FORM_PASS")}
                 </InputLabel>
                 <OutlinedInput
                   name="password"
                   variant="outlined"
                   autoComplete="new-password"
-                  value={values.password || ''}
+                  value={values.password || ""}
                   onChange={handleChange}
-                  label={t('COMPONENT.FORM_PASS')}
-                  type={visibilePass ? 'text' : 'password'}
+                  label={t("COMPONENT.FORM_PASS")}
+                  type={visibilePass ? "text" : "password"}
                   required
                   error={errors?.password != null}
                   endAdornment={
@@ -320,30 +303,24 @@ function ChangePassword({ valsTab, setValsTab }) {
             </Grid>
 
             <Grid item xs={12} sm={6}>
-              <FormControl
-                variant="outlined"
-                margin="normal"
-                fullWidth
-              >
+              <FormControl variant="outlined" margin="normal" fullWidth>
                 <InputLabel htmlFor="outlined-adornment-password">
-                  {t('COMPONENT.FORM_REPASS')}
+                  {t("COMPONENT.FORM_REPASS")}
                 </InputLabel>
                 <OutlinedInput
                   name="repassword"
                   variant="outlined"
                   autoComplete="new-password"
-                  value={values.repassword || ''}
+                  value={values.repassword || ""}
                   onChange={handleChange}
-                  label={t('COMPONENT.FORM_REPASS')}
-                  type={visibileRePass ? 'text' : 'password'}
+                  label={t("COMPONENT.FORM_REPASS")}
+                  type={visibileRePass ? "text" : "password"}
                   required
                   error={errors?.repassword != null}
                   endAdornment={
                     <InputAdornment position="end">
                       <IconButton
-                        onClick={() =>
-                          setVisibileRePass(!visibileRePass)
-                        }
+                        onClick={() => setVisibileRePass(!visibileRePass)}
                         onMouseDown={handleMouseDownPassword}
                       >
                         {!visibileRePass ? (
@@ -364,10 +341,7 @@ function ChangePassword({ valsTab, setValsTab }) {
 
           <div className={classes.creatingButtonContainer}>
             {isLoading ? (
-              <CircularProgress
-                size={26}
-                className={classes.loginLoader}
-              />
+              <CircularProgress size={26} className={classes.loginLoader} />
             ) : (
               <Button
                 disabled={
@@ -383,7 +357,7 @@ function ChangePassword({ valsTab, setValsTab }) {
                 fullWidth
                 className={classes.submitButton}
               >
-                {t('SIGN.UP_SUBMIT_CONFIRM')}
+                {t("SIGN.UP_SUBMIT_CONFIRM")}
               </Button>
             )}
           </div>

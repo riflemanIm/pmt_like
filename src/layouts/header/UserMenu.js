@@ -1,4 +1,5 @@
 import React from "react";
+import Router from "next/router";
 import FeatherIcon from "feather-icons-react";
 import {
   Box,
@@ -7,13 +8,18 @@ import {
   Link,
   ListItemButton,
   List,
-  ListItemText,
   Button,
   Divider,
   Toolbar,
   Avatar,
 } from "@mui/material";
-const UserMenu = ({ user }) => {
+import { useUserStateDispatch } from "../../context/UserContext";
+
+const UserMenu = () => {
+  const {
+    userState: { user },
+    userDispatch,
+  } = useUserStateDispatch();
   const [anchorEl4, setAnchorEl4] = React.useState(null);
 
   const handleClick4 = (event) => {
@@ -22,6 +28,13 @@ const UserMenu = ({ user }) => {
 
   const handleClose4 = () => {
     setAnchorEl4(null);
+  };
+  const logout = () => {
+    userDispatch({
+      type: "SIGN_OUT_SUCCESS",
+      payload: null,
+    });
+    Router.push("/signin");
   };
 
   return (
@@ -55,7 +68,7 @@ const UserMenu = ({ user }) => {
               >
                 {user.name}
               </Typography>
-              <FeatherIcon icon="chevron-down" width="20" height="20" />
+              <FeatherIcon icon="chevron-down" width="26" height="26" />
             </Box>
           </Box>
         </Button>
@@ -90,7 +103,12 @@ const UserMenu = ({ user }) => {
           <Divider />
           <Box p={2}>
             <Link to="/">
-              <Button fullWidth variant="contained" color="primary">
+              <Button
+                onClick={logout}
+                fullWidth
+                variant="contained"
+                color="primary"
+              >
                 Выход
               </Button>
             </Link>
