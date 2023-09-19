@@ -73,19 +73,4 @@ const FullLayout = ({ children, menu, img }) => {
   );
 };
 
-//Another option using getserversideprops, but must pass {data} to the page
-export async function getServerSideProps(context) {
-  const locale = context.locale;
-  const postData1 = {
-    method: "Post",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      locale,
-    }),
-  };
-  const res = await fetch(`${process.env.API_HOST}/api/menu`, postData1);
-  const menu = await res.json();
-  console.log("menu", menu);
-  return { props: { menu } };
-}
 export default FullLayout;

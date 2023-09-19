@@ -1,10 +1,5 @@
 import mysql from "mysql2/promise";
 
-// const dbHost = "localhost";
-// const dbUser = "beta2ope_n";
-// const dbPass = "QQR5X5JqsnIX";
-// const dbName = "beta2ope_db";
-
 export async function q({ query, values = [] }) {
   const connectParams = {
     host: process.env.DB_HOST,
