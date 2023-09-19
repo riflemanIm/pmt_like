@@ -52,6 +52,22 @@ const components = {
       },
     },
   },
+  MuiIconButton: {
+    styleOverrides: {
+      root: {
+        "& span > svg": {
+          color: palette.primary.main,
+        },
+      },
+    },
+  },
+  MuiSelect: {
+    styleOverrides: {
+      icon: {
+        color: palette.primary.dark,
+      },
+    },
+  },
 
   MuiButton: {
     styleOverrides: {

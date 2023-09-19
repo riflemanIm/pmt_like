@@ -1,13 +1,8 @@
 import nodemailer from "nodemailer";
 const transporter = nodemailer.createTransport({
-  service: "gmail",
-  host: "smtp.gmail.com",
-  port: 587,
+  host: "10.1.1.67",
+  port: 25,
   secure: false,
-  auth: {
-    user: process.env.MAIL_USER,
-    pass: process.env.MAIL_PASS,
-  },
 });
 const SENDMAIL = async (mailDetails, callback) => {
   try {
@@ -59,7 +54,7 @@ export const HTML_TEMPLATE = (text) => {
           <div class="container">
             <div class="email">
               <div class="email-header">
-                <h1>Openvpn.pro</h1>
+                <h1>pmtech.ru</h1>
               </div>
               <div class="email-body">
                 <p>${text}</p>

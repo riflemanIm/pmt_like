@@ -34,6 +34,7 @@ export async function loginUser(dispatch, login, password) {
     dispatch({ type: "LOGIN_FAILURE" });
   }
 }
+
 export async function createUser(dispatch, values) {
   if (!isEmpty(values)) {
     dispatch({
@@ -128,6 +129,36 @@ export async function sendFormEmail({ setSend, bilet, values, locale }) {
         isLoaded: true,
         sent: "error",
         response: getError(err),
+      });
+    });
+}
+
+export async function getRescueLicence(dispatch, values, user) {
+  dispatch({
+    type: "LOADING",
+  });
+  await axios
+    .post("/api/lic", {
+      ...values,
+      user,
+    })
+    .then(({ data }) => {
+      if (!isEmpty(data))
+        dispatch({
+          type: "RESCUE_LICENCE",
+          payload: data.lic,
+        });
+      else
+        dispatch({
+          type: "SET_SERVER_RESPONSE",
+          payload: "WRONG_RESCUE_LICENCE",
+        });
+    })
+    .catch((err) => {
+      console.log("  ---- err ---", err?.message);
+      dispatch({
+        type: "SET_SERVER_RESPONSE",
+        payload: err?.message,
       });
     });
 }

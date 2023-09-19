@@ -45,10 +45,15 @@ function userReducer(state, action) {
       return {
         ...state,
         loaded: true,
-        isAuthenticated: false,
+        //isAuthenticated: false,
         serverResponse: action.payload,
       };
-
+    case "RESCUE_LICENCE":
+      return {
+        ...state,
+        rescueLicence: action.payload,
+        loaded: true,
+      };
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
     }
@@ -67,6 +72,7 @@ function UserProvider({ children }) {
     isAuthenticated,
     user,
     serverResponse: null,
+    rescueLicence: null,
     loaded: true,
   });
 

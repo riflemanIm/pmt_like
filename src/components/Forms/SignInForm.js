@@ -89,7 +89,7 @@ export default function SignInForm({
           <Fade
             in={!!serverResponse}
             style={
-              serverResponse == "" ? { display: "none" } : { display: "flex" }
+              serverResponse == null ? { display: "none" } : { display: "flex" }
             }
           >
             <Alert severity="error" className={classes.errorMessage}>

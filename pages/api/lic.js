@@ -1,8 +1,9 @@
+import SENDMAIL, { HTML_TEMPLATE } from "../../src/helpers/mail";
 const sql = require("mssql");
 
 export default async function handler(req, res) {
   //const route = req.body.route;
-  //console.log("==body==", req.body);
+  console.log("==body==", req.body);
   //const prefix = req.body.locale === "en" ? `${req.body.locale}_` : "";
 
   //  const login = req.body.login;
@@ -18,36 +19,6 @@ export default async function handler(req, res) {
   try {
     let pool = await sql.connect(config);
 
-    // let result1 = await pool.request().query("select * from temp ");
-
-    // console.dir(result1);
-
-    // // Stored procedure
-    // // Output example
-    // const output = {
-    //   result2: {
-    //     recordsets: [
-    //       [
-    //         {
-    //           ExitCode: 0,
-    //           DemoLicense:
-    //             "34E85FECA7A588D887EE0D8752B2763EF9411A0C128F0D10227B7442FE8AEE8C27830E101E8FB7E1D4C4A061425861D9C20C500B2BA67F398C57CF9339617CE95FE5CF59280029D9F8BC2724",
-    //         },
-    //       ],
-    //     ],
-    //     recordset: [
-    //       {
-    //         ExitCode: 0,
-    //         DemoLicense:
-    //           "34E85FECA7A588D887EE0D8752B2763EF9411A0C128F0D10227B7442FE8AEE8C27830E101E8FB7E1D4C4A061425861D9C20C500B2BA67F398C57CF9339617CE95FE5CF59280029D9F8BC2724",
-    //       },
-    //     ],
-    //     output: {},
-    //     rowsAffected: [2, 1, 0, 1, 1, 1, 1],
-    //     returnValue: 0,
-    //   },
-    // };
-
     const result = await pool
       .request()
       .input("uLogin", sql.VarChar(30), "support")
@@ -60,7 +31,46 @@ export default async function handler(req, res) {
       .execute("GenerateRescueLicenseWeb");
 
     //console.dir(result);
-    res.status(200).json({ result });
+    if (result.recordset[0].ExitCode) {
+      throw new Error(
+        "В настоящее время получить лицензию невозможно. Повторите попытку позже.\n"
+      );
+    }
+
+    /** --------- send mail -------------- */
+    try {
+      const options = {
+        from: `${req.body.user.name}<${req.body.user.email}>`, // sender address
+        to: "oleglambin@gmail.com", // receiver email
+        subject: "Site form", // Subject line
+        text: req.body.message,
+        html: HTML_TEMPLATE(req.body.message),
+      };
+
+      SENDMAIL(options, (info, error) => {
+        if (info != null) {
+          console.log("Email sent successfully");
+          // console.log("info: ", info);
+          res
+            .status(200)
+            .json({
+              lic: result.recordset[0].DemoLicense,
+              token: req.body.user.token,
+            });
+        } else if (error != null) {
+          res
+            .status(500)
+            .json({
+              sent: "error send mail",
+              error,
+              token: req.body.user.token,
+            });
+        }
+      });
+    } catch (error) {
+      // unhide to check error
+      res.status(500).json({ message: error.message });
+    }
   } catch (err) {
     res.status(500).json({ message: err.message });
 

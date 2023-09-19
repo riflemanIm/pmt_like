@@ -14,8 +14,8 @@ export default function SignIn({ menu }) {
 
   useEffect(() => {
     //console.log("locale", locale);
-    if (!isAuthenticated) {
-      Router.push("/signin");
+    if (!!isAuthenticated) {
+      Router.push("/");
     }
   }, [isAuthenticated]);
 
@@ -24,7 +24,7 @@ export default function SignIn({ menu }) {
       <Typography variant="h1" mb={8}>
         Личный кабинет
       </Typography>
-      <BaseCard>фффф</BaseCard>
+      <BaseCard>Новости</BaseCard>
     </FullLayout>
   );
 }
