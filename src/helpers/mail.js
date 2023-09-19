@@ -3,6 +3,10 @@ const transporter = nodemailer.createTransport({
   host: "10.1.1.67",
   port: 25,
   secure: false,
+  tls: {
+    // do not fail on invalid certs
+    rejectUnauthorized: false,
+  },
 });
 const SENDMAIL = async (mailDetails, callback) => {
   try {
