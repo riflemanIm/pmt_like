@@ -9,9 +9,8 @@ export default async function handler(req, res) {
     const result = await q({
       query: querySql,
     });
-    const user = !isEmpty(result[0]) ? { ...result[0] } : {};
 
-    res.status(200).json({ ...user });
+    res.status(200).json({ ...result });
     //else res.status(400).json({ status: 400, message: "Id must be present" });
   } catch (error) {
     // unhide to check error
