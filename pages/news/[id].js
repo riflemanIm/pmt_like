@@ -23,7 +23,7 @@ export async function getServerSideProps(context) {
       locale,
     }),
   };
-  let res = await fetch(`${process.env.API_HOST}/api/page`, postData);
+  let res = await fetch(`${process.env.API_URL}/page`, postData);
   const data = await res.json();
 
   const postData1 = {
@@ -33,7 +33,7 @@ export async function getServerSideProps(context) {
       locale,
     }),
   };
-  const res1 = await fetch(`${process.env.API_HOST}/api/menu`, postData1);
+  const res1 = await fetch(`${process.env.API_URL}/menu`, postData1);
   const menu = await res1.json();
   return { props: { data, menu } };
 }
