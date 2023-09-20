@@ -1,10 +1,11 @@
-import SENDMAIL, { HTML_TEMPLATE } from "../../src/helpers/mail";
+import isEmpty, { clientIp } from "../../src/helpers";
+import SENDMAIL from "../../src/helpers/mail";
 const sql = require("mssql");
 
 export default async function handler(req, res) {
-  //const route = req.body.route;
-  console.log("==body==", req.body);
-  //const prefix = req.body.locale === "en" ? `${req.body.locale}_` : "";
+  if (isEmpty(req.body.user.token)) {
+    res.status(401).json({ message: "A token is required for authentication" });
+  }
 
   //  const login = req.body.login;
   const config = {
@@ -18,14 +19,16 @@ export default async function handler(req, res) {
   };
   try {
     let pool = await sql.connect(config);
+    const ip = clientIp(req);
+    console.log("==ip==", ip);
 
     const result = await pool
       .request()
-      .input("uLogin", sql.VarChar(30), "support")
-      .input("uPassword", sql.VarChar(30), "pmtsupport")
-      .input("uIP", sql.VarChar(30), "46.72.64.63")
-      .input("uVersion", sql.VarChar(30), "8.105")
-      .input("uDBCode", sql.VarChar(30), "ABCDEF09")
+      .input("uLogin", sql.VarChar(30), req.body.login)
+      .input("uPassword", sql.VarChar(30), req.body.password)
+      .input("uIP", sql.VarChar(30), ip)
+      .input("uVersion", sql.VarChar(30), req.body.version)
+      .input("uDBCode", sql.VarChar(30), req.body.code)
 
       //.output("output_parameter", sql.VarChar(250))
       .execute("GenerateRescueLicenseWeb");

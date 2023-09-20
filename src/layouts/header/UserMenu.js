@@ -59,7 +59,7 @@ const UserMenu = () => {
               }}
             >
               <Typography
-                variant="h5"
+                variant="h6"
                 color="primary"
                 fontWeight="500"
                 sx={{

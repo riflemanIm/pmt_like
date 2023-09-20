@@ -16,7 +16,8 @@ export const priceReal = (isUsd: boolean, value: number, usd: number) =>
 
 export const upperFirst = (str: string) =>
   str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-export const parseIp = (req: NextApiRequest) =>
+
+export const clientIp = (req: NextApiRequest) =>
   (req.headers["x-forwarded-for"] as string).split(",").shift() ||
   req.socket?.remoteAddress;
 
