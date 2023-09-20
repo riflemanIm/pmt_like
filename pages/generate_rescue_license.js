@@ -30,18 +30,18 @@ export default function GenerateRescueLicence({ menu }) {
     }
   }, [isAuthenticated]);
 
-  useEffect(() => {
-    setValues({
-      login: "support",
-      password: "pmtsupport",
-      version: "8.105",
-      code: "ABCDEF09",
-      //      reason_standart: "Плановые работы",
-      reason: "работы",
-    });
-  }, []);
+  // useEffect(() => {
+  //   setValues({
+  //     login: "support",
+  //     password: "pmtsupport",
+  //     version: "8.105",
+  //     code: "ABCDEF09",
+  //     //      reason_standart: "Плановые работы",
+  //     reason: "работы",
+  //   });
+  // }, []);
 
-  console.log("rescueLicence", rescueLicence);
+  // console.log("rescueLicence", rescueLicence);
   return (
     <FullLayout menu={menu} img={img.src}>
       <Typography variant="h1" mb={8}>
