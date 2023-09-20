@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Router from "next/router";
+import { Alert, Box, Button, TextField as Input } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import FullLayout from "../src/layouts/FullLayout";
 import BaseCard from "../src/components/baseCard/BaseCard";
@@ -16,6 +17,8 @@ export default function GenerateRescueLicence({ menu }) {
     userState: { loaded, serverResponse, isAuthenticated, rescueLicence, user },
     userDispatch,
   } = useUserStateDispatch();
+  // rescueLicence =
+  //   "34E85FECA7A588D887EE0D8752B2763EF9411A0C128F0D10227B7442FE8AEE8C27830E101E8FB7E1D4C4A061425861D9C20C500B2BA67F398C57CF9339617CE95FE5CF59280029D9F8BC2724";
 
   const submitData = () => {
     getRescueLicence(userDispatch, values, user);
@@ -42,13 +45,53 @@ export default function GenerateRescueLicence({ menu }) {
   // }, []);
 
   // console.log("rescueLicence", rescueLicence);
+
+  const [copySuccess, setCopySuccess] = useState("");
+  const handleCopy = () => {
+    navigator.clipboard.writeText(rescueLicence);
+    setCopySuccess(rescueLicence);
+  };
+
   return (
     <FullLayout menu={menu} img={img.src}>
       <Typography variant="h1" mb={8}>
         Получение аварийной лицензии
       </Typography>
       <BaseCard>
-        {rescueLicence ?? (
+        {rescueLicence ? (
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "warning.main",
+              margin: 2,
+            }}
+          >
+            <Input
+              name="login"
+              variant="outlined"
+              value={rescueLicence}
+              onChange={handleChange}
+              margin="normal"
+              type="text"
+              fullWidth
+            />
+            {copySuccess !== rescueLicence ? (
+              <Button
+                sx={{ mt: 2 }}
+                onClick={handleCopy}
+                variant="contained"
+                color="primary"
+              >
+                Скопировать
+              </Button>
+            ) : (
+              <Alert severity="success">Скопировано</Alert>
+            )}
+          </Box>
+        ) : (
           <LicenceForm
             values={values}
             errors={errors}
