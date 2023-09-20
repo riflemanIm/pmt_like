@@ -1,3 +1,6 @@
+import { parsePhoneNumberFromString as parsePhoneNumberFromStringMobile } from "libphonenumber-js/mobile";
+import { parsePhoneNumberFromString } from "libphonenumber-js";
+
 export const isValidEmail = (email) => {
   // 1. Должна быть не пустая строка
   if (!email || typeof email !== "string") return false;
@@ -19,4 +22,21 @@ export const isValidEmail = (email) => {
   if (domainParts.some((part) => part.length > 63)) return false;
 
   return true;
+};
+
+export const parsePhoneNumber = (defaultCountry) =>
+  defaultCountry !== "RU"
+    ? parsePhoneNumberFromString
+    : parsePhoneNumberFromStringMobile;
+
+export const isValidPhone = (value, defaultCountry = "RU") => {
+  if (value == null) return false;
+  console.log("defaultCountry", defaultCountry);
+
+  const phoneNumber = parsePhoneNumber(defaultCountry)(value, {
+    defaultCountry,
+    extract: false,
+  });
+  const isPhoneNumberValid = !!(phoneNumber && phoneNumber.isValid());
+  return isPhoneNumberValid;
 };

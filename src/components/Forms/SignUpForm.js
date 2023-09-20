@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@mui/styles";
+//components
 import {
   CircularProgress,
   Collapse as Fade,
@@ -12,19 +13,20 @@ import {
   InputLabel,
   InputAdornment,
   Alert,
+  Select,
+  Button,
+  Typography,
+  MenuItem,
 } from "@mui/material";
 
+import InputMask from "react-input-mask";
 // icons
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 
-//components
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-
-import isEmpty from "../../helpers";
+import isEmpty, { MASK_PHONE } from "../../helpers";
 
 const useStyles = makeStyles((theme) => ({
   creatingButtonContainer: {
@@ -64,10 +66,14 @@ const useStyles = makeStyles((theme) => ({
 function SignUpForm({
   values,
   errors,
+  setValues,
+  setErrors,
+  validate,
   handleChange,
+  handleSubmit,
   serverResponse,
   isLoading,
-  handleSubmit,
+  countries,
 }) {
   const classes = useStyles();
 
@@ -75,21 +81,26 @@ function SignUpForm({
   const [visibileRePass, setVisibileRePass] = useState(false);
 
   const authIdentifiers = "email";
-  const loginLabel = () => {
-    switch (authIdentifiers) {
-      case "email": {
-        return "Email или логин";
-      }
-      case "phone": {
-        return "Телефон";
-      }
-      default: {
-        return "Email или Телефон";
-      }
-    }
-  };
+
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
+  };
+
+  const handlePhoneChange = (e) => {
+    const vals = {
+      ...values,
+      phone: e.target.value,
+    };
+    setValues(vals);
+    setErrors(validate(vals));
+  };
+  const handleChangeCountry = (event) => {
+    const vals = {
+      ...values,
+      country_id: event.target.value,
+    };
+    setValues(vals);
+    setErrors(validate(vals));
   };
 
   return (
@@ -118,16 +129,17 @@ function SignUpForm({
       </Fade>
 
       <Grid container spacing={2} sx={{ marginTop: 1 }}>
-        <Grid item xs={12} sm={12}>
+        <Grid item xs={12} sm={4}>
           <Input
             name="login"
             autoComplete={"off"}
             variant="outlined"
             value={values.login || ""}
             onChange={handleChange}
-            label={loginLabel()}
+            label="Email"
             type="text"
             fullWidth
+            margin="normal"
             required
             error={values.login != null && errors?.login != null}
             helperText={
@@ -136,8 +148,8 @@ function SignUpForm({
           />
         </Grid>
 
-        <Grid item xs={12} sm={6}>
-          <FormControl variant="outlined" fullWidth>
+        <Grid item xs={12} sm={4}>
+          <FormControl variant="outlined" fullWidth margin="normal">
             <InputLabel htmlFor="outlined-adornment-password">
               Пароль
             </InputLabel>
@@ -206,8 +218,8 @@ function SignUpForm({
             })}
         </Grid>
 
-        <Grid item xs={12} sm={6}>
-          <FormControl variant="outlined" fullWidth>
+        <Grid item xs={12} sm={4}>
+          <FormControl variant="outlined" fullWidth margin="normal">
             <InputLabel htmlFor="outlined-adornment-password">
               Повторите Ваш пароль
             </InputLabel>
@@ -244,25 +256,10 @@ function SignUpForm({
 
         <Grid item xs={12} sm={6}>
           <Input
-            name="lastName"
+            name="name"
             variant="outlined"
             autoComplete={"off"}
-            value={values.lastName || ""}
-            onChange={handleChange}
-            margin="normal"
-            label="Фамилия"
-            type="text"
-            fullWidth
-            inputProps={{ maxLength: 50 }}
-            required
-            error={errors?.lastName != null}
-            helperText={errors?.lastName != null && errors?.lastName}
-          />
-          <Input
-            name="firstName"
-            variant="outlined"
-            autoComplete={"off"}
-            value={values.firstName || ""}
+            value={values.name || ""}
             onChange={handleChange}
             margin="normal"
             label="Имя"
@@ -270,47 +267,131 @@ function SignUpForm({
             fullWidth
             inputProps={{ maxLength: 50 }}
             required
-            error={errors?.firstName != null}
-            helperText={errors?.firstName != null && errors?.firstName}
-          />
-          <Input
-            name="middleName"
-            variant="outlined"
-            autoComplete={"off"}
-            value={values.middleName || ""}
-            onChange={handleChange}
-            margin="normal"
-            label="Отчество"
-            type="text"
-            fullWidth
-            inputProps={{ maxLength: 50 }}
-            error={errors?.middleName != null}
-            helperText={errors?.middleName != null && errors?.middleName}
+            error={errors?.name != null}
+            helperText={errors?.name != null && errors?.name}
           />
         </Grid>
 
-        <Grid item xs={12} textAlign="center">
+        <Grid item xs={12} sm={6}>
+          <InputMask
+            mask={MASK_PHONE}
+            value={values?.phone || ""}
+            onChange={handlePhoneChange}
+          >
+            {() => (
+              <Input
+                name="phone"
+                variant="outlined"
+                value={values?.phone || ""}
+                margin="normal"
+                label="Телефон"
+                type="text"
+                fullWidth
+                required={true}
+                error={errors?.phone != null}
+                helperText={errors?.phone != null && errors?.phone}
+              />
+            )}
+          </InputMask>
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <FormControl variant="outlined" fullWidth margin="normal">
+            <InputLabel id="demo-simple-select-outlined-label">
+              Страна
+            </InputLabel>
+            <Select
+              //labelId="demo-simple-select-outlined-label"
+              //id="demo-simple-select-outlined"
+              name="country_id"
+              value={values?.country_id != null ? values?.country_id : 175}
+              onChange={handleChangeCountry}
+              label="Страна"
+            >
+              {countries.map((item) => (
+                <MenuItem value={item.id}>{item.rus}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <Input
+            name="town"
+            variant="outlined"
+            autoComplete={"off"}
+            value={values.town || ""}
+            onChange={handleChange}
+            margin="normal"
+            label="Город"
+            type="text"
+            fullWidth
+            inputProps={{ maxLength: 50 }}
+            required
+            error={errors?.town != null}
+            helperText={errors?.town != null && errors?.town}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <Input
+            name="address"
+            variant="outlined"
+            autoComplete={"off"}
+            value={values.address || ""}
+            onChange={handleChange}
+            margin="normal"
+            label="Адрес"
+            type="text"
+            fullWidth
+            inputProps={{ maxLength: 50 }}
+            required
+            error={errors?.address != null}
+            helperText={errors?.address != null && errors?.address}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <Input
+            name="company"
+            variant="outlined"
+            autoComplete={"off"}
+            value={values.company || ""}
+            onChange={handleChange}
+            margin="normal"
+            label="Место работы"
+            type="text"
+            fullWidth
+            inputProps={{ maxLength: 50 }}
+            required
+            error={errors?.company != null}
+            helperText={errors?.company != null && errors?.company}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <Input
+            name="link"
+            variant="outlined"
+            autoComplete={"off"}
+            value={values.link || ""}
+            onChange={handleChange}
+            margin="normal"
+            label="Сайт"
+            type="text"
+            fullWidth
+            inputProps={{ maxLength: 150 }}
+          />
+        </Grid>
+        <Grid item xs={12} textAlign="center" mt={5}>
           {isLoading ? (
             <CircularProgress size={26} className={classes.loginLoader} />
           ) : (
             <Button
-              disabled={
-                values.login == null ||
-                values.firstName == null ||
-                values.lastName == null ||
-                values.password == null ||
-                values.repassword == null ||
-                values.birthDate == null ||
-                !values.agreement ||
-                !isEmpty(errors)
-              }
+              disabled={!isEmpty(errors)}
               onClick={handleSubmit}
               variant="contained"
               color="primary"
               fullWidth
               className={classes.submitButton}
             >
-              зарегистрироваться
+              Зарегистрироваться
             </Button>
           )}
         </Grid>

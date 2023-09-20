@@ -1,4 +1,5 @@
-import { isValidEmail } from "./validators";
+import { MASK_PHONE } from "../helpers";
+import { isValidEmail, isValidPhone } from "./validators";
 
 export default function validate(values) {
   let errors = {};
@@ -65,7 +66,24 @@ export default function validate(values) {
   }
 
   if (values.name != null && !values.name) {
-    errors.name = "Введите Имя";
+    errors.name = "Введите имя";
+  }
+
+  if (
+    values.phone !== null &&
+    values.phone !== "" &&
+    !isValidPhone(values.phone, MASK_PHONE)
+  ) {
+    errors.phone = "Некорректный телефон";
+  }
+  if (values.company != null && !values.company) {
+    errors.company = "Введите место работы";
+  }
+  if (values.town != null && !values.town) {
+    errors.town = "Введите город";
+  }
+  if (values.address != null && !values.address) {
+    errors.address = "Введите адрес";
   }
 
   return errors;

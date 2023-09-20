@@ -12,7 +12,7 @@ import useForm from "../src/hooks/useForm";
 import useInterval from "../src/hooks/useInterval";
 import validate from "../src/validation/validationSignUp";
 
-export default function SignIn({ menu }) {
+export default function SignIn({ countries, menu }) {
   const {
     userState: { loaded, serverResponse, isAuthenticated },
     userDispatch,
@@ -49,10 +49,8 @@ export default function SignIn({ menu }) {
     createUser(userDispatch, values);
   };
 
-  const { values, errors, handleChange, handleSubmit, setValues } = useForm(
-    submit,
-    validate
-  );
+  const { values, errors, handleChange, handleSubmit, setValues, setErrors } =
+    useForm(submit, validate);
 
   useEffect(() => {
     //console.log("locale", locale);
@@ -61,12 +59,12 @@ export default function SignIn({ menu }) {
     }
   }, [isAuthenticated]);
 
-  useEffect(() => {
-    setValues({
-      login: "rtyshko",
-      password: "valera",
-    });
-  }, []);
+  // useEffect(() => {
+  //   setValues({
+  //     login: "rtyshko",
+  //     password: "valera",
+  //   });
+  // }, []);
 
   return (
     <FullLayout menu={menu} img={img.src}>
@@ -77,26 +75,26 @@ export default function SignIn({ menu }) {
         <SignUpForm
           values={values}
           errors={errors}
-          serverResponse={serverResponse}
+          setValues={setValues}
+          setErrors={setErrors}
+          validate={validate}
           handleChange={handleChange}
           handleSubmit={handleSubmit}
+          serverResponse={serverResponse}
           isLoading={!loaded}
+          countries={countries}
         />
       </BaseCard>
     </FullLayout>
   );
 }
-// export async function getServerSideProps(context) {
-//   const locale = context.locale;
-//   const postData1 = {
-//     method: "Post",
-//     headers: { "Content-Type": "application/json" },
-//     body: JSON.stringify({
-//       locale,
-//     }),
-//   };
-//   const res = await fetch(`${process.env.API_URL}/menu`, postData1);
-//   const menu = await res.json();
+export async function getServerSideProps() {
+  const postData = {
+    method: "Get",
+    headers: { "Content-Type": "application/json" },
+  };
+  const res = await fetch(`${process.env.API_URL}/countries`, postData);
+  const countries = await res.json();
 
-//   return { props: { menu } };
-// }
+  return { props: { countries } };
+}

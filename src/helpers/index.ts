@@ -1,8 +1,10 @@
 import md5 from "md5";
-const SOL1 = "kj5tph324gd;";
-const SOL2 = "lru47stc&GY";
 import { NextApiRequest } from "next";
 
+const SOL1 = "kj5tph324gd;";
+const SOL2 = "lru47stc&GY";
+
+export const MASK_PHONE = "+7 (999) 999 9999";
 export const removeHtml = (text: string) => {
   const regex = /(<([^>]+)>)/gi;
   return text.replace(regex, "");
