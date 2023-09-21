@@ -76,6 +76,28 @@ export default async function handler(req, res) {
         VALUES
           (?,?,?,?,? ,?,?,?,? ,?,?, ?,?)`;
       result = await q({ query: querySql, values });
+
+      /** --------- send mail -------------- */
+
+      const options = {
+        from: `${req.body.user.login}<${req.body.user.email}>`, // sender address
+        to: "oleglambin@gmail.com", // receiver email
+        subject: "Site send GenerateRescueLicenseWeb", // Subject line
+        text: result.recordset[0].DemoLicense,
+        //html: HTML_TEMPLATE(req.body.message),
+      };
+
+      SENDMAIL(options, (info, error) => {
+        if (info != null) {
+          console.log("info send enail: ", info);
+        } else if (error != null) {
+          //throw new Error("error send mail");
+          console.error("Error:", error);
+        }
+      });
+
+      /** --------- END send mail -------------- */
+
       if (result.affectedRows === 1) res.status(200).json({ result: "ok" });
       else throw new Error("SOMETHING_WRONG");
     } catch (error) {

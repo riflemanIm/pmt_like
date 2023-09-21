@@ -54,38 +54,28 @@ export default async function handler(req, res) {
     }
 
     /** --------- send mail -------------- */
-    try {
-      const options = {
-        from: `${req.body.user.login}<${req.body.user.email}>`, // sender address
-        to: "oleglambin@gmail.com", // receiver email
-        subject: "Site send GenerateRescueLicenseWeb", // Subject line
-        text: result.recordset[0].DemoLicense,
-        //html: HTML_TEMPLATE(req.body.message),
-      };
 
-      SENDMAIL(options, (info, error) => {
-        if (info != null) {
-          console.log("Email sent successfully");
-          // console.log("info: ", info);
-          res.status(200).json({
-            lic: result.recordset[0].DemoLicense,
-            token: req.body.user.token,
-          });
-        } else if (error != null) {
-          res.status(500).json({
-            sent: "error send mail",
-            error,
-            token: req.body.user.token,
-          });
-        }
-      });
-    } catch (error) {
-      // unhide to check error
-      res.status(500).json({ message: error.message });
-    }
+    const options = {
+      from: `${req.body.user.login}<${req.body.user.email}>`, // sender address
+      to: "oleglambin@gmail.com", // receiver email
+      subject: "Site send GenerateRescueLicenseWeb", // Subject line
+      text: result.recordset[0].DemoLicense,
+      //html: HTML_TEMPLATE(req.body.message),
+    };
+
+    SENDMAIL(options, (info, error) => {
+      if (info != null) {
+        console.log("info send enail: ", info);
+      } else if (error != null) {
+        throw new Error("error send mail");
+      }
+    });
+
+    res.status(200).json({
+      lic: result.recordset[0].DemoLicense,
+      token: req.body.user.token,
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
-
-    // ... error checks
   }
 }

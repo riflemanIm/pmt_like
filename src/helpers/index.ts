@@ -5,6 +5,7 @@ const SOL1 = "kj5tph324gd;";
 const SOL2 = "lru47stc&GY";
 
 export const MASK_PHONE = "+7 (999) 999 9999";
+
 export const removeHtml = (text: string) => {
   const regex = /(<([^>]+)>)/gi;
   return text.replace(regex, "");
@@ -99,20 +100,20 @@ export function isNumeric(n: string | number) {
 //     return previous;
 //   }, {} as Record<K, T[]>);
 
-export function groupBy<T, K extends keyof T>(
-  arr: T[],
-  key: K,
-  convertKeyVal?: (val: T[K]) => string
-) {
-  // eslint-disable-next-line
-  const initialValue = {} as any;
-  return arr.reduce((acc, item) => {
-    const convKey =
-      convertKeyVal != null ? convertKeyVal(item[key]) : item[key];
-    acc[convKey] = [...(acc[convKey] || []), item];
-    return acc;
-  }, initialValue);
-}
+// export function groupBy<T, K extends keyof T>(
+//   arr: T[],
+//   key: K,
+//   convertKeyVal?: (val: T[K]) => string
+// ) {
+//   // eslint-disable-next-line
+//   const initialValue = {} as any;
+//   return arr.reduce((acc, item) => {
+//     const convKey =
+//       convertKeyVal != null ? convertKeyVal(item[key]) : item[key];
+//     acc[convKey] = [...(acc[convKey] || []), item];
+//     return acc;
+//   }, initialValue);
+//}
 
 // export function groupByKey<T, K extends keyof T>(
 //   list: T[],
@@ -130,19 +131,19 @@ export function groupBy<T, K extends keyof T>(
 //   );
 // }
 
-export function chunksArray<T>(inputArray: T[], perChunk: number) {
-  return inputArray.reduce((resultArray: T[][], item: T, index: number) => {
-    const chunkIndex = Math.floor(index / perChunk);
+// export function chunksArray<T>(inputArray: T[], perChunk: number) {
+//   return inputArray.reduce((resultArray: T[][], item: T, index: number) => {
+//     const chunkIndex = Math.floor(index / perChunk);
 
-    if (!resultArray[chunkIndex]) {
-      resultArray[chunkIndex] = [] as T[]; // start a new chunk
-    }
+//     if (!resultArray[chunkIndex]) {
+//       resultArray[chunkIndex] = [] as T[]; // start a new chunk
+//     }
 
-    resultArray[chunkIndex].push(item);
+//     resultArray[chunkIndex].push(item);
 
-    return resultArray;
-  }, []);
-}
+//     return resultArray;
+//   }, []);
+// }
 
 export function isArray(obj: []) {
   return obj instanceof Array;
