@@ -1,6 +1,8 @@
+import { q } from "../../src/lib/db";
 import isEmpty, { clientIp } from "../../src/helpers";
 import SENDMAIL from "../../src/helpers/mail";
 const sql = require("mssql");
+import { verify } from "jsonwebtoken";
 
 export default async function handler(req, res) {
   if (isEmpty(req.body.user.token)) {
@@ -9,7 +11,7 @@ export default async function handler(req, res) {
 
   try {
     /** --------- check token and user -------------- */
-    const decoded = verify(token, process.env.TOKEN_KEY);
+    const decoded = verify(req.body.user.token, process.env.TOKEN_KEY);
     const querySql = `
       SELECT u.id
       FROM forum_user u 
@@ -67,7 +69,8 @@ export default async function handler(req, res) {
       if (info != null) {
         console.log("info send enail: ", info);
       } else if (error != null) {
-        throw new Error("error send mail");
+        console.log("error send mail", error);
+        //throw new Error("error send mail");
       }
     });
 

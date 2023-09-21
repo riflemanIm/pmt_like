@@ -50,7 +50,6 @@ function userReducer(state, action) {
           JSON.stringify({ ...action.payload.data })
         );
       }
-      console.log("action.payload.data", action.payload.data);
       return {
         ...state,
         loaded: true,
@@ -59,7 +58,9 @@ function userReducer(state, action) {
           : {
               ...state.user,
             },
-        isAuthenticated: !isEmpty(action.payload.data),
+        isAuthenticated: !isEmpty(action.payload.data)
+          ? true
+          : !!state.isAuthenticated,
         serverResponse: action.payload.serverResponse,
       };
     case "RESCUE_LICENCE":

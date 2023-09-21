@@ -11,7 +11,7 @@ export default async function handler(req, res) {
       throw new Error("SOMETHING_WRONG");
     }
 
-    console.log("-- req.body --\n", req.body);
+    // console.log("-- req.body --\n", req.body);
 
     // let querySql = `
     // SELECT bilet
@@ -55,7 +55,7 @@ export default async function handler(req, res) {
         req.body.id,
       ];
 
-      console.log("-- values --\n", values);
+      //console.log("-- values --\n", values);
 
       querySql = `
       UPDATE forum_user
@@ -77,7 +77,7 @@ export default async function handler(req, res) {
         WHERE id=?`;
 
       result = await q({ query: querySql, values });
-      console.log(" --- result --- \n", result);
+      //console.log(" --- result --- \n", result);
 
       if (result.affectedRows === 1)
         res.status(200).json({ result: "ok_update" });

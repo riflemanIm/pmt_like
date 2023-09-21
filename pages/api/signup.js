@@ -15,7 +15,7 @@ export default async function handler(req, res) {
     if (!isValidEmail(req.body.email)) {
       throw new Error("SOMETHING_WRONG");
     }
-    console.log("-- req.body --\n", req.body);
+    //console.log("-- req.body --\n", req.body);
 
     // let querySql = `
     // SELECT bilet
@@ -94,7 +94,18 @@ export default async function handler(req, res) {
 
       if (result.affectedRows === 1) {
         const token = sign(
-          { ...values, id: result.insertId },
+          {
+            id: result.insertId,
+            name: req.body.name,
+            login,
+            email: req.body.email,
+            phone: req.body.phone,
+            country_id: req.body.country_id,
+            town: req.body.town,
+            address: req.body.address,
+            company: req.body.company,
+            link: req.body.link,
+          },
           process.env.TOKEN_KEY,
           {
             expiresIn: "360d",
@@ -116,25 +127,25 @@ export default async function handler(req, res) {
 
         /** --------- send mail -------------- */
 
-        // const options = {
-        //   from: `${req.body.name}<${req.body.email}>`, // sender address
-        //   to: "oleglambin@gmail.com", // receiver email
-        //   subject: "New registarition", // Subject line
-        //   text: `User ${req.body.name}`,
-        //   //html: HTML_TEMPLATE(req.body.message),
-        // };
+        const options = {
+          from: `${req.body.name}<${req.body.email}>`, // sender address
+          to: "oleglambin@gmail.com", // receiver email
+          subject: "New registarition", // Subject line
+          text: `User ${req.body.name}`,
+          //html: HTML_TEMPLATE(req.body.message),
+        };
 
-        // SENDMAIL(options, (info, error) => {
-        //   if (info != null) {
-        //     console.log("info send enail: ", info);
-        //   } else if (error != null) {
-        //     //throw new Error("error send mail");
-        //     console.error("Error:", error);
-        //   }
-        // });
+        SENDMAIL(options, (info, error) => {
+          if (info != null) {
+            console.log("info send enail: ", info);
+          } else if (error != null) {
+            //throw new Error("error send mail");
+            console.error("Error:", error);
+          }
+        });
 
         /** --------- END send mail -------------- */
-        console.log(" --- token --- \n", token);
+        //console.log(" --- token --- \n", token);
 
         res.status(200).json({ result: "ok", token, id: result.insertId });
       } else {
