@@ -158,7 +158,7 @@ export default function SignInForm({
           </FormControl>
         </Grid>
 
-        <Grid item xs={12} className={classes.formButtons} textAlign="center">
+        <Grid item xs={12} my={5} textAlign="center">
           {isLoading ? (
             <CircularProgress size={26} className={classes.loginLoader} />
           ) : (
@@ -182,7 +182,7 @@ export default function SignInForm({
             </Button>
           )}
         </Grid>
-        <Grid item xs={12} className={classes.formButtons} textAlign="center">
+        <Grid item xs={12} textAlign="center">
           <Button
             color="primary"
             variant="text"
