@@ -20,7 +20,6 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import isEmpty from "../../helpers";
 
 const useStyles = makeStyles((theme) => ({
-  form: { maxWidth: 400, margin: "auto" },
   submitButton: {
     textTransform: "none",
     width: "100%",
@@ -80,10 +79,10 @@ export default function SignInForm({
     () => (
       <Grid
         container
-        direction="row"
-        justifyContent="flex-start"
-        alignItems="center"
-        className={classes.form}
+        sx={{
+          maxWidth: 400,
+          margin: "auto",
+        }}
       >
         <Grid item xs={12}>
           <Fade
@@ -163,35 +162,35 @@ export default function SignInForm({
           {isLoading ? (
             <CircularProgress size={26} className={classes.loginLoader} />
           ) : (
-            <>
-              <Button
-                disabled={
-                  values.login == null ||
-                  values.password == null ||
-                  !isEmpty(errors)
+            <Button
+              disabled={
+                values.login == null ||
+                values.password == null ||
+                !isEmpty(errors)
+              }
+              onClick={handleSubmit}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleSubmit();
                 }
-                onClick={handleSubmit}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    handleSubmit();
-                  }
-                }}
-                variant="contained"
-                color="primary"
-                className={classes.submitButton}
-              >
-                Войти
-              </Button>
-              <Button
-                color="primary"
-                variant="text"
-                href="/signup"
-                className={classes.submitButton}
-              >
-                Регистрация
-              </Button>
-            </>
+              }}
+              variant="contained"
+              color="primary"
+              className={classes.submitButton}
+            >
+              Войти
+            </Button>
           )}
+        </Grid>
+        <Grid item xs={12} className={classes.formButtons} textAlign="center">
+          <Button
+            color="primary"
+            variant="text"
+            href="/signup"
+            className={classes.submitButton}
+          >
+            Регистрация
+          </Button>
         </Grid>
       </Grid>
     ),
