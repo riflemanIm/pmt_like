@@ -21,7 +21,7 @@ export async function loginUser(dispatch, login, password) {
         else
           dispatch({
             type: "SET_SERVER_RESPONSE",
-            payload: { serverResponse: "Пользователь не найден" },
+            payload: { serverResponse: "Комбинация логин или пароль не верна" },
           });
       })
       .catch((err) => {
