@@ -40,7 +40,7 @@ const typography = {
     fontWeight: 500,
     textShadow: "3px 2px 3px rgba(255,255,255,.2)",
     lineHeight: 64 / 48,
-    fontSize: pxToRem(32),
+    fontSize: pxToRem(24),
     ...responsiveFontSizes({
       sm: 40,
       md: 44,
