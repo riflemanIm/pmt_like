@@ -70,12 +70,12 @@ const Menuitems = [
     icon: "phone",
     href: "/contacts",
   },
-  {
-    title: "Вход для пользователя",
-    muiIcon: PersonIcon,
-    icon: "user",
-    href: "https://old.medialog.ru/?action=login",
-  },
+  // {
+  //   title: "Вход для пользователя",
+  //   muiIcon: PersonIcon,
+  //   icon: "user",
+  //   href: "https://old.medialog.ru/?action=login",
+  // },
 ];
 
 export default Menuitems;
