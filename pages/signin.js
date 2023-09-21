@@ -33,12 +33,12 @@ export default function SignIn({ menu }) {
     }
   }, [isAuthenticated]);
 
-  useEffect(() => {
-    setValues({
-      login: "rtyshko",
-      password: "valera",
-    });
-  }, []);
+  // useEffect(() => {
+  //   setValues({
+  //     login: "rtyshko",
+  //     password: "valera",
+  //   });
+  // }, []);
 
   return (
     <FullLayout menu={menu} img={img.src}>
