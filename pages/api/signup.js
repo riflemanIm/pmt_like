@@ -1,71 +1,87 @@
 import { q } from "../../src/lib/db";
-import isEmpty, { password } from "../../src/helpers";
+import isEmpty, {
+  cleanPhoneValue,
+  clientIp,
+  password,
+} from "../../src/helpers";
 import { isValidEmail } from "../../src/validation/validators";
 
 export default async function handler(req, res) {
   try {
-    if (!isValidEmail(req.body.email)) throw new Error("SOMETHING_WRONG");
+    if (!isValidEmail(req.body.email)) {
+      throw new Error("SOMETHING_WRONG");
+    }
+    console.log("-- req.body --\n", req.body);
+
+    // let querySql = `
+    // SELECT bilet
+    // FROM bilets_reg_users
+    // WHERE status='1' AND bilet=?
+    // LIMIT 1`;
+    // let result = await q({ query: querySql, values: [req.body.bilet] });
+    // if (isEmpty(result)) throw new Error("SOMETHING_WRONG");
 
     let querySql = `
-    SELECT bilet  
-    FROM bilets_reg_users 
-    WHERE status='1' AND bilet=?      
-    LIMIT 1`;
-    let result = await q({ query: querySql, values: [req.body.bilet] });
-    if (isEmpty(result)) throw new Error("SOMETHING_WRONG");
-
-    querySql = `
-    SELECT email  
-    FROM users 
-    WHERE email=?      
-    LIMIT 1`;
-    result = await q({ query: querySql, values: [req.body.email] });
-    if (!isEmpty(result)) throw new Error("EMAIL_EXISTS");
+      SELECT email  
+      FROM forum_user 
+      WHERE email=?      
+      LIMIT 1`;
+    let result = await q({ query: querySql, values: [req.body.email] });
+    if (!isEmpty(result)) {
+      throw new Error("EMAIL_EXISTS");
+    }
 
     try {
-      querySql = `
-       UPDATE bilets_reg_users 
-       SET status='' 
-       WHERE bilet=?`;
-      await q({ query: querySql, values: [req.body.bilet] });
       const values = [
-        req.body.email.split("@").shift().substring(0, 20) || null,
+        req.body.email.replace("@", "_"),
         req.body.email,
-        password(req.body.password),
+        req.body.password,
         req.body.name,
-        req.body.jabber ?? null,
-        "user",
-        req.body.bilet,
-        1,
-        1,
+        cleanPhoneValue(req.body.phone),
+
+        req.body.country_id,
+        req.body.town,
+        req.body.address,
+        req.body.company,
+
+        clientIp(req),
+        req.body.link,
+
+        req.body.email,
+        "0000-00-00 00:00:00",
       ];
-      console.log("values", values);
+
+      console.log("-- values --\n", values);
+
       querySql = `
-       INSERT INTO users
+       INSERT INTO forum_user
           (
           login,
           email,
-          passwd,
+          pwd,
           name,
-          jabber,
-          tip_user,
+          phone,
+
+          country_id,
+          town,
+          address,
+          company,
+
+          ipaddress,
+          link, 
           
-          bilet,
-          status,
-          group_id
+          email_extra,
+          change_pass_date          
           )
         VALUES
-          (?,?,?,?,?,?,?,?,?)`;
+          (?,?,?,?,? ,?,?,?,? ,?,?, ?,?)`;
       result = await q({ query: querySql, values });
       if (result.affectedRows === 1) res.status(200).json({ result: "ok" });
-      else throw new Error("Something went wrong");
-      //console.log("--", typesDecr, types, orders);
+      else throw new Error("SOMETHING_WRONG");
     } catch (error) {
       // unhide to check error
       res.status(500).json({ message: error.message });
     }
-
-    //console.log("--", typesDecr, types, orders);
   } catch (error) {
     // unhide to check error
     res.status(400).json({ message: error.message });

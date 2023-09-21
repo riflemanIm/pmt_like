@@ -45,7 +45,7 @@ export async function createUser(dispatch, values) {
         ...values,
       })
       .then(({ data }) => {
-        //console.log("data", data);
+        console.log("data", data);
         if (data?.result === "ok")
           dispatch({
             type: "SET_SERVER_RESPONSE",

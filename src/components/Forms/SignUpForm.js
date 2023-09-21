@@ -80,7 +80,12 @@ function SignUpForm({
   const [visibilePass, setVisibilePass] = useState(false);
   const [visibileRePass, setVisibileRePass] = useState(false);
 
-  const authIdentifiers = "email";
+  useEffect(() => {
+    setValues({
+      ...values,
+      country_id: values.country_id ?? 175,
+    });
+  }, []);
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
@@ -102,18 +107,35 @@ function SignUpForm({
     setValues(vals);
     setErrors(validate(vals));
   };
+  const disabled =
+    !isEmpty(errors) ||
+    values.email == null ||
+    values.name == null ||
+    values.password == null ||
+    values.phone == null ||
+    values.company == null ||
+    values.town == null ||
+    values.address == null;
+
+  console.log("serverResponse", serverResponse);
 
   return (
     <>
       <Fade
         styte={{ width: "100%" }}
-        in={serverResponse != null}
-        style={
-          serverResponse != null ? { display: "flex" } : { display: "none" }
-        }
+        in={true}
+        // style={
+        //   serverResponse != null ? { display: "flex" } : { display: "none" }
+        // }
       >
         <Alert
-          severity={serverResponse === "SUCCESS_CREATE" ? "success" : "warning"}
+          severity={
+            serverResponse === "SUCCESS_CREATE"
+              ? "success"
+              : serverResponse == null
+              ? "info"
+              : "warning"
+          }
           className={classes.errorMessage}
         >
           <Typography variant="body2">
@@ -122,28 +144,30 @@ function SignUpForm({
               : serverResponse === "SOMETHING_WRONG"
               ? "Неправильный логин или пароль"
               : serverResponse === "EMAIL_EXISTS"
-              ? "Такой email уже зарегистрирован у нас, пожалуйста попробуйте другой"
+              ? "Такой email  уже зарегистрирован у нас, пожалуйста попробуйте другой"
+              : serverResponse == null
+              ? "Пожалуйста заполните форму регистрации"
               : serverResponse}
           </Typography>
         </Alert>
       </Fade>
 
-      <Grid container spacing={2} sx={{ marginTop: 1 }}>
+      <Grid container spacing={2}>
         <Grid item xs={12} sm={4}>
           <Input
-            name="login"
+            name="email"
             autoComplete={"off"}
             variant="outlined"
-            value={values.login || ""}
+            value={values.email || ""}
             onChange={handleChange}
             label="Email"
-            type="text"
+            type="email"
             fullWidth
             margin="normal"
             required
-            error={values.login != null && errors?.login != null}
+            error={values.email != null && errors?.email != null}
             helperText={
-              values.login != null && errors?.login != null && errors?.login
+              values.email != null && errors?.email != null && errors?.email
             }
           />
         </Grid>
@@ -304,7 +328,8 @@ function SignUpForm({
               //labelId="demo-simple-select-outlined-label"
               //id="demo-simple-select-outlined"
               name="country_id"
-              value={values?.country_id != null ? values?.country_id : 175}
+              value={values.country_id}
+              defaultValue={175}
               onChange={handleChangeCountry}
               label="Страна"
             >
@@ -384,7 +409,7 @@ function SignUpForm({
             <CircularProgress size={26} className={classes.loginLoader} />
           ) : (
             <Button
-              disabled={!isEmpty(errors)}
+              disabled={disabled}
               onClick={handleSubmit}
               variant="contained"
               color="primary"

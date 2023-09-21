@@ -10,6 +10,14 @@ export const removeHtml = (text: string) => {
   return text.replace(regex, "");
 };
 
+export const cleanPhoneValue = (value: string | null) => {
+  if (value == null) return "";
+  // удаляем разрешенные символы
+  const cleanValue = value.replace(/[\s+()-]/gi, "");
+  const numbers = cleanValue.replace(/[^\d]/gi, "");
+  return numbers;
+};
+
 function financial(x: string) {
   return Number.parseFloat(x).toFixed(2);
 }

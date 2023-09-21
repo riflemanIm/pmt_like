@@ -36,7 +36,7 @@ export default function SignIn({ countries, menu }) {
           type: "SET_SERVER_RESPONSE",
           payload: null,
         });
-        Router.push(getUrlbyLang("signin", locale));
+        Router.push("/signin");
       }
     },
     serverResponse !== null,
@@ -58,13 +58,6 @@ export default function SignIn({ countries, menu }) {
       Router.push("/lk");
     }
   }, [isAuthenticated]);
-
-  // useEffect(() => {
-  //   setValues({
-  //     login: "rtyshko",
-  //     password: "valera",
-  //   });
-  // }, []);
 
   return (
     <FullLayout menu={menu} img={img.src}>

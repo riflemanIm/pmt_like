@@ -15,7 +15,7 @@ export default async function handler(req, res) {
     let querySql = `
        SELECT u.id,u.name,u.login,u.email
        FROM forum_user u 
-       WHERE (login=? OR email=?) AND pwd = ?`;
+       WHERE (u.login=? OR u.email=?) AND u.pwd = ?`;
     const result = await q({
       query: querySql,
       values: [login, login, req.body.password],

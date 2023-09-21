@@ -3,8 +3,8 @@ import { isValidEmail, isValidPhone } from "./validators";
 
 export default function validate(values) {
   let errors = {};
-  if (values.login != null && !isValidEmail(values.login)) {
-    errors.login = "Введите Email";
+  if (values.email != null && !isValidEmail(values.email)) {
+    errors.email = "Введите Email";
   }
 
   if (values.password != null) {

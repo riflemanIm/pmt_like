@@ -7,33 +7,46 @@ export default async function handler(req, res) {
     res.status(401).json({ message: "A token is required for authentication" });
   }
 
-  //  const login = req.body.login;
-  const config = {
-    user: "pmtsite",
-    password: "licretreiver",
-    server: "10.1.1.6", // You can use 'localhost\\instance' to connect to named instance
-    database: "CB",
-    options: {
-      encrypt: false,
-    },
-  };
   try {
+    /** --------- check token and user -------------- */
+    const decoded = verify(token, process.env.TOKEN_KEY);
+    const querySql = `
+      SELECT u.id
+      FROM forum_user u 
+      WHERE u.id=? and u.login=? and u.name=?`;
+
+    let result = await q({
+      query: querySql,
+      values: [decoded.id, decoded.login, decoded.name],
+    });
+
+    if (isEmpty(result)) {
+      res.status(401).json({ message: "The user is not logged in" });
+    }
+    /** --------- gettingn Rescue License fron mssql -------------- */
+    const config = {
+      user: "pmtsite",
+      password: "licretreiver",
+      server: "10.1.1.6", // You can use 'localhost\\instance' to connect to named instance
+      database: "CB",
+      options: {
+        encrypt: false,
+      },
+    };
+
     let pool = await sql.connect(config);
     const ip = clientIp(req);
     console.log("==ip==", ip);
 
-    const result = await pool
+    result = await pool
       .request()
       .input("uLogin", sql.VarChar(30), req.body.login)
       .input("uPassword", sql.VarChar(30), req.body.password)
       .input("uIP", sql.VarChar(30), ip)
       .input("uVersion", sql.VarChar(30), req.body.version)
       .input("uDBCode", sql.VarChar(30), req.body.code)
-
-      //.output("output_parameter", sql.VarChar(250))
       .execute("GenerateRescueLicenseWeb");
 
-    //console.dir(result);
     if (result.recordset[0].ExitCode) {
       throw new Error(
         "В настоящее время получить лицензию невозможно. Повторите попытку позже.\n"
