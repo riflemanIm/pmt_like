@@ -1,4 +1,3 @@
-import { MASK_PHONE } from "../helpers";
 import { isValidEmail, isValidPhone } from "./validators";
 
 export default function validate(values) {
@@ -69,11 +68,7 @@ export default function validate(values) {
     errors.name = "Введите имя";
   }
 
-  if (
-    values.phone !== null &&
-    values.phone !== "" &&
-    !isValidPhone(values.phone, MASK_PHONE)
-  ) {
+  if (values.phone !== null && !isValidPhone(values.phone)) {
     errors.phone = "Некорректный телефон";
   }
   if (values.company != null && !values.company) {

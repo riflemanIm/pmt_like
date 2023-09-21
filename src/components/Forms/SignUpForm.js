@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@mui/styles";
 //components
 import {
@@ -74,18 +74,12 @@ function SignUpForm({
   serverResponse,
   isLoading,
   countries,
+  beginigText = "Пожалуйста заполните форму регистрации",
 }) {
   const classes = useStyles();
 
   const [visibilePass, setVisibilePass] = useState(false);
   const [visibileRePass, setVisibileRePass] = useState(false);
-
-  useEffect(() => {
-    setValues({
-      ...values,
-      country_id: values.country_id ?? 175,
-    });
-  }, []);
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
@@ -111,13 +105,14 @@ function SignUpForm({
     !isEmpty(errors) ||
     values.email == null ||
     values.name == null ||
-    values.password == null ||
+    (values.password == null && values.id == null) ||
     values.phone == null ||
     values.company == null ||
     values.town == null ||
     values.address == null;
 
-  console.log("serverResponse", serverResponse);
+  console.log("values", values);
+  console.log("errors", errors);
 
   return (
     <>
@@ -130,7 +125,8 @@ function SignUpForm({
       >
         <Alert
           severity={
-            serverResponse === "SUCCESS_CREATE"
+            serverResponse === "SUCCESS_CREATE" ||
+            serverResponse === "SUCCESS_UPDATE"
               ? "success"
               : serverResponse == null
               ? "info"
@@ -140,13 +136,15 @@ function SignUpForm({
         >
           <Typography variant="body2">
             {serverResponse === "SUCCESS_CREATE"
-              ? "Вы успешно зарегистрировались "
+              ? "Вы успешно зарегистрировались"
+              : serverResponse === "SUCCESS_UPDATE"
+              ? "Данные успешно изменены"
               : serverResponse === "SOMETHING_WRONG"
-              ? "Неправильный логин или пароль"
+              ? "Что то пошло не так, попробуйте еще раз"
               : serverResponse === "EMAIL_EXISTS"
               ? "Такой email  уже зарегистрирован у нас, пожалуйста попробуйте другой"
               : serverResponse == null
-              ? "Пожалуйста заполните форму регистрации"
+              ? beginigText
               : serverResponse}
           </Typography>
         </Alert>
@@ -171,114 +169,116 @@ function SignUpForm({
             }
           />
         </Grid>
-
-        <Grid item xs={12} sm={4}>
-          <FormControl variant="outlined" fullWidth margin="normal">
-            <InputLabel htmlFor="outlined-adornment-password">
-              Пароль
-            </InputLabel>
-            <OutlinedInput
-              name="password"
-              autoComplete="new-password"
-              variant="outlined"
-              value={values.password || ""}
-              onChange={handleChange}
-              label="Пароль"
-              type={visibilePass ? "text" : "password"}
-              required
-              error={errors?.password != null}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={() => setVisibilePass(!visibilePass)}
-                    onMouseDown={handleMouseDownPassword}
+        {values.id == null && (
+          <>
+            <Grid item xs={12} sm={4}>
+              <FormControl variant="outlined" fullWidth margin="normal">
+                <InputLabel htmlFor="outlined-adornment-password">
+                  Пароль
+                </InputLabel>
+                <OutlinedInput
+                  name="password"
+                  autoComplete="new-password"
+                  variant="outlined"
+                  value={values.password || ""}
+                  onChange={handleChange}
+                  label="Пароль"
+                  type={visibilePass ? "text" : "password"}
+                  required
+                  error={errors?.password != null}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() => setVisibilePass(!visibilePass)}
+                        onMouseDown={handleMouseDownPassword}
+                      >
+                        {!visibilePass ? (
+                          <VisibilityOffIcon color="primary" />
+                        ) : (
+                          <VisibilityIcon color="primary" />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+                {!isEmpty(errors?.passRules) && (
+                  <FormHelperText
+                    className={classes.passwordError}
+                    sx={{ mb: 1, fontWeight: 500, color: "error.main" }}
                   >
-                    {!visibilePass ? (
-                      <VisibilityOffIcon color="primary" />
-                    ) : (
-                      <VisibilityIcon color="primary" />
-                    )}
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
-            {!isEmpty(errors?.passRules) && (
-              <FormHelperText
-                className={classes.passwordError}
-                sx={{ mb: 1, fontWeight: 500, color: "error.main" }}
-              >
-                Пароль должен содержать:
-              </FormHelperText>
-            )}
-          </FormControl>
+                    Пароль должен содержать:
+                  </FormHelperText>
+                )}
+              </FormControl>
 
-          {!isEmpty(errors?.passRules) &&
-            Object.keys(errors?.passRules).map((key) => {
-              const clsName = errors?.passRules[key].valid
-                ? classes.passwordSuccess
-                : classes.passwordError;
-              return (
-                <Grid
-                  key={key}
-                  container
-                  direction="row"
-                  justifyContent="flex-start"
-                >
-                  <Grid item xs={1} style={{ paddingLeft: 8 }}>
-                    {errors?.passRules[key].valid ? (
-                      <CheckIcon className={clsName} />
-                    ) : (
-                      <CloseIcon className={clsName} />
-                    )}
-                  </Grid>
-                  <Grid item xs={11} style={{ paddingLeft: 14 }}>
-                    <FormHelperText className={clsName}>
-                      {errors?.passRules[key].ruleText}
-                    </FormHelperText>
-                  </Grid>
-                </Grid>
-              );
-            })}
-        </Grid>
+              {!isEmpty(errors?.passRules) &&
+                Object.keys(errors?.passRules).map((key) => {
+                  const clsName = errors?.passRules[key].valid
+                    ? classes.passwordSuccess
+                    : classes.passwordError;
+                  return (
+                    <Grid
+                      key={key}
+                      container
+                      direction="row"
+                      justifyContent="flex-start"
+                    >
+                      <Grid item xs={1} style={{ paddingLeft: 8 }}>
+                        {errors?.passRules[key].valid ? (
+                          <CheckIcon className={clsName} />
+                        ) : (
+                          <CloseIcon className={clsName} />
+                        )}
+                      </Grid>
+                      <Grid item xs={11} style={{ paddingLeft: 14 }}>
+                        <FormHelperText className={clsName}>
+                          {errors?.passRules[key].ruleText}
+                        </FormHelperText>
+                      </Grid>
+                    </Grid>
+                  );
+                })}
+            </Grid>
 
-        <Grid item xs={12} sm={4}>
-          <FormControl variant="outlined" fullWidth margin="normal">
-            <InputLabel htmlFor="outlined-adornment-password">
-              Повторите Ваш пароль
-            </InputLabel>
-            <OutlinedInput
-              name="repassword"
-              autoComplete="new-password"
-              variant="outlined"
-              value={values.repassword || ""}
-              onChange={handleChange}
-              label="Повторите Ваш пароль"
-              type={visibileRePass ? "text" : "password"}
-              required
-              error={errors?.repassword != null}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    onClick={() => setVisibileRePass(!visibileRePass)}
-                    onMouseDown={handleMouseDownPassword}
-                  >
-                    {!visibileRePass ? (
-                      <VisibilityOffIcon color="primary" />
-                    ) : (
-                      <VisibilityIcon color="primary" />
-                    )}
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
-            <FormHelperText className={classes.passwordError}>
-              {errors?.repassword != null && errors?.repassword}
-            </FormHelperText>
-          </FormControl>
-        </Grid>
-
-        <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={4}>
+              <FormControl variant="outlined" fullWidth margin="normal">
+                <InputLabel htmlFor="outlined-adornment-password">
+                  Повторите Ваш пароль
+                </InputLabel>
+                <OutlinedInput
+                  name="repassword"
+                  autoComplete="new-password"
+                  variant="outlined"
+                  value={values.repassword || ""}
+                  onChange={handleChange}
+                  label="Повторите Ваш пароль"
+                  type={visibileRePass ? "text" : "password"}
+                  required
+                  error={errors?.repassword != null}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={() => setVisibileRePass(!visibileRePass)}
+                        onMouseDown={handleMouseDownPassword}
+                      >
+                        {!visibileRePass ? (
+                          <VisibilityOffIcon color="primary" />
+                        ) : (
+                          <VisibilityIcon color="primary" />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+                <FormHelperText className={classes.passwordError}>
+                  {errors?.repassword != null && errors?.repassword}
+                </FormHelperText>
+              </FormControl>
+            </Grid>
+          </>
+        )}
+        <Grid item xs={12} sm={values.id == null ? 6 : 4}>
           <Input
             name="name"
             variant="outlined"
@@ -296,7 +296,7 @@ function SignUpForm({
           />
         </Grid>
 
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={values.id == null ? 6 : 4}>
           <InputMask
             mask={MASK_PHONE}
             value={values?.phone || ""}
@@ -334,7 +334,9 @@ function SignUpForm({
               label="Страна"
             >
               {countries.map((item) => (
-                <MenuItem value={item.id}>{item.rus}</MenuItem>
+                <MenuItem value={item.id} key={item.id}>
+                  {item.rus}
+                </MenuItem>
               ))}
             </Select>
           </FormControl>
@@ -416,7 +418,7 @@ function SignUpForm({
               fullWidth
               className={classes.submitButton}
             >
-              Зарегистрироваться
+              {values.id == null ? "Зарегистрироваться" : "Сохранить"}
             </Button>
           )}
         </Grid>

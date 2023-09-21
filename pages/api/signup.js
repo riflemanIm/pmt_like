@@ -5,6 +5,10 @@ import isEmpty, {
   password,
 } from "../../src/helpers";
 import { isValidEmail } from "../../src/validation/validators";
+import SENDMAIL from "../../src/helpers/mail";
+import md5 from "md5";
+import { sign } from "jsonwebtoken";
+import { setCookie } from "cookies-next";
 
 export default async function handler(req, res) {
   try {
@@ -28,12 +32,15 @@ export default async function handler(req, res) {
       LIMIT 1`;
     let result = await q({ query: querySql, values: [req.body.email] });
     if (!isEmpty(result)) {
+      console.log("-- EMAIL_EXISTS --\n", result);
       throw new Error("EMAIL_EXISTS");
     }
 
     try {
+      const cookie_id = md5(new Date().getTime());
+      const login = req.body.email.replace("@", "_");
       const values = [
-        req.body.email.replace("@", "_"),
+        login,
         req.body.email,
         req.body.password,
         req.body.name,
@@ -45,14 +52,14 @@ export default async function handler(req, res) {
         req.body.company,
 
         clientIp(req),
-        req.body.link,
+        req.body.link ?? "",
 
         req.body.email,
         "0000-00-00 00:00:00",
+        cookie_id,
       ];
 
-      console.log("-- values --\n", values);
-
+      //console.log("-- insert --\n", values);
       querySql = `
        INSERT INTO forum_user
           (
@@ -71,35 +78,68 @@ export default async function handler(req, res) {
           link, 
           
           email_extra,
-          change_pass_date          
+          change_pass_date,
+          
+          insert_date,
+          timestamp,
+          cookie_id
           )
         VALUES
-          (?,?,?,?,? ,?,?,?,? ,?,?, ?,?)`;
+          (?,?,?,?,?,
+           ?,?,?,?,
+           ?,?, 
+           ?,?,
+           now(),now(),?)`;
       result = await q({ query: querySql, values });
 
-      /** --------- send mail -------------- */
+      if (result.affectedRows === 1) {
+        const token = sign(
+          { ...values, id: result.insertId },
+          process.env.TOKEN_KEY,
+          {
+            expiresIn: "360d",
+          }
+        );
+        const cookieExpiresIn =
+          new Date().getTime() + 60 * 1000 * 60 * 24 * 30 * 12;
+        // set cookie
+        setCookie("cookie_auth_id", cookie_id, {
+          req,
+          res,
+          maxAge: cookieExpiresIn,
+        });
+        setCookie("cookie_login", login, {
+          req,
+          res,
+          maxAge: cookieExpiresIn,
+        });
 
-      const options = {
-        from: `${req.body.user.login}<${req.body.user.email}>`, // sender address
-        to: "oleglambin@gmail.com", // receiver email
-        subject: "Site send GenerateRescueLicenseWeb", // Subject line
-        text: result.recordset[0].DemoLicense,
-        //html: HTML_TEMPLATE(req.body.message),
-      };
+        /** --------- send mail -------------- */
 
-      SENDMAIL(options, (info, error) => {
-        if (info != null) {
-          console.log("info send enail: ", info);
-        } else if (error != null) {
-          //throw new Error("error send mail");
-          console.error("Error:", error);
-        }
-      });
+        // const options = {
+        //   from: `${req.body.name}<${req.body.email}>`, // sender address
+        //   to: "oleglambin@gmail.com", // receiver email
+        //   subject: "New registarition", // Subject line
+        //   text: `User ${req.body.name}`,
+        //   //html: HTML_TEMPLATE(req.body.message),
+        // };
 
-      /** --------- END send mail -------------- */
+        // SENDMAIL(options, (info, error) => {
+        //   if (info != null) {
+        //     console.log("info send enail: ", info);
+        //   } else if (error != null) {
+        //     //throw new Error("error send mail");
+        //     console.error("Error:", error);
+        //   }
+        // });
 
-      if (result.affectedRows === 1) res.status(200).json({ result: "ok" });
-      else throw new Error("SOMETHING_WRONG");
+        /** --------- END send mail -------------- */
+        console.log(" --- token --- \n", token);
+
+        res.status(200).json({ result: "ok", token, id: result.insertId });
+      } else {
+        throw new Error("SOMETHING_WRONG");
+      }
     } catch (error) {
       // unhide to check error
       res.status(500).json({ message: error.message });

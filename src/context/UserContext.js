@@ -1,4 +1,5 @@
 import React, { useReducer, useContext, createContext } from "react";
+import isEmpty from "../helpers";
 const UserContext = createContext();
 
 function userReducer(state, action) {
@@ -41,12 +42,25 @@ function userReducer(state, action) {
         ...state,
         loaded: false,
       };
+
     case "SET_SERVER_RESPONSE":
+      if (typeof window !== "undefined" && !isEmpty(action.payload.data)) {
+        window.localStorage.setItem(
+          "user",
+          JSON.stringify({ ...action.payload.data })
+        );
+      }
+      console.log("action.payload.data", action.payload.data);
       return {
         ...state,
         loaded: true,
-        //isAuthenticated: false,
-        serverResponse: action.payload,
+        user: !isEmpty(action.payload.data)
+          ? { ...state.user, ...action.payload.data }
+          : {
+              ...state.user,
+            },
+        isAuthenticated: !isEmpty(action.payload.data),
+        serverResponse: action.payload.serverResponse,
       };
     case "RESCUE_LICENCE":
       return {

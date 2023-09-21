@@ -13,9 +13,20 @@ export default async function handler(req, res) {
 
   try {
     let querySql = `
-       SELECT u.id,u.name,u.login,u.email
+       SELECT 
+        id,
+        name,
+        login,
+        email,
+        phone,
+        country_id,        
+        town,
+        address,
+        company,
+        link
+
        FROM forum_user u 
-       WHERE (u.login=? OR u.email=?) AND u.pwd = ?`;
+       WHERE (login=? OR email=?) AND pwd = ?`;
     const result = await q({
       query: querySql,
       values: [login, login, req.body.password],
@@ -64,10 +75,7 @@ export default async function handler(req, res) {
       // -------------- END add cookies like in last project in PHP  --------------
 
       res.status(200).json({ ...user });
-    } else
-      res.status(400).json({
-        message: `There is no such user ${login}. Sorry`,
-      });
+    } else res.status(200).json(null);
   } catch (error) {
     // unhide to check error
     res.status(500).json({ ...error });

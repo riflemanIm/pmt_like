@@ -9,22 +9,26 @@ import { useUserStateDispatch } from "../src/context/UserContext";
 
 export default function SignIn({ menu }) {
   const {
-    userState: { isAuthenticated },
+    userState: { isAuthenticated, user },
   } = useUserStateDispatch();
 
   useEffect(() => {
-    //console.log("locale", locale);
-    if (!!isAuthenticated) {
+    //
+    if (!isAuthenticated) {
       Router.push("/");
     }
   }, [isAuthenticated]);
-
+  console.log("user", user);
   return (
     <FullLayout menu={menu} img={img.src}>
       <Typography variant="h1" mb={8}>
         Личный кабинет
       </Typography>
-      <BaseCard>Новости</BaseCard>
+      <BaseCard>
+        Немного позже, здесь будут новости для клиентов, как индивидуальные, так
+        и общие. А пока, весь что есть функционал доступен в меню пользователя
+        (вверху сайта)
+      </BaseCard>
     </FullLayout>
   );
 }

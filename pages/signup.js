@@ -7,7 +7,7 @@ import img from "../assets/images/bg/contact_bg.jpg";
 import SignUpForm from "../src/components/Forms/SignUpForm";
 
 import { useUserStateDispatch } from "../src/context/UserContext";
-import { createUser } from "../src/actions/user";
+import { profile } from "../src/actions/user";
 import useForm from "../src/hooks/useForm";
 import useInterval from "../src/hooks/useInterval";
 import validate from "../src/validation/validationSignUp";
@@ -26,7 +26,7 @@ export default function SignIn({ countries, menu }) {
       ) {
         userDispatch({
           type: "SET_SERVER_RESPONSE",
-          payload: null,
+          payload: { serverResponse: null },
         });
         Router.push("/signup");
       }
@@ -34,7 +34,7 @@ export default function SignIn({ countries, menu }) {
       if (serverResponse === "SUCCESS_CREATE") {
         userDispatch({
           type: "SET_SERVER_RESPONSE",
-          payload: null,
+          payload: { serverResponse: null },
         });
         Router.push("/signin");
       }
@@ -45,8 +45,7 @@ export default function SignIn({ countries, menu }) {
 
   const submit = () => {
     console.log("submit");
-    delete values.repassword;
-    createUser(userDispatch, values);
+    profile(userDispatch, values);
   };
 
   const { values, errors, handleChange, handleSubmit, setValues, setErrors } =
@@ -56,6 +55,11 @@ export default function SignIn({ countries, menu }) {
     //console.log("locale", locale);
     if (isAuthenticated) {
       Router.push("/lk");
+    } else {
+      setValues({
+        ...values,
+        country_id: values.country_id ?? 175,
+      });
     }
   }, [isAuthenticated]);
 
@@ -88,6 +92,5 @@ export async function getServerSideProps() {
   };
   const res = await fetch(`${process.env.API_URL}/countries`, postData);
   const countries = await res.json();
-
   return { props: { countries } };
 }
