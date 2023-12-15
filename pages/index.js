@@ -38,7 +38,7 @@ export default function Solution({ menu }) {
             width: 251px;
             height: 251px;
             border-radius: 100%;
-            background-color: #3b5f77;
+            background-color: #5f5c93;
           `}
           data-aos="fade-up"
           data-aos-duration="1200"
