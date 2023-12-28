@@ -38,14 +38,14 @@ const UserMenu = () => {
     Router.push("/signin");
   };
 
-  //const FRESHDESK_URL_NEW = `https://medialog.myfreshworks.com/sp/OIDC/660463218999657074/implicit?state=medialog&nonce=${user.id}${user.login}&id_token=${user.tokenFD}`;
+  const FRESHDESK_URL_NEW = `https://medialog.myfreshworks.com/sp/OIDC/660463218999657074/implicit?state=medialog&nonce=${user.id}${user.login}&id_token=${user.tokenFD}`;
 
-  const FRESHDESK_SHARED_SECRET = "4263f6dfec25ad582a96975db6698c34";
-  const FRESHDESK_BASE_URL = "http://support.medialog.ru/";
-  const timestamp = Math.floor(Date.now() / 1000);
-  const toBeHashed = `${user.name}${FRESHDESK_SHARED_SECRET}${user.email}${timestamp}`;
-  const hash = md5(toBeHashed, FRESHDESK_SHARED_SECRET);
-  const FRESHDESK_URL = `${FRESHDESK_BASE_URL}login/sso/?name=${user.name}&email=${user.email}&timestamp=${timestamp}&hash=${hash}`;
+  // const FRESHDESK_SHARED_SECRET = "4263f6dfec25ad582a96975db6698c34";
+  // const FRESHDESK_BASE_URL = "http://support.medialog.ru/";
+  // const timestamp = Math.floor(Date.now() / 1000);
+  // const toBeHashed = `${user.name}${FRESHDESK_SHARED_SECRET}${user.email}${timestamp}`;
+  // const hash = md5(toBeHashed, FRESHDESK_SHARED_SECRET);
+  // const FRESHDESK_URL = `${FRESHDESK_BASE_URL}login/sso/?name=${user.name}&email=${user.email}&timestamp=${timestamp}&hash=${hash}`;
 
   return (
     <>
@@ -111,7 +111,7 @@ const UserMenu = () => {
               <ListItemButton
                 color="primary"
                 target="_blank"
-                href={FRESHDESK_URL}
+                href={FRESHDESK_URL_NEW}
               >
                 Поддержка
               </ListItemButton>
