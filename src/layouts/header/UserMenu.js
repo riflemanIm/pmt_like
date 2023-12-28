@@ -98,6 +98,12 @@ const UserMenu = () => {
               <ListItemButton color="primary" href="/generate_rescue_license">
                 Получение аварийной лицензии
               </ListItemButton>
+              <ListItemButton
+                color="primary"
+                href={`https://medialog.myfreshworks.com/login/auth/1703779775100?id_token=${user.tokenFD}`}
+              >
+                Поддержка
+              </ListItemButton>
             </List>
           </Box>
           <Divider />
