@@ -101,7 +101,7 @@ const UserMenu = () => {
               <ListItemButton
                 color="primary"
                 target="_blank"
-                href={`https://support.medialog.ru/login/normal/sp/OIDC/660463218999657074/implicit?state=medialog&nonce=${user.id}${user.login}&id_token=${user.tokenFD}`}
+                href={`https://medialog.myfreshworks.com/login/auth/1703779775100?state=medialog&nonce=${user.id}${user.login}&id_token=${user.tokenFD}`}
               >
                 Поддержка
               </ListItemButton>
