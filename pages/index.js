@@ -654,7 +654,7 @@ export async function getServerSideProps(context) {
     };
 
     const privateKey =
-      "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2afgN52RvKYLyL+MF5FLBF09ql0wZW/qZ1Hc3IajHzY0dp9U4eN34G3KY1xIPZTE55ml9UkhkkoL+U1kEBkHTC0hgwi9Z9Tn6f+VPyHodR/BuslzUq2D1QGtEsJN4TNBEhgqNhvdByYUT5XCDr+g3Z6DPg63TrvUKI90yUO4MZVEiBjxXuzfRtpjfLqox3W4/TI5x9LG8gGduN4AE3rRRQRobwtaQ8I6qx/gb5CncPUf7OVli8BTYVT3g7twgzUg12+3P3EoBcbskKg7KnES8QJMwq5NULGSxMFV7u8oaipP6EjCcaBLRtieYxXOvHq9H7xgsyTnd/pBEDUyGmMscQIDAQAB";
+      "MIICWwIBAAKBgHJEOz9lQuYIELVlmS+uHqNqQrC06RLpuifxAy8Fun7jWMQCdDMdMmSBo1SaDzKEC0kWpzF0L7Ft3epcS7/GsgqhUGrsknEdz9TybY7bUmm6g5sTHkhuNbu6caI3JIX325jthNGtpJDA7lbZAG8HnrlyIs1O28KuR2cSDb36/s9VAgMBAAECgYBDj34sbJXSZoBikHCzVVL+Mgy+aCjKqvELPqAwREXRUmCgfAbyVdf+vvuwQOqtZo85prAyOE0eriQgtnN/L18CyagGiYX/Jmx5rMTCh1cQaR6oSdVgHubxr6/P84JYVwYjEv0yhD7+GNB6fkYOpBYEDs3z+XSE1YPg54a+MejI3QJBALBTJEETigPKycqOqDzpZMWPjoxjbAbScS8Gc6+Unoa8x/1+0wNFSJKmlN09YUa0PgPkNkFEv5gj0yrfeGGNAEMCQQCl5lR5X9V+Ab1XYfYICHIGPFzA/UVhmZthCl7mrqwPImjWEiC4P9UJBZIRN3MjSnLxO+H+8/VuLJK80/lyeOSHAkBPa3OF+FYO9TVFDlKK9RlVvx6W72VGAV3Hr6FF8awhxkBSVuCWtYtFutCMgkwhe6f/OriRV3TxAxnnUra3QbpfAkBO6JNdd9vQJ3uryIiBoaK6nJNxqAYMOkfRjGE/T+2+9RrwV4cAnDv0IpYrYjh9nLe3TkhcQCWI1eKlth17+UyZAkEAkP5Qud0Wk78cXSqzvANQ1ErUNkWn8iCEUclqCMsK+71Qx1HMHavsZ1NaOZnxcjoXhEyT0jmELHRFK4xv1QpRJQ==";
     const id_token = sign(payload, privateKey);
     const redirectUrl = `${query.redirect_uri}?state=${query.state}&nonce=${query.nonce}&id_token=${id_token}`;
 
