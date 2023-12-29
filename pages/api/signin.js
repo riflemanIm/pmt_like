@@ -75,7 +75,8 @@ export default async function handler(req, res) {
 
       const payload = {
         sub: user.login,
-        nonce: `${user.id}${user.login}`,
+        nonce: `KcfD9hxPwCb9TmBI`,
+        state: "medialog",
         given_name: user.name.split(" ")[0],
         family_name: user.name.split(" ")[1],
         email: user.email,
