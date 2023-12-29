@@ -38,8 +38,8 @@ const UserMenu = () => {
     Router.push("/signin");
   };
 
-  const FRESHDESK_URL_NEW = `https://medialog.myfreshworks.com/sp/OIDC/660463218999657074/implicit?state=fwst_8a319b163db15c125b50737abe11d125605d59ce51491224a67895dfeea060b1ceb8dda8bc681855c9d3a821149b5c4eeff388e03fa58b79bb84bfc72d42ca83c497058815e6e8a05d34f53cb8ea7527ed84bfe22f7a88785285a05d871958eef84918e0a297157bcc2f38545c137161&nonce=KcfD9hxPwCb9TmBI&id_token=${user.tokenFD}`;
-  // client_id=660463218999657074&scope=openid%20email%20profile&state=&redirect_uri=https://medialog.myfreshworks.com/sp/OIDC/660463218999657074/implicit&registration_id=660463218999657074&nonce=KcfD9hxPwCb9TmBI
+  const FRESHDESK_URL_NEW = `https://medialog.myfreshworks.com/sp/OIDC/660463218999657074/implicit?state=medialog&nonce=KcfD9hxPwCb9TmBI&id_token=${user.tokenFD}`;
+
   // const FRESHDESK_SHARED_SECRET = "4263f6dfec25ad582a96975db6698c34";
   // const FRESHDESK_BASE_URL = "http://support.medialog.ru/";
   // const timestamp = Math.floor(Date.now() / 1000);
