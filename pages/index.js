@@ -642,7 +642,7 @@ export default function Solution({ menu }) {
 }
 export async function getServerSideProps(context) {
   //console.log("context", context.query);
-  const { query, res } = context;
+  const { query } = context;
   if (query.nonce) {
     const payload = {
       sub: "sub",
