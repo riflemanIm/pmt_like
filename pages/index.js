@@ -10,6 +10,7 @@ import BaseCard from "../src/components/baseCard/BaseCard";
 import img from "../assets/images/bg/bg25.jpg";
 import { css } from "@emotion/css";
 import { useMediaQuery } from "@mui/material";
+import { sign } from "jsonwebtoken";
 
 const Accordion = styled((props) => (
   <MuiAccordion elevation={0} square {...props} />
@@ -639,17 +640,32 @@ export default function Solution({ menu }) {
     </FullLayout>
   );
 }
-// export async function getServerSideProps(context) {
-//   const locale = context.locale;
-//   const postData1 = {
-//     method: "Post",
-//     headers: { "Content-Type": "application/json" },
-//     body: JSON.stringify({
-//       locale,
-//     }),
-//   };
-//   const res = await fetch(`${process.env.API_URL}/menu`, postData1);
-//   const menu = await res.json();
+export async function getServerSideProps(context) {
+  //console.log("context", context.query);
+  const { query, res } = context;
+  if (query.nonce) {
+    const payload = {
+      sub: "sub",
+      nonce: query.nonce,
+      state: query.nonce,
+      given_name: "given_name",
+      family_name: "family_name",
+      email: "support@medialog.ru",
+    };
 
-//   return { props: { menu } };
-// }
+    const privateKey =
+      "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2afgN52RvKYLyL+MF5FLBF09ql0wZW/qZ1Hc3IajHzY0dp9U4eN34G3KY1xIPZTE55ml9UkhkkoL+U1kEBkHTC0hgwi9Z9Tn6f+VPyHodR/BuslzUq2D1QGtEsJN4TNBEhgqNhvdByYUT5XCDr+g3Z6DPg63TrvUKI90yUO4MZVEiBjxXuzfRtpjfLqox3W4/TI5x9LG8gGduN4AE3rRRQRobwtaQ8I6qx/gb5CncPUf7OVli8BTYVT3g7twgzUg12+3P3EoBcbskKg7KnES8QJMwq5NULGSxMFV7u8oaipP6EjCcaBLRtieYxXOvHq9H7xgsyTnd/pBEDUyGmMscQIDAQAB";
+    const id_token = sign(payload, privateKey);
+    //console.log("res", res);
+    const redirectUrl = `${query.redirect_uri}?state=${query.state}&nonce=${query.nonce}&id_token=${id_token}`;
+    // res.redirect(redirectUrl);
+    return {
+      redirect: {
+        permanent: false,
+        destination: redirectUrl,
+      },
+    };
+  }
+
+  return { props: { ok: "ok" } };
+}
