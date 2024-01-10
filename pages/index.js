@@ -652,19 +652,23 @@ export async function getServerSideProps(context) {
       email: "osipchuk@postmodern.ru",
     };
 
-    const privateKey = fs.readFileSync("./data/jwtRS256.key");
-    const id_token = sign(payload, privateKey, {
-      expiresIn: "6h",
-      algorithm: "RS256",
-    });
-    const redirectUrl = `${query.redirect_uri}?state=${query.state}&nonce=${query.nonce}&id_token=${id_token}&client_id=${query.client_id}`;
+    try {
+      const privateKey = fs.readFileSync("./data/jwtRS256.key");
+      const id_token = sign(payload, privateKey, {
+        expiresIn: "6h",
+        algorithm: "RS256",
+      });
+      const redirectUrl = `${query.redirect_uri}?state=${query.state}&nonce=${query.nonce}&id_token=${id_token}&client_id=${query.client_id}`;
 
-    return {
-      redirect: {
-        permanent: false,
-        destination: redirectUrl,
-      },
-    };
+      return {
+        redirect: {
+          permanent: false,
+          destination: redirectUrl,
+        },
+      };
+    } catch (error) {
+      console.log("error", error);
+    }
   }
 
   return { props: { ok: "ok" } };
