@@ -646,11 +646,10 @@ export async function getServerSideProps(context) {
   const { query } = context;
   if (query.nonce) {
     const toDate = new Date().getTime();
-    console.log("query", query);
     const payload = {
       sub: toDate,
       nonce: query.nonce,
-      email: query.email,
+      email: "fidrovskaya@postmodern.ru",
     };
 
     const privateKey = fs.readFileSync("./data/private.pem");
@@ -658,7 +657,7 @@ export async function getServerSideProps(context) {
       expiresIn: "6h",
       algorithm: "RS256",
     });
-    const redirectUrl = `${query.redirect_uri}?state=${query.state}&nonce=${query.nonce}&id_token=${id_token}`;
+    const redirectUrl = `${query.redirect_uri}?state=${query.state}&nonce=${query.nonce}&id_token=${id_token}&client_id=${query.client_id}`;
 
     return {
       redirect: {
