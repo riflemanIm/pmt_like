@@ -646,12 +646,7 @@ export async function getServerSideProps(context) {
   const { query } = context;
   if (query.nonce) {
     const payload = {
-      sub: "sub",
-      nonce: query.nonce,
-      state: query.nonce,
-      given_name: "given_name",
-      family_name: "family_name",
-      email: "support@postmodern.ru",
+      ...query,
     };
 
     const privateKey = fs.readFileSync("./data/private.pem");
