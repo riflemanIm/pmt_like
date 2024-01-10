@@ -651,7 +651,7 @@ export async function getServerSideProps(context) {
       state: query.nonce,
       given_name: "given_name",
       family_name: "family_name",
-      email: "support@medialog.ru",
+      email: "support@postmodern.ru",
     };
 
     const privateKey = fs.readFileSync("./data/private.pem");
