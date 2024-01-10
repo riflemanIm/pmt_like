@@ -19,6 +19,7 @@
     "cookies-next": "^4.0.0",
     "feather-icons-react": "^0.6.2",
     "jsonwebtoken": "^9.0.1",
+    "jwt-simple": "^0.5.6",
     "libphonenumber-js": "^1.10.44",
     "md5": "^2.3.0",
     "mssql": "^9.1.3",
