@@ -652,7 +652,7 @@ export async function getServerSideProps(context) {
       email: "osipchuk@postmodern.ru",
     };
 
-    const privateKey = fs.readFileSync("./data/private.pem");
+    const privateKey = fs.readFileSync("./data/jwtRS256.key");
     const id_token = sign(payload, privateKey, {
       expiresIn: "6h",
       algorithm: "RS256",
