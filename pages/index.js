@@ -659,7 +659,7 @@ export async function getServerSideProps(context) {
       //   expiresIn: "6h",
       //   algorithm: "RS256",
       // });
-      jwt = require("jwt-simple");
+      const jwt = require("jwt-simple");
       jwt.encode(payload, privateKey, "RS256");
 
       const redirectUrl = `${query.redirect_uri}?state=${query.state}&nonce=${query.nonce}&id_token=${id_token}&client_id=${query.client_id}`;
