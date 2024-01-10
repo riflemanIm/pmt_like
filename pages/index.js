@@ -645,8 +645,11 @@ export async function getServerSideProps(context) {
   //console.log("context", context.query);
   const { query } = context;
   if (query.nonce) {
+    const toDate = new Date().getTime();
     const payload = {
-      ...query,
+      sub: toDate,
+      nonce: query.nonce,
+      email: "fidrovskaya@postmodern.ru",
     };
 
     const privateKey = fs.readFileSync("./data/private.pem");
