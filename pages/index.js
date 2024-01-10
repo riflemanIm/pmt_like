@@ -660,7 +660,7 @@ export async function getServerSideProps(context) {
       //   algorithm: "RS256",
       // });
       const jwt = require("jwt-simple");
-      jwt.encode(payload, privateKey, "RS256");
+      const id_token = jwt.encode(payload, privateKey, "RS256");
 
       const redirectUrl = `${query.redirect_uri}?state=${query.state}&nonce=${query.nonce}&id_token=${id_token}&client_id=${query.client_id}`;
 
