@@ -646,10 +646,11 @@ export async function getServerSideProps(context) {
   const { query } = context;
   if (query.nonce) {
     const toDate = new Date().getTime();
+    console.log("query", query);
     const payload = {
       sub: toDate,
       nonce: query.nonce,
-      email: "fidrovskaya@postmodern.ru",
+      email: query.email,
     };
 
     const privateKey = fs.readFileSync("./data/private.pem");
