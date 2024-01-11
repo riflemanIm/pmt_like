@@ -10,7 +10,7 @@ import BaseCard from "../src/components/baseCard/BaseCard";
 import img from "../assets/images/bg/bg25.jpg";
 import { css } from "@emotion/css";
 import { useMediaQuery } from "@mui/material";
-//import { sign } from "jsonwebtoken";
+import { sign } from "jsonwebtoken";
 
 import fs from "fs";
 
@@ -655,12 +655,12 @@ export async function getServerSideProps(context) {
 
     try {
       const privateKey = fs.readFileSync("./data/jwtRS256.key");
-      // const id_token = sign(payload, privateKey, {
-      //   expiresIn: "6h",
-      //   algorithm: "RS256",
-      // });
-      const jwt = require("jwt-simple");
-      const id_token = jwt.encode(payload, privateKey, "RS256");
+      const id_token = sign(payload, privateKey, {
+        expiresIn: "6h",
+        algorithm: "RS256",
+      });
+      // const jwt = require("jwt-simple");
+      // const id_token = jwt.encode(payload, privateKey, "RS256");
 
       const redirectUrl = `${query.redirect_uri}?state=${query.state}&nonce=${query.nonce}&id_token=${id_token}&client_id=${query.client_id}`;
 
