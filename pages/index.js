@@ -656,7 +656,7 @@ export async function getServerSideProps(context) {
     };
 
     try {
-      const privateKey = fs.readFileSync("./data/jwtRS256.key");
+      const privateKey = fs.readFileSync("./data/private.key");
       const id_token = sign(payload, privateKey, {
         expiresIn: "6h",
         algorithm: "RS256",
