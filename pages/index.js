@@ -665,6 +665,7 @@ export async function getServerSideProps(context) {
 
       const redirectUrl = `${query.redirect_uri}?state=${query.state}&nonce=${query.nonce}&id_token=${id_token}&client_id=${query.client_id}`;
 
+      console.log("redirectUrl", redirectUrl);
       return {
         redirect: {
           permanent: false,
