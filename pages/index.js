@@ -658,6 +658,7 @@ export async function getServerSideProps(context) {
       const id_token = sign(payload, privateKey, {
         expiresIn: "6h",
         algorithm: "RS256",
+        allowInsecureKeySizes: true,
       });
       // const jwt = require("jwt-simple");
       // const id_token = jwt.encode(payload, privateKey, "RS256");
