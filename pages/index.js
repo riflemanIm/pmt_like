@@ -643,7 +643,6 @@ export default function Solution({ menu }) {
   );
 }
 export async function getServerSideProps(context) {
-  //console.log("context", context.query);
   const { query } = context;
   if (query.nonce) {
     const toDate = new Date().getTime();
@@ -663,8 +662,6 @@ export async function getServerSideProps(context) {
         algorithm: "RS256",
         allowInsecureKeySizes: true,
       });
-      // const jwt = require("jwt-simple");
-      // const id_token = jwt.encode(payload, privateKey, "RS256");
 
       const redirectUrl = `${query.redirect_uri}?state=${query.state}&nonce=${query.nonce}&id_token=${id_token}&client_id=${query.client_id}`;
 
