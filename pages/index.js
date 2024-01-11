@@ -646,11 +646,14 @@ export async function getServerSideProps(context) {
   //console.log("context", context.query);
   const { query } = context;
   if (query.nonce) {
-    const toDate = new Date().getTime();
+    //const toDate = new Date().getTime();
     const payload = {
-      sub: toDate,
+      sub: 4799,
       nonce: query.nonce,
       email: "osipchuk@postmodern.ru",
+      given_name: "firstname",
+      family_name: "lastname",
+      company: "organization",
     };
 
     try {
