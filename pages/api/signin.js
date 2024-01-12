@@ -3,8 +3,6 @@ import isEmpty, { getParam } from "../../src/helpers";
 import { sign } from "jsonwebtoken";
 // import { setCookie } from "cookies-next";
 // import md5 from "md5";
-import fs from "fs";
-import axios from "axios";
 
 export default async function handler(req, res) {
   //const route = req.body.route;
@@ -38,7 +36,7 @@ export default async function handler(req, res) {
     if (!isEmpty(user)) {
       // Create token
       const token = sign(user, process.env.TOKEN_KEY, {
-        expiresIn: "360d",
+        expiresIn: "3d",
       });
 
       // save user token
@@ -74,59 +72,9 @@ export default async function handler(req, res) {
       //   maxAge: cookieExpiresIn,
       // });
       // // -------------- END add cookies like in last project in PHP  --------------
-
-      const authClientUrl =
-        "https://medialog.freshdesk.com/freshid/customer_authorize_callback?hd=support.medialog.ru";
-      try {
-        let qqq = await axios.get(authClientUrl);
-        if (!qqq.request.res.responseUrl) {
-          throw new Error("responseUrl in empty");
-        }
-        qqq = await axios.get(qqq.request.res.responseUrl);
-        if (!qqq.request.res.responseUrl) {
-          throw new Error("responseUrl in empty");
-        }
-
-        console.log("qqq.request", qqq.request.res);
-        const queryString = qqq.request.res.responseUrl.split("?")[1];
-        const nonce = getParam(queryString, "nonce");
-        const state = getParam(queryString, "state");
-
-        const client_id = getParam(queryString, "client_id");
-        //const redirect_uri = getParam(queryString, "redirect_uri");
-
-        if (!nonce || !state) {
-          throw new Error("nonce && state in empty");
-        }
-
-        // const toDate = new Date().getTime();
-        // const payload = {
-        //   sub: user.id,
-        //   iat: toDate,
-        //   nonce: nonce,
-        //   email: user.email,
-        //   name: user.name,
-        // };
-
-        //try {
-        // const privateKey = fs.readFileSync("./data/jwtRS256.key");
-        // const id_token = sign(payload, privateKey, {
-        //   expiresIn: "6h",
-        //   algorithm: "RS256",
-        //   allowInsecureKeySizes: true,
-        // });
-        // //https://awesomecompany.com/sso/jwt/login?client_id=a13v13&state=hgdg43567&nonce=1545894408&grant_type=implicit&scope=profile
-
-        const redirectUrl = `https://postmodern.ru?state=${state}&nonce=${nonce}&id_token=&client_id=${client_id}`;
-
-        console.log("redirectUrl", redirectUrl);
-        res.status(200).json({ ...user, redirectUrl });
-        // } catch (error) {
-        //   console.log("error", error);
-        // }
-      } catch (error) {
-        console.log("getServerSideProps error", error);
-      }
+      const storage = require("node-sessionstorage");
+      storage.setItem("user", JSON.stringify(user));
+      res.status(200).json(user);
     } else res.status(200).json(null);
   } catch (error) {
     // unhide to check error

@@ -645,20 +645,27 @@ export default function Solution({ menu }) {
 }
 export async function getServerSideProps(context) {
   const { query } = context;
-  if (query.nonce) {
+  const storage = require("node-sessionstorage");
+  const strUser = storage.getItem("user");
+  console.log("strUser", strUser);
+  if (strUser == null) return { props: {} };
+  const user = JSON.parse(strUser);
+
+  if (query.nonce && user.email) {
     const toDate = new Date().getTime();
+
     const payload = {
-      sub: "4799",
+      sub: `${user.id}`,
       iat: toDate,
       nonce: query.nonce,
-      email: "osipchuk@postmodern.ru",
-      name: "Илья Осипчук",
+      email: user.email,
+      name: user.name,
     };
 
     try {
       const privateKey = fs.readFileSync("./data/jwtRS256.key");
       const id_token = sign(payload, privateKey, {
-        expiresIn: "6h",
+        expiresIn: "3d",
         algorithm: "RS256",
         allowInsecureKeySizes: true,
       });

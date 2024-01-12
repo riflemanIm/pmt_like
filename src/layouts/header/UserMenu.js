@@ -112,7 +112,7 @@ const UserMenu = () => {
               <ListItemButton
                 color="primary"
                 target="_blank"
-                href={user.redirectUrl}
+                href={FRESHDESK_URL_NEW}
               >
                 Поддержка
               </ListItemButton>
