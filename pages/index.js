@@ -663,7 +663,7 @@ export async function getServerSideProps(context) {
         allowInsecureKeySizes: true,
       });
 
-      const redirectUrl = `${query.redirect_uri}?state=${query.state}&nonce=${query.nonce}&id_token=${id_token}&client_id=${query.client_id}`;
+      const redirectUrl = `https://medialog.myfreshworks.com/sp/OIDC/660514868944331049/implicit?state=${query.state}&nonce=${query.nonce}&id_token=${id_token}&client_id=${query.client_id}`;
 
       //console.log("redirectUrl", redirectUrl);
       return {
