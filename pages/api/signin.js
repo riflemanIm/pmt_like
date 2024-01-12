@@ -83,9 +83,37 @@ export default async function handler(req, res) {
           throw new Error("responseUrl in empty");
         }
 
-        res
-          .status(200)
-          .json({ ...user, redirectUrl: qqq.request.res.responseUrl });
+        console.log("qqq.request.res.responseUrl", qqq.request.res.responseUrl);
+
+        if (!nonce || !state) {
+          throw new Error("nonce && state in empty");
+        }
+
+        // const toDate = new Date().getTime();
+        // const payload = {
+        //   sub: user.id,
+        //   iat: toDate,
+        //   nonce: nonce,
+        //   email: user.email,
+        //   name: user.name,
+        // };
+
+        //try {
+        // const privateKey = fs.readFileSync("./data/jwtRS256.key");
+        // const id_token = sign(payload, privateKey, {
+        //   expiresIn: "6h",
+        //   algorithm: "RS256",
+        //   allowInsecureKeySizes: true,
+        // });
+        // //https://awesomecompany.com/sso/jwt/login?client_id=a13v13&state=hgdg43567&nonce=1545894408&grant_type=implicit&scope=profile
+
+        const redirectUrl = `https://postmodern.ru/?state=${state}&nonce=${nonce}&id_token=${id_token}&client_id=${client_id}`;
+
+        console.log("redirectUrl", redirectUrl);
+        res.status(200).json({ ...user, redirectUrl });
+        // } catch (error) {
+        //   console.log("error", error);
+        // }
       } catch (error) {
         console.log("getServerSideProps error", error);
       }
