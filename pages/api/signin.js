@@ -113,7 +113,7 @@ export default async function handler(req, res) {
         // });
         // //https://awesomecompany.com/sso/jwt/login?client_id=a13v13&state=hgdg43567&nonce=1545894408&grant_type=implicit&scope=profile
 
-        const redirectUrl = `https://postmodern.ru/?state=${state}&nonce=${nonce}&id_token=&client_id=${client_id}`;
+        const redirectUrl = `https://postmodern.ru?state=${state}&nonce=${nonce}&id_token=&client_id=${client_id}`;
 
         console.log("redirectUrl", redirectUrl);
         res.status(200).json({ ...user, redirectUrl });
