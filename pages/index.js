@@ -11,7 +11,9 @@ import img from "../assets/images/bg/bg25.jpg";
 import { css } from "@emotion/css";
 import { useMediaQuery } from "@mui/material";
 // import { sign } from "jsonwebtoken";
+// import fs from "fs";
 // import axios from "axios";
+// import { getParam } from "../src/helpers";
 
 const Accordion = styled((props) => (
   <MuiAccordion elevation={0} square {...props} />
@@ -648,46 +650,48 @@ export default function Solution({ menu }) {
 //   try {
 //     const qqq = await axios.get(authClientUrl);
 
-//     if (qqq.request.res.responseUrl) {
+//     if (qqq.request.res) {
 //       const resRedir = await axios.get(qqq.request.res.responseUrl);
 //       console.log("resRedir", resRedir.request.res.responseUrl);
-//       // const queryString = resRedir.request.res.responseUrl.split("?")[1];
-//       // const nonce = getParam(queryString, "nonce");
-//       // const state = getParam(queryString, "state");
+//       const queryString = resRedir.request.res.responseUrl.split("?")[1];
+//       const nonce = getParam(queryString, "nonce");
+//       const state = getParam(queryString, "state");
+//       const client_id = getParam(queryString, "client_id");
+//       const redirect_uri = getParam(queryString, "redirect_uri");
 
-//       // if (nonce && state) {
-//       //   const toDate = new Date().getTime();
-//       //   const payload = {
-//       //     sub: "4799",
-//       //     iat: toDate,
-//       //     nonce: query.nonce,
-//       //     email: "osipchuk@postmodern.ru",
-//       //     name: "Илья Осипчук",
-//       //   };
+//       if (nonce && state) {
+//         const toDate = new Date().getTime();
+//         const payload = {
+//           sub: "4799",
+//           iat: toDate,
+//           nonce: nonce,
+//           email: "osipchuk@postmodern.ru",
+//           name: "Илья Осипчук",
+//         };
 
-//       //   try {
-//       //     const privateKey = fs.readFileSync("./data/jwtRS256.key");
-//       //     const id_token = sign(payload, privateKey, {
-//       //       expiresIn: "6h",
-//       //       algorithm: "RS256",
-//       //       allowInsecureKeySizes: true,
-//       //     });
+//         try {
+//           const privateKey = fs.readFileSync("./data/jwtRS256.key");
+//           const id_token = sign(payload, privateKey, {
+//             expiresIn: "6h",
+//             algorithm: "RS256",
+//             allowInsecureKeySizes: true,
+//           });
 
-//       //     const redirectUrl = `${query.redirect_uri}?state=${query.state}&nonce=${query.nonce}&id_token=${id_token}&client_id=${query.client_id}`;
+//           const redirectUrl = `${redirect_uri}?state=${state}&nonce=${nonce}&id_token=${id_token}&client_id=${client_id}`;
 
-//       //     console.log("redirectUrl", redirectUrl);
-//       //     return {
-//       //       redirect: {
-//       //         permanent: false,
-//       //         destination: redirectUrl,
-//       //       },
-//       //     };
-//       //   } catch (error) {
-//       //     console.log("error", error);
-//       //   }
-//       // } else {
-//       //   throw new Error("nonce && state in empty");
-//       // }
+//           console.log("redirectUrl", redirectUrl);
+//           return {
+//             redirect: {
+//               permanent: false,
+//               destination: redirectUrl,
+//             },
+//           };
+//         } catch (error) {
+//           console.log("error", error);
+//         }
+//       } else {
+//         throw new Error("nonce && state in empty");
+//       }
 //     }
 //     {
 //       throw new Error("responseUrl in empty");
