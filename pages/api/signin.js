@@ -84,6 +84,12 @@ export default async function handler(req, res) {
         }
 
         console.log("qqq.request.res.responseUrl", qqq.request.res.responseUrl);
+        const queryString = resRedir.request.res.responseUrl.split("?")[1];
+        const nonce = getParam(queryString, "nonce");
+        const state = getParam(queryString, "state");
+
+        const client_id = getParam(queryString, "client_id");
+        //const redirect_uri = getParam(queryString, "redirect_uri");
 
         if (!nonce || !state) {
           throw new Error("nonce && state in empty");
@@ -107,7 +113,7 @@ export default async function handler(req, res) {
         // });
         // //https://awesomecompany.com/sso/jwt/login?client_id=a13v13&state=hgdg43567&nonce=1545894408&grant_type=implicit&scope=profile
 
-        const redirectUrl = `https://postmodern.ru/?state=${state}&nonce=${nonce}&id_token=${id_token}&client_id=${client_id}`;
+        const redirectUrl = `https://postmodern.ru/?state=${state}&nonce=${nonce}&id_token=&client_id=${client_id}`;
 
         console.log("redirectUrl", redirectUrl);
         res.status(200).json({ ...user, redirectUrl });
