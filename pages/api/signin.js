@@ -79,45 +79,47 @@ export default async function handler(req, res) {
         "https://medialog.myfreshworks.com/login/auth/1703779775100?client_id=451979510707337272&redirect_uri=https%3A%2F%2Fmedialog.freshdesk.com%2Ffreshid%2Fcustomer_authorize_callback%3Fhd%3Dsupport.medialog.ru";
       try {
         const qqq = await axios.get(authClientUrl);
-        if (qqq.request.res.responseUrl) {
-          const queryString = qqq.request.res.responseUrl.split("?")[1];
-          const nonce = getParam(queryString, "nonce");
-          const state = getParam(queryString, "state");
-          const client_id = getParam(queryString, "client_id");
-          const redirect_uri =
-            getParam(queryString, "redirect_uri") ??
-            "https://medialog.myfreshworks.com/sp/OIDC/660463218999657074/implicit";
-          if (nonce && state) {
-            const toDate = new Date().getTime();
-            const payload = {
-              sub: user.id,
-              iat: toDate,
-              nonce: nonce,
-              email: user.email,
-              name: user.name,
-            };
-
-            try {
-              const privateKey = fs.readFileSync("./data/jwtRS256.key");
-              const id_token = sign(payload, privateKey, {
-                expiresIn: "6h",
-                algorithm: "RS256",
-                allowInsecureKeySizes: true,
-              });
-
-              const redirectUrl = `${redirect_uri}?state=${state}&nonce=${nonce}&id_token=${id_token}&client_id=${client_id}`;
-
-              console.log("redirectUrl", redirectUrl);
-              res.status(200).json({ ...user, redirectUrl });
-            } catch (error) {
-              console.log("error", error);
-            }
-          } else {
-            throw new Error("nonce && state in empty");
-          }
-        }
-        {
+        if (!qqq.request.res.responseUrl) {
           throw new Error("responseUrl in empty");
+        }
+        const resRedir = await axios.get(qqq.request.res.responseUrl);
+        if (!qqq.request.res.responseUrl) {
+          throw new Error("resurlt Redirect responseUrl in empty");
+        }
+
+        const queryString = resRedir.request.res.responseUrl.split("?")[1];
+        const nonce = getParam(queryString, "nonce");
+        const state = getParam(queryString, "state");
+        const client_id = getParam(queryString, "client_id");
+        const redirect_uri = getParam(queryString, "redirect_uri");
+
+        if (!nonce || !state) {
+          throw new Error("nonce && state in empty");
+        }
+
+        const toDate = new Date().getTime();
+        const payload = {
+          sub: user.id,
+          iat: toDate,
+          nonce: nonce,
+          email: user.email,
+          name: user.name,
+        };
+
+        try {
+          const privateKey = fs.readFileSync("./data/jwtRS256.key");
+          const id_token = sign(payload, privateKey, {
+            expiresIn: "6h",
+            algorithm: "RS256",
+            allowInsecureKeySizes: true,
+          });
+
+          const redirectUrl = `${redirect_uri}?state=${state}&nonce=${nonce}&id_token=${id_token}&client_id=${client_id}`;
+
+          console.log("redirectUrl", redirectUrl);
+          res.status(200).json({ ...user, redirectUrl });
+        } catch (error) {
+          console.log("error", error);
         }
       } catch (error) {
         console.log("getServerSideProps error", error);

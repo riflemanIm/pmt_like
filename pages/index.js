@@ -10,6 +10,8 @@ import BaseCard from "../src/components/baseCard/BaseCard";
 import img from "../assets/images/bg/bg25.jpg";
 import { css } from "@emotion/css";
 import { useMediaQuery } from "@mui/material";
+// import { sign } from "jsonwebtoken";
+// import axios from "axios";
 
 const Accordion = styled((props) => (
   <MuiAccordion elevation={0} square {...props} />
@@ -639,3 +641,60 @@ export default function Solution({ menu }) {
     </FullLayout>
   );
 }
+// export async function getServerSideProps(context) {
+//   const { query } = context;
+//   const authClientUrl =
+//     "https://medialog.myfreshworks.com/login/auth/1703779775100?client_id=451979510707337272&redirect_uri=https%3A%2F%2Fmedialog.freshdesk.com%2Ffreshid%2Fcustomer_authorize_callback%3Fhd%3Dsupport.medialog.ru";
+//   try {
+//     const qqq = await axios.get(authClientUrl);
+
+//     if (qqq.request.res.responseUrl) {
+//       const resRedir = await axios.get(qqq.request.res.responseUrl);
+//       console.log("resRedir", resRedir.request.res.responseUrl);
+//       // const queryString = resRedir.request.res.responseUrl.split("?")[1];
+//       // const nonce = getParam(queryString, "nonce");
+//       // const state = getParam(queryString, "state");
+
+//       // if (nonce && state) {
+//       //   const toDate = new Date().getTime();
+//       //   const payload = {
+//       //     sub: "4799",
+//       //     iat: toDate,
+//       //     nonce: query.nonce,
+//       //     email: "osipchuk@postmodern.ru",
+//       //     name: "Илья Осипчук",
+//       //   };
+
+//       //   try {
+//       //     const privateKey = fs.readFileSync("./data/jwtRS256.key");
+//       //     const id_token = sign(payload, privateKey, {
+//       //       expiresIn: "6h",
+//       //       algorithm: "RS256",
+//       //       allowInsecureKeySizes: true,
+//       //     });
+
+//       //     const redirectUrl = `${query.redirect_uri}?state=${query.state}&nonce=${query.nonce}&id_token=${id_token}&client_id=${query.client_id}`;
+
+//       //     console.log("redirectUrl", redirectUrl);
+//       //     return {
+//       //       redirect: {
+//       //         permanent: false,
+//       //         destination: redirectUrl,
+//       //       },
+//       //     };
+//       //   } catch (error) {
+//       //     console.log("error", error);
+//       //   }
+//       // } else {
+//       //   throw new Error("nonce && state in empty");
+//       // }
+//     }
+//     {
+//       throw new Error("responseUrl in empty");
+//     }
+//   } catch (error) {
+//     console.log("getServerSideProps error", error);
+//   }
+
+//   return { props: { ok: "ok" } };
+// }
