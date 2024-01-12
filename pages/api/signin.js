@@ -86,6 +86,10 @@ export default async function handler(req, res) {
         if (!resRedir.request.res.responseUrl) {
           throw new Error("resurlt Redirect responseUrl in empty");
         }
+        console.log(
+          "resRedir.request.res.responseUrl",
+          resRedir.request.res.responseUrl
+        );
         res
           .status(200)
           .json({ ...user, redirectUrl: resRedir.request.res.responseUrl });
