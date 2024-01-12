@@ -1,7 +1,7 @@
 import { q } from "../../src/lib/db";
 import isEmpty, { getParam } from "../../src/helpers";
 import { sign } from "jsonwebtoken";
-// import { setCookie } from "cookies-next";
+import { setCookie } from "cookies-next";
 // import md5 from "md5";
 
 export default async function handler(req, res) {
@@ -42,38 +42,13 @@ export default async function handler(req, res) {
       // save user token
       user.token = token;
 
-      // // -------------- add cookies like in last project in  PHP  --------------
-      // // cookie expires time plus year
-      // const cookieExpiresIn =
-      //   new Date().getTime() + 60 * 1000 * 60 * 24 * 30 * 12;
-
-      // // cookie id
-      // const cookie_id = md5(new Date().getTime());
-
-      // // update user
-      // querySql = `
-      //   UPDATE forum_user
-      //   SET timestamp=now(), cookie_id=?
-      //   WHERE id=?`;
-      // await q({
-      //   query: querySql,
-      //   values: [cookie_id, user.id],
-      // });
-
-      // // set cookie
-      // setCookie("cookie_auth_id", cookie_id, {
-      //   req,
-      //   res,
-      //   maxAge: cookieExpiresIn,
-      // });
-      // setCookie("cookie_login", login, {
-      //   req,
-      //   res,
-      //   maxAge: cookieExpiresIn,
-      // });
-      // // -------------- END add cookies like in last project in PHP  --------------
-      const storage = require("node-sessionstorage");
-      storage.setItem("user", JSON.stringify(user));
+      // cookie expires 3d
+      const cookieExpiresIn = new Date().getTime() + 60 * 1000 * 60 * 24 * 3;
+      setCookie("user", JSON.stringify(user), {
+        req,
+        res,
+        maxAge: cookieExpiresIn,
+      });
       res.status(200).json(user);
     } else res.status(200).json(null);
   } catch (error) {

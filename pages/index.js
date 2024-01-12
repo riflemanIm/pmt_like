@@ -645,11 +645,9 @@ export default function Solution({ menu }) {
 }
 export async function getServerSideProps(context) {
   const { query } = context;
-  const storage = require("node-sessionstorage");
-  const strUser = storage.getItem("user");
-  //console.log("strUser", strUser);
-  if (strUser == null) return { props: {} };
-  const user = JSON.parse(strUser);
+
+  if (context.req?.cookies?.user == null) return { props: {} };
+  const user = JSON.parse(context.req?.cookies?.user);
 
   if (query.nonce && user.email) {
     const toDate = new Date().getTime();
