@@ -84,7 +84,7 @@ export default async function handler(req, res) {
         }
 
         console.log("qqq.request.res.responseUrl", qqq.request.res.responseUrl);
-        const queryString = resRedir.request.res.responseUrl.split("?")[1];
+        const queryString = qqq.request.res.responseUrl.split("?")[1];
         const nonce = getParam(queryString, "nonce");
         const state = getParam(queryString, "state");
 
