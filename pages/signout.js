@@ -13,7 +13,7 @@ import { deleteCookie } from "cookies-next";
 
 export default function SignIn({ menu }) {
   const {
-    userState: { loaded, serverResponse, isAuthenticated, user },
+    userState: { isAuthenticated },
     userDispatch,
   } = useUserStateDispatch();
 
