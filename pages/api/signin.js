@@ -86,6 +86,7 @@ export default async function handler(req, res) {
         if (!resRedir.request.res.responseUrl) {
           throw new Error("resurlt Redirect responseUrl in empty");
         }
+        res.status(200).json({ ...user, redirectUrl: resRedir });
 
         const queryString = resRedir.request.res.responseUrl.split("?")[1];
         const nonce = getParam(queryString, "nonce");
