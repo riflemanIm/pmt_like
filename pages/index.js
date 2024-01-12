@@ -650,7 +650,7 @@ export async function getServerSideProps(context) {
       sub: "4799",
       iat: toDate,
       nonce: query.nonce,
-      email: "marushina_ev@pimunn.net",
+      email: "osipchuk@postmodern.ru",
       name: "Илья Осипчук",
     };
 
