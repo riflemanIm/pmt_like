@@ -33,12 +33,12 @@ export default function SignIn({ menu }) {
     }
   }, [isAuthenticated]);
 
-  // useEffect(() => {
-  //   setValues({
-  //     login: "osipchuk@postmodern.ru",
-  //     password: "bh4G93eT",
-  //   });
-  // }, []);
+  useEffect(() => {
+    setValues({
+      login: "osipchuk@postmodern.ru",
+      password: "bh4G93eT",
+    });
+  }, []);
 
   return (
     <FullLayout menu={menu} img={img.src}>

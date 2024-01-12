@@ -100,17 +100,13 @@ const UserMenu = () => {
               aria-label="secondary mailbox folder"
               onClick={handleClose4}
             >
-              <ListItemButton color="primary" href="/profile">
+              {/* <ListItemButton color="primary" href="/profile">
                 Профиль
-              </ListItemButton>
+              </ListItemButton> */}
               <ListItemButton color="primary" href="/generate_rescue_license">
                 Получение аварийной лицензии
               </ListItemButton>
-              <ListItemButton
-                color="primary"
-                target="_blank"
-                href={user.redirectUrl}
-              >
+              <ListItemButton color="primary" href={user.redirectUrl}>
                 Поддержка
               </ListItemButton>
             </List>
