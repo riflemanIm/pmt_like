@@ -76,14 +76,18 @@ export default async function handler(req, res) {
       // // -------------- END add cookies like in last project in PHP  --------------
 
       const authClientUrl =
-        "https://medialog.myfreshworks.com/sp/OIDC/660514868944331049/login?slug=1703779775100&redirect_uri=https%3A%2F%2Fmedialog.freshdesk.com%2Ffreshid%2Fcustomer_authorize_callback%3Fhd%3Dsupport.medialog.ru&client_id=451979510707337272";
+        "https://medialog.freshdesk.com/freshid/customer_authorize_callback?hd=support.medialog.ru";
       try {
         let qqq = await axios.get(authClientUrl);
         if (!qqq.request.res.responseUrl) {
           throw new Error("responseUrl in empty");
         }
+        qqq = await axios.get(qqq.request.res.responseUrl);
+        if (!qqq.request.res.responseUrl) {
+          throw new Error("responseUrl in empty");
+        }
 
-        console.log("qqq.request.res.responseUrl", qqq.request.res.responseUrl);
+        console.log("qqq.request", qqq.request.res);
         const queryString = qqq.request.res.responseUrl.split("?")[1];
         const nonce = getParam(queryString, "nonce");
         const state = getParam(queryString, "state");

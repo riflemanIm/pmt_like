@@ -38,6 +38,9 @@ const UserMenu = () => {
     Router.push("/signin");
   };
 
+  const FRESHDESK_URL_NEW =
+    "https://medialog.myfreshworks.com/login/auth/1703779775100?client_id=451979510707337272&redirect_uri=https%3A%2F%2Fmedialog.freshdesk.com%2Ffreshid%2Fcustomer_authorize_callback%3Fhd%3Dsupport.medialog.ru";
+
   // const FRESHDESK_SHARED_SECRET = "4263f6dfec25ad582a96975db6698c34";
   // const FRESHDESK_BASE_URL = "http://support.medialog.ru/";
   // const timestamp = Math.floor(Date.now() / 1000);
@@ -100,13 +103,17 @@ const UserMenu = () => {
               aria-label="secondary mailbox folder"
               onClick={handleClose4}
             >
-              {/* <ListItemButton color="primary" href="/profile">
+              <ListItemButton color="primary" href="/profile">
                 Профиль
-              </ListItemButton> */}
+              </ListItemButton>
               <ListItemButton color="primary" href="/generate_rescue_license">
                 Получение аварийной лицензии
               </ListItemButton>
-              <ListItemButton color="primary" href={user.redirectUrl}>
+              <ListItemButton
+                color="primary"
+                target="_blank"
+                href={user.redirectUrl}
+              >
                 Поддержка
               </ListItemButton>
             </List>
