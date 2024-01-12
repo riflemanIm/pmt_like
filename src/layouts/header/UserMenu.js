@@ -38,8 +38,6 @@ const UserMenu = () => {
     Router.push("/signin");
   };
 
-  const FRESHDESK_URL_NEW = user.redirectUrl;
-
   // const FRESHDESK_SHARED_SECRET = "4263f6dfec25ad582a96975db6698c34";
   // const FRESHDESK_BASE_URL = "http://support.medialog.ru/";
   // const timestamp = Math.floor(Date.now() / 1000);
@@ -111,7 +109,7 @@ const UserMenu = () => {
               <ListItemButton
                 color="primary"
                 target="_blank"
-                href={FRESHDESK_URL_NEW}
+                href={user.redirectUrl}
               >
                 Поддержка
               </ListItemButton>

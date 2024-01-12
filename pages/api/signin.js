@@ -78,21 +78,22 @@ export default async function handler(req, res) {
       const authClientUrl =
         "https://medialog.myfreshworks.com/login/auth/1703779775100?client_id=451979510707337272&redirect_uri=https%3A%2F%2Fmedialog.freshdesk.com%2Ffreshid%2Fcustomer_authorize_callback%3Fhd%3Dsupport.medialog.ru";
       try {
-        const qqq = await axios.get(authClientUrl);
+        let qqq = await axios.get(authClientUrl);
         if (!qqq.request.res.responseUrl) {
           throw new Error("responseUrl in empty");
         }
-        const resRedir = await axios.get(qqq.request.res.responseUrl);
-        if (!resRedir.request.res.responseUrl) {
+        qqq = await axios.get(qqq.request.res.responseUrl);
+        if (!qqq.request.res.responseUrl) {
           throw new Error("resurlt Redirect responseUrl in empty");
         }
-        console.log(
-          "resRedir.request.res.responseUrl",
-          resRedir.request.res.responseUrl
-        );
+        qqq = await axios.get(qqq.request.res.responseUrl);
+        if (!qqq.request.res.responseUrl) {
+          throw new Error("resurlt Redirect responseUrl in empty");
+        }
+        console.log("qqq.request.res.responseUrl", qqq.request.res.responseUrl);
         res
           .status(200)
-          .json({ ...user, redirectUrl: resRedir.request.res.responseUrl });
+          .json({ ...user, redirectUrl: qqq.request.res.responseUrl });
 
         // const queryString = resRedir.request.res.responseUrl.split("?")[1];
         // const nonce = getParam(queryString, "nonce");
