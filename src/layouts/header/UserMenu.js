@@ -35,7 +35,7 @@ const UserMenu = () => {
       type: "SIGN_OUT_SUCCESS",
       payload: null,
     });
-    Router.push("/signin");
+    Router.push("/signout");
   };
 
   const FRESHDESK_URL_NEW =

@@ -2,14 +2,13 @@ import React, { useEffect } from "react";
 import Router from "next/router";
 import Typography from "@mui/material/Typography";
 import FullLayout from "../src/layouts/FullLayout";
-import BaseCard from "../src/components/baseCard/BaseCard";
 import img from "../assets/images/bg/bg6.jpg";
-import SignInForm from "../src/components/Forms/SignInForm";
-
+import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import { useUserStateDispatch } from "../src/context/UserContext";
 import { loginUser } from "../src/actions/user";
 import useForm from "../src/hooks/useForm";
 import validate from "../src/validation/validationSignIn";
+import { Button } from "@mui/material";
 import { deleteCookie } from "cookies-next";
 
 export default function SignIn({ menu }) {
@@ -34,28 +33,28 @@ export default function SignIn({ menu }) {
     }
   }, [isAuthenticated]);
 
-  useEffect(() => {
-    setValues({
-      login: "osipchuk@postmodern.ru",
-      password: "bh4G93eT",
-    });
-  }, []);
+  // useEffect(() => {
+  //   setValues({
+  //     login: "osipchuk@postmodern.ru",
+  //     password: "bh4G93eT",
+  //   });
+  // }, []);
 
   return (
     <FullLayout menu={menu} img={img.src}>
       <Typography variant="h1" mb={8}>
-        Вход для пользователя
+        Вы вышли из системы
       </Typography>
-      <BaseCard>
-        <SignInForm
-          values={values}
-          errors={errors}
-          serverResponse={serverResponse}
-          handleChange={handleChange}
-          handleSubmit={handleSubmit}
-          isLoading={!loaded}
-        />
-      </BaseCard>
+      <Button
+        fullWidth
+        variant="contained"
+        color="primary"
+        endIcon={<LoginOutlinedIcon />}
+        size="large"
+        href="/signin"
+      >
+        Войти
+      </Button>
     </FullLayout>
   );
 }
