@@ -50,7 +50,7 @@ const typography = {
   h3: {
     fontWeight: 500,
     textShadow: "3px 2px 3px rgba(255,255,255,.2)",
-    lineHeight: 1.4,
+    lineHeight: 1.2,
     fontSize: pxToRem(24),
     ...responsiveFontSizes({
       sm: 26,
@@ -60,7 +60,7 @@ const typography = {
   },
   h4: {
     textShadow: "3px 2px 3px rgba(255,255,255,.2)",
-    lineHeight: 1.4,
+    lineHeight: 1.2,
     fontSize: pxToRem(20),
     ...responsiveFontSizes({
       sm: 20,
@@ -70,7 +70,7 @@ const typography = {
   },
   h5: {
     textShadow: "3px 2px 3px rgba(255,255,255,.2)",
-    lineHeight: 1.4,
+    lineHeight: 1.2,
     fontSize: pxToRem(18),
     ...responsiveFontSizes({
       sm: 19,
