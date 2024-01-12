@@ -647,6 +647,13 @@ export async function getServerSideProps(context) {
   const { query } = context;
 
   if (context.req?.cookies?.user == null) return { props: {} };
+  if (context.req?.cookies?.user == null && query.nonce)
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/signin",
+      },
+    };
 
   const user = JSON.parse(context.req?.cookies?.user);
 
