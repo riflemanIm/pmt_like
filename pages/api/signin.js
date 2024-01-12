@@ -115,9 +115,9 @@ export default async function handler(req, res) {
           });
 
           const redirectUrl = `${redirect_uri}?state=${state}&nonce=${nonce}&id_token=${id_token}&client_id=${client_id}`;
-          return res.redirect(307, redirectUrl);
-          //console.log("redirectUrl", redirectUrl);
-          //res.status(200).json({ ...user, redirectUrl });
+
+          console.log("redirectUrl", redirectUrl);
+          res.status(200).json({ ...user, redirectUrl });
         } catch (error) {
           console.log("error", error);
         }
