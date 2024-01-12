@@ -647,8 +647,8 @@ export async function getServerSideProps(context) {
   if (query.nonce) {
     const toDate = new Date().getTime();
     const payload = {
-      sub: 4799,
-      iat: toDate,
+      sub: "4799",
+      iat: toDate.toString(),
       nonce: query.nonce,
       email: "osipchuk@postmodern.ru",
       name: "Илья Осипчук",
