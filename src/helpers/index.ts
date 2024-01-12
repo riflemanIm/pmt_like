@@ -148,5 +148,9 @@ export function isNumeric(n: string | number) {
 export function isArray(obj: []) {
   return obj instanceof Array;
 }
+export const getParam = (queryString: string, param: string) => {
+  const urlParams = new URLSearchParams(queryString);
+  return urlParams.get(param);
+};
 
 export default isEmpty;

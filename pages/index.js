@@ -10,9 +10,6 @@ import BaseCard from "../src/components/baseCard/BaseCard";
 import img from "../assets/images/bg/bg25.jpg";
 import { css } from "@emotion/css";
 import { useMediaQuery } from "@mui/material";
-import { sign } from "jsonwebtoken";
-
-import fs from "fs";
 
 const Accordion = styled((props) => (
   <MuiAccordion elevation={0} square {...props} />
@@ -641,40 +638,4 @@ export default function Solution({ menu }) {
       </div>
     </FullLayout>
   );
-}
-export async function getServerSideProps(context) {
-  const { query } = context;
-  if (query.nonce) {
-    const toDate = new Date().getTime();
-    const payload = {
-      sub: "4799",
-      iat: toDate,
-      nonce: query.nonce,
-      email: "osipchuk@postmodern.ru",
-      name: "Илья Осипчук",
-    };
-
-    try {
-      const privateKey = fs.readFileSync("./data/jwtRS256.key");
-      const id_token = sign(payload, privateKey, {
-        expiresIn: "6h",
-        algorithm: "RS256",
-        allowInsecureKeySizes: true,
-      });
-
-      const redirectUrl = `${query.redirect_uri}?state=${query.state}&nonce=${query.nonce}&id_token=${id_token}&client_id=${query.client_id}`;
-
-      console.log("redirectUrl", redirectUrl);
-      return {
-        redirect: {
-          permanent: false,
-          destination: redirectUrl,
-        },
-      };
-    } catch (error) {
-      console.log("error", error);
-    }
-  }
-
-  return { props: { ok: "ok" } };
 }

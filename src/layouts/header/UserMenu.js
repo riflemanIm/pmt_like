@@ -38,7 +38,7 @@ const UserMenu = () => {
     Router.push("/signin");
   };
 
-  const FRESHDESK_URL_NEW = `https://medialog.myfreshworks.com/sp/OIDC/660463218999657074/implicit?state=medialog&nonce=KcfD9hxPwCb9TmBI&id_token=${user.tokenFD}`;
+  const FRESHDESK_URL_NEW = user.redirectUrl;
 
   // const FRESHDESK_SHARED_SECRET = "4263f6dfec25ad582a96975db6698c34";
   // const FRESHDESK_BASE_URL = "http://support.medialog.ru/";

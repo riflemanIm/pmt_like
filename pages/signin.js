@@ -35,8 +35,8 @@ export default function SignIn({ menu }) {
 
   // useEffect(() => {
   //   setValues({
-  //     login: "rtyshko",
-  //     password: "valera",
+  //     login: "osipchuk@postmodern.ru",
+  //     password: "bh4G93eT",
   //   });
   // }, []);
 
