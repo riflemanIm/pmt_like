@@ -91,7 +91,9 @@ export default async function handler(req, res) {
         const state = getParam(queryString, "state");
 
         const client_id = getParam(queryString, "client_id");
-        const redirect_uri = getParam(queryString, "redirect_uri");
+        const redirect_uri =
+          getParam(queryString, "redirect_uri") ??
+          "https://medialog.myfreshworks.com/sp/OIDC/660463218999657074/implicit";
 
         console.log("nonce", nonce);
         console.log("state", state);
@@ -100,44 +102,34 @@ export default async function handler(req, res) {
 
         console.log("queryString", queryString);
 
-        // res
-        //   .status(200)
-        //   .json({ ...user, redirectUrl: resRedir.request.res.responseUrl });
+        if (!nonce || !state) {
+          throw new Error("nonce && state in empty");
+        }
 
-        // const queryString = resRedir.request.res.responseUrl.split("?")[1];
-        // const nonce = getParam(queryString, "nonce");
-        // const state = getParam(queryString, "state");
-        // const client_id = getParam(queryString, "client_id");
-        // const redirect_uri = getParam(queryString, "redirect_uri");
+        const toDate = new Date().getTime();
+        const payload = {
+          sub: user.id,
+          iat: toDate,
+          nonce: nonce,
+          email: user.email,
+          name: user.name,
+        };
 
-        // if (!nonce || !state) {
-        //   throw new Error("nonce && state in empty");
-        // }
+        try {
+          const privateKey = fs.readFileSync("./data/jwtRS256.key");
+          const id_token = sign(payload, privateKey, {
+            expiresIn: "6h",
+            algorithm: "RS256",
+            allowInsecureKeySizes: true,
+          });
 
-        // const toDate = new Date().getTime();
-        // const payload = {
-        //   sub: user.id,
-        //   iat: toDate,
-        //   nonce: nonce,
-        //   email: user.email,
-        //   name: user.name,
-        // };
+          const redirectUrl = `${redirect_uri}?state=${state}&nonce=${nonce}&id_token=${id_token}&client_id=${client_id}`;
 
-        // try {
-        //   const privateKey = fs.readFileSync("./data/jwtRS256.key");
-        //   const id_token = sign(payload, privateKey, {
-        //     expiresIn: "6h",
-        //     algorithm: "RS256",
-        //     allowInsecureKeySizes: true,
-        //   });
-
-        //   const redirectUrl = `${redirect_uri}?state=${state}&nonce=${nonce}&id_token=${id_token}&client_id=${client_id}`;
-
-        //   console.log("redirectUrl", redirectUrl);
-        //   res.status(200).json({ ...user, redirectUrl });
-        // } catch (error) {
-        //   console.log("error", error);
-        // }
+          console.log("redirectUrl", redirectUrl);
+          res.status(200).json({ ...user, redirectUrl });
+        } catch (error) {
+          console.log("error", error);
+        }
       } catch (error) {
         console.log("getServerSideProps error", error);
       }
