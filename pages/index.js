@@ -658,7 +658,7 @@ export async function getServerSideProps(context) {
 
   const user = JSON.parse(context.req?.cookies?.user);
 
-  console.log("context.req?.cookies?.user", context.req?.cookies?.user);
+  //console.log("context.req?.cookies?.user", context.req?.cookies?.user);
 
   if (query.nonce && user.email) {
     const toDate = new Date().getTime();
