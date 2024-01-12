@@ -647,7 +647,7 @@ export async function getServerSideProps(context) {
   const { query } = context;
   const storage = require("node-sessionstorage");
   const strUser = storage.getItem("user");
-  console.log("strUser", strUser);
+  //console.log("strUser", strUser);
   if (strUser == null) return { props: {} };
   const user = JSON.parse(strUser);
 
