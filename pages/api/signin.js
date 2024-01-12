@@ -88,40 +88,40 @@ export default async function handler(req, res) {
         }
         res.status(200).json({ ...user, redirectUrl: resRedir });
 
-        const queryString = resRedir.request.res.responseUrl.split("?")[1];
-        const nonce = getParam(queryString, "nonce");
-        const state = getParam(queryString, "state");
-        const client_id = getParam(queryString, "client_id");
-        const redirect_uri = getParam(queryString, "redirect_uri");
+        // const queryString = resRedir.request.res.responseUrl.split("?")[1];
+        // const nonce = getParam(queryString, "nonce");
+        // const state = getParam(queryString, "state");
+        // const client_id = getParam(queryString, "client_id");
+        // const redirect_uri = getParam(queryString, "redirect_uri");
 
-        if (!nonce || !state) {
-          throw new Error("nonce && state in empty");
-        }
+        // if (!nonce || !state) {
+        //   throw new Error("nonce && state in empty");
+        // }
 
-        const toDate = new Date().getTime();
-        const payload = {
-          sub: user.id,
-          iat: toDate,
-          nonce: nonce,
-          email: user.email,
-          name: user.name,
-        };
+        // const toDate = new Date().getTime();
+        // const payload = {
+        //   sub: user.id,
+        //   iat: toDate,
+        //   nonce: nonce,
+        //   email: user.email,
+        //   name: user.name,
+        // };
 
-        try {
-          const privateKey = fs.readFileSync("./data/jwtRS256.key");
-          const id_token = sign(payload, privateKey, {
-            expiresIn: "6h",
-            algorithm: "RS256",
-            allowInsecureKeySizes: true,
-          });
+        // try {
+        //   const privateKey = fs.readFileSync("./data/jwtRS256.key");
+        //   const id_token = sign(payload, privateKey, {
+        //     expiresIn: "6h",
+        //     algorithm: "RS256",
+        //     allowInsecureKeySizes: true,
+        //   });
 
-          const redirectUrl = `${redirect_uri}?state=${state}&nonce=${nonce}&id_token=${id_token}&client_id=${client_id}`;
+        //   const redirectUrl = `${redirect_uri}?state=${state}&nonce=${nonce}&id_token=${id_token}&client_id=${client_id}`;
 
-          console.log("redirectUrl", redirectUrl);
-          res.status(200).json({ ...user, redirectUrl });
-        } catch (error) {
-          console.log("error", error);
-        }
+        //   console.log("redirectUrl", redirectUrl);
+        //   res.status(200).json({ ...user, redirectUrl });
+        // } catch (error) {
+        //   console.log("error", error);
+        // }
       } catch (error) {
         console.log("getServerSideProps error", error);
       }
