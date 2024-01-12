@@ -82,18 +82,27 @@ export default async function handler(req, res) {
         if (!qqq.request.res.responseUrl) {
           throw new Error("responseUrl in empty");
         }
-        qqq = await axios.get(qqq.request.res.responseUrl);
-        if (!qqq.request.res.responseUrl) {
+        const resRedir = await axios.get(qqq.request.res.responseUrl);
+        if (!resRedir.request.res.responseUrl) {
           throw new Error("resurlt Redirect responseUrl in empty");
         }
-        qqq = await axios.get(qqq.request.res.responseUrl);
-        if (!qqq.request.res.responseUrl) {
-          throw new Error("resurlt Redirect responseUrl in empty");
-        }
-        console.log("qqq.request.res.responseUrl", qqq.request.res.responseUrl);
-        res
-          .status(200)
-          .json({ ...user, redirectUrl: qqq.request.res.responseUrl });
+        const queryString = resRedir.request.res.responseUrl.split("?")[1];
+        const nonce = getParam(queryString, "nonce");
+        const state = getParam(queryString, "state");
+
+        const client_id = getParam(queryString, "client_id");
+        const redirect_uri = getParam(queryString, "redirect_uri");
+
+        console.log("nonce", nonce);
+        console.log("state", state);
+        console.log("client_id", client_id);
+        console.log("redirect_uri", redirect_uri);
+
+        console.log("queryString", queryString);
+
+        // res
+        //   .status(200)
+        //   .json({ ...user, redirectUrl: resRedir.request.res.responseUrl });
 
         // const queryString = resRedir.request.res.responseUrl.split("?")[1];
         // const nonce = getParam(queryString, "nonce");
