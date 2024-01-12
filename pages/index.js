@@ -648,11 +648,10 @@ export async function getServerSideProps(context) {
     const toDate = new Date().getTime();
     const payload = {
       sub: "4799",
-      iat: toDate.toString(),
+      iat: toDate,
       nonce: query.nonce,
       email: "osipchuk@postmodern.ru",
       name: "Илья Осипчук",
-      //family_name: "",
     };
 
     try {
