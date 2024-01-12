@@ -646,7 +646,6 @@ export default function Solution({ menu }) {
 export async function getServerSideProps(context) {
   const { query } = context;
 
-  if (context.req?.cookies?.user == null) return { props: {} };
   if (context.req?.cookies?.user == null && query.nonce)
     return {
       redirect: {
@@ -654,6 +653,8 @@ export async function getServerSideProps(context) {
         destination: "/signin",
       },
     };
+
+  if (context.req?.cookies?.user == null) return { props: {} };
 
   const user = JSON.parse(context.req?.cookies?.user);
 
