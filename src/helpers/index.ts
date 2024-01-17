@@ -28,9 +28,15 @@ export const priceReal = (isUsd: boolean, value: number, usd: number) =>
 export const upperFirst = (str: string) =>
   str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 
-export const clientIp = (req: NextApiRequest) =>
-  (req.headers["x-forwarded-for"] as string).split(",").shift() ||
-  req.socket?.remoteAddress;
+export const clientIp = (req: NextApiRequest) => {
+  let ip = req.headers["x-real-ip"];
+  const forwardedFor = req.headers["x-forwarded-for"] as string;
+  if (!ip && forwardedFor) {
+    ip = forwardedFor.split(",").shift() ?? req.socket?.remoteAddress;
+  }
+
+  return ip;
+};
 
 export const password = (pass: string) => md5(`${SOL1}${pass}${SOL2}`);
 

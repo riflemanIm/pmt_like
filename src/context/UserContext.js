@@ -69,6 +69,11 @@ function userReducer(state, action) {
         rescueLicence: action.payload,
         loaded: true,
       };
+    case "SET_CLIENT_IP":
+      return {
+        ...state,
+        ip: action.payload,
+      };
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
     }
