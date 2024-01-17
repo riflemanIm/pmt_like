@@ -1,21 +1,21 @@
 import axios from "axios";
 import isEmpty, { getError } from "../helpers";
-export async function getIpData(setValues) {
-  try {
-    const { data } = await axios.get("https://api.ipify.org/?format=json");
-    setValues({
-      // login: "support",
-      // password: "pmtsupport",
-      // version: "8.105",
-      // code: "ABCDEF09",
-      // reason_standart: "Плановые работы",
-      // reason: "работы",
-      ip: data.ip,
-    });
-  } catch (error) {
-    console.log("error", error);
-  }
-}
+// export async function getIpData(setValues) {
+//   try {
+//     const { data } = await axios.get("https://api.ipify.org/?format=json");
+//     setValues({
+//       // login: "support",
+//       // password: "pmtsupport",
+//       // version: "8.105",
+//       // code: "ABCDEF09",
+//       // reason_standart: "Плановые работы",
+//       // reason: "работы",
+//       ip: data.ip,
+//     });
+//   } catch (error) {
+//     console.log("error", error);
+//   }
+// }
 export async function loginUser(dispatch, login, password) {
   if (login.length > 0 && password.length > 0) {
     dispatch({
