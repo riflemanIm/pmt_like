@@ -31,16 +31,16 @@ export default function GenerateRescueLicence({ menu }) {
     if (!isAuthenticated) {
       Router.push("/");
     }
-    if (isAuthenticated) {
-      setValues({
-        login: "support",
-        password: "pmtsupport",
-        version: "8.105",
-        code: "ABCDEF09",
-        reason_standart: "Плановые работы",
-        reason: "работы",
-      });
-    }
+    // if (isAuthenticated) {
+    //   setValues({
+    //     login: "support",
+    //     password: "pmtsupport",
+    //     version: "8.105",
+    //     code: "ABCDEF09",
+    //     reason_standart: "Плановые работы",
+    //     reason: "работы",
+    //   });
+    // }
   }, [isAuthenticated]);
 
   // console.log("rescueLicence", rescueLicence);

@@ -55,6 +55,7 @@ export default async function handler(req, res) {
       .input("uDBCode", sql.VarChar(30), req.body.code)
       .execute("GenerateRescueLicenseWeb");
 
+    //console.log("result", result);
     if (result.recordset[0].ExitCode) {
       throw new Error(
         "В настоящее время получить лицензию невозможно. Повторите попытку позже.\n"
