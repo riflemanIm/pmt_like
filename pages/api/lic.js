@@ -3,20 +3,12 @@ import isEmpty from "../../src/helpers";
 import SENDMAIL from "../../src/helpers/mail";
 const sql = require("mssql");
 import { verify } from "jsonwebtoken";
-import axios from "axios";
 
 export default async function handler(req, res) {
   if (isEmpty(req.body.user.token)) {
     res.status(401).json({ message: "A token is required for authentication" });
   }
-  let ip = "";
-  try {
-    const { data } = await axios.get("https://api.ipify.org/?format=json");
-    ip = data.ip;
-  } catch (error) {
-    console.log("error", error);
-  }
-  console.log("ip", ip);
+
   try {
     /** --------- check token and user -------------- */
     const decoded = verify(req.body.user.token, process.env.TOKEN_KEY);
@@ -29,7 +21,7 @@ export default async function handler(req, res) {
       query: querySql,
       values: [decoded.id, decoded.login, decoded.name],
     });
-
+    //console.log("req.body", req.body);
     if (isEmpty(result)) {
       res.status(401).json({ message: "The user is not logged in" });
     }
@@ -50,12 +42,11 @@ export default async function handler(req, res) {
       .request()
       .input("uLogin", sql.VarChar(30), req.body.login)
       .input("uPassword", sql.VarChar(30), req.body.password)
-      .input("uIP", sql.VarChar(30), ip)
+      .input("uIP", sql.VarChar(30), req.body.ip)
       .input("uVersion", sql.VarChar(30), req.body.version)
       .input("uDBCode", sql.VarChar(30), req.body.code)
       .execute("GenerateRescueLicenseWeb");
 
-    //console.log("result", result);
     if (result.recordset[0].ExitCode) {
       throw new Error(
         "В настоящее время получить лицензию невозможно. Повторите попытку позже.\n"

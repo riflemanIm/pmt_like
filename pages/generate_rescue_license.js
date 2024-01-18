@@ -8,7 +8,7 @@ import img from "../assets/images/bg/bg6.jpg";
 import LicenceForm from "../src/components/Forms/LicenceForm";
 
 import { useUserStateDispatch } from "../src/context/UserContext";
-import { getRescueLicence } from "../src/actions/user";
+import { getIpData, getRescueLicence } from "../src/actions/user";
 import useForm from "../src/hooks/useForm";
 import validate from "../src/validation/validationLicence";
 
@@ -26,21 +26,14 @@ export default function GenerateRescueLicence({ menu }) {
 
   const { values, errors, handleChange, handleSubmit, setValues, setErrors } =
     useForm(submitData, validate);
-  console.log("isAuthenticated", isAuthenticated);
+
   useEffect(() => {
     if (!isAuthenticated) {
       Router.push("/");
     }
-    // if (isAuthenticated) {
-    //   setValues({
-    //     login: "support",
-    //     password: "pmtsupport",
-    //     version: "8.105",
-    //     code: "ABCDEF09",
-    //     reason_standart: "Плановые работы",
-    //     reason: "работы",
-    //   });
-    // }
+    if (isAuthenticated) {
+      getIpData(setValues);
+    }
   }, [isAuthenticated]);
 
   // console.log("rescueLicence", rescueLicence);
