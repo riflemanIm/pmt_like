@@ -54,7 +54,7 @@ export default async function handler(req, res) {
         req.body.id,
       ];
 
-      console.log("-- values --\n", values);
+      //console.log("-- values --\n", values);
 
       querySql = `
       UPDATE forum_user

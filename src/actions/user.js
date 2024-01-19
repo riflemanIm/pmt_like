@@ -28,7 +28,7 @@ export async function loginUser(dispatch, login, password) {
         password,
       })
       .then(({ data }) => {
-        console.log("data", data);
+        //console.log("data", data);
         if (!isEmpty(data))
           dispatch({
             type: "LOGIN",
