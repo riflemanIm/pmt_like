@@ -7,10 +7,12 @@ export async function getCountries() {
       method: "Get",
       headers: { "Content-Type": "application/json" },
     };
-    const res = await fetch("/api/countries", postData);
-    const countries = await res.json();
-    console.log("countries--", countries);
-    return countries;
+    const { data } = await axios.get(
+      `${process.env.API_URL}/countries`,
+      postData
+    );
+    console.log("data--", data);
+    return data;
   } catch (error) {
     console.log("error", getError(error));
   }
