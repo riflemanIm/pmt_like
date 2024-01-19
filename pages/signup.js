@@ -11,6 +11,7 @@ import { profile } from "../src/actions/user";
 import useForm from "../src/hooks/useForm";
 import useInterval from "../src/hooks/useInterval";
 import validate from "../src/validation/validationSignUp";
+import axios from "axios";
 
 export default function SignIn({ countries, menu }) {
   const {
@@ -90,7 +91,7 @@ export async function getServerSideProps() {
     method: "Get",
     headers: { "Content-Type": "application/json" },
   };
-  const res = await fetch(`${process.env.API_URL}/countries`, postData);
-  const countries = await res.json();
-  return { props: { countries } };
+
+  const { data } = await axios(`${process.env.API_URL}/countries`, postData);
+  return { props: { countries: data } };
 }
