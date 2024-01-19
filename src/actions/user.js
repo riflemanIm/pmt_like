@@ -3,8 +3,14 @@ import isEmpty, { getError } from "../helpers";
 
 export async function getCountries() {
   try {
-    const { data } = await axios(`/api/countries`, postData);
-    return data;
+    const postData = {
+      method: "Get",
+      headers: { "Content-Type": "application/json" },
+    };
+    const res = await fetch(`${process.env.API_URL}/countries`, postData);
+    const countries = await res.json();
+    console.log("countries--", countries);
+    return countries;
   } catch (error) {
     console.log("error", getError(error));
   }
