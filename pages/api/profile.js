@@ -1,5 +1,5 @@
 import { q } from "../../src/lib/db";
-import isEmpty, { cleanPhoneValue, clientIp } from "../../src/helpers";
+import isEmpty, { cleanPhoneValue } from "../../src/helpers";
 import { isValidEmail } from "../../src/validation/validators";
 
 export default async function handler(req, res) {
@@ -47,14 +47,14 @@ export default async function handler(req, res) {
         req.body.address,
         req.body.company,
 
-        clientIp(req),
+        req.body.ip,
         req.body.link ?? "",
 
         req.body.email,
         req.body.id,
       ];
 
-      //console.log("-- values --\n", values);
+      console.log("-- values --\n", values);
 
       querySql = `
       UPDATE forum_user
