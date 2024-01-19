@@ -7,11 +7,10 @@ import img from "../assets/images/bg/contact_bg.jpg";
 import SignUpForm from "../src/components/Forms/SignUpForm";
 
 import { useUserStateDispatch } from "../src/context/UserContext";
-import { profile } from "../src/actions/user";
+import { getCountries, profile } from "../src/actions/user";
 import useForm from "../src/hooks/useForm";
 import useInterval from "../src/hooks/useInterval";
 import validate from "../src/validation/validationSignUp";
-import axios from "axios";
 
 export default function SignIn({ countries, menu }) {
   const {
@@ -54,7 +53,7 @@ export default function SignIn({ countries, menu }) {
     useForm(submit, validate);
 
   useEffect(() => {
-    console.log("user", user);
+    //console.log("user", user);
     if (!isAuthenticated) {
       Router.push("/");
     } else {
@@ -88,11 +87,6 @@ export default function SignIn({ countries, menu }) {
   );
 }
 export async function getServerSideProps() {
-  const postData = {
-    method: "Get",
-    headers: { "Content-Type": "application/json" },
-  };
-  const { data } = await axios(`${process.env.API_URL}/countries`, postData);
-
-  return { props: { countries: data } };
+  const countries = getCountries();
+  return { props: { countries } };
 }

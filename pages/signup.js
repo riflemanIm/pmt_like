@@ -87,11 +87,6 @@ export default function SignIn({ countries, menu }) {
   );
 }
 export async function getServerSideProps() {
-  const postData = {
-    method: "Get",
-    headers: { "Content-Type": "application/json" },
-  };
-
-  const { data } = await axios(`${process.env.API_URL}/countries`, postData);
-  return { props: { countries: data } };
+  const countries = getCountries();
+  return { props: { countries } };
 }

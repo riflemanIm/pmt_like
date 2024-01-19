@@ -1,6 +1,15 @@
 import axios from "axios";
 import isEmpty, { getError } from "../helpers";
 
+export async function getCountries() {
+  try {
+    const { data } = await axios(`/api/countries`, postData);
+    return data;
+  } catch (error) {
+    console.log("error", getError(error));
+  }
+}
+
 export async function getIpData(setValues) {
   try {
     const { data } = await axios.get("https://api.ipify.org/?format=json");
