@@ -8,7 +8,7 @@ import { useUserStateDispatch } from "../src/context/UserContext";
 import { loginUser } from "../src/actions/user";
 import useForm from "../src/hooks/useForm";
 import validate from "../src/validation/validationSignIn";
-import { Button } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import { deleteCookie } from "cookies-next";
 
 export default function SignIn({ menu }) {
@@ -45,16 +45,31 @@ export default function SignIn({ menu }) {
       <Typography variant="h1" mb={8}>
         Вы вышли из системы
       </Typography>
-      <Button
-        fullWidth
-        variant="contained"
-        color="primary"
-        endIcon={<LoginOutlinedIcon />}
-        size="large"
-        href="/signin"
+      <Grid
+        container
+        sx={{
+          maxWidth: 400,
+          margin: "auto",
+        }}
       >
-        Войти
-      </Button>
+        <Grid item xs={12} my={5} textAlign="center">
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            endIcon={<LoginOutlinedIcon />}
+            size="large"
+            href="/signin"
+          >
+            Войти
+          </Button>
+        </Grid>
+        <Grid item xs={12} textAlign="center">
+          <Button color="primary" variant="text" href="/signup">
+            Регистрация
+          </Button>
+        </Grid>
+      </Grid>
     </FullLayout>
   );
 }

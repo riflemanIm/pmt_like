@@ -182,7 +182,7 @@ export default function SignInForm({
             </Button>
           )}
         </Grid>
-        {/* <Grid item xs={12} textAlign="center">
+        <Grid item xs={12} textAlign="center">
           <Button
             color="primary"
             variant="text"
@@ -191,7 +191,7 @@ export default function SignInForm({
           >
             Регистрация
           </Button>
-        </Grid> */}
+        </Grid>
       </Grid>
     ),
 
