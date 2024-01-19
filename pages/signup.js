@@ -87,5 +87,5 @@ export default function SignIn({ countries, menu }) {
 }
 export async function getServerSideProps() {
   const countries = await getCountries();
-  return { props: { countries } };
+  return { props: { countries: countries ?? [] } };
 }

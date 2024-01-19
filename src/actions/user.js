@@ -7,7 +7,7 @@ export async function getCountries() {
       method: "Get",
       headers: { "Content-Type": "application/json" },
     };
-    const res = await fetch(`${process.env.API_URL}/countries`, postData);
+    const res = await fetch("api/countries", postData);
     const countries = await res.json();
     console.log("countries--", countries);
     return countries;
