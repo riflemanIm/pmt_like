@@ -53,7 +53,7 @@ export default function SignIn({ countries, menu }) {
     useForm(submit, validate);
 
   useEffect(() => {
-    //console.log("locale", locale);
+    console.log("user", user);
     if (!isAuthenticated) {
       Router.push("/");
     } else {

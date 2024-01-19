@@ -328,8 +328,7 @@ function SignUpForm({
               //labelId="demo-simple-select-outlined-label"
               //id="demo-simple-select-outlined"
               name="country_id"
-              value={values.country_id}
-              defaultValue={175}
+              value={values.country_id ?? 175}
               onChange={handleChangeCountry}
               label="Страна"
             >

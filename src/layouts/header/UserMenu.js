@@ -14,7 +14,6 @@ import {
   Avatar,
 } from "@mui/material";
 import { useUserStateDispatch } from "../../context/UserContext";
-import md5 from "md5";
 
 const UserMenu = () => {
   const {
@@ -103,9 +102,9 @@ const UserMenu = () => {
               aria-label="secondary mailbox folder"
               onClick={handleClose4}
             >
-              {/* <ListItemButton color="primary" href="/profile">
+              <ListItemButton color="primary" href="/profile">
                 Профиль
-              </ListItemButton> */}
+              </ListItemButton>
               <ListItemButton color="primary" href="/generate_rescue_license">
                 Получение аварийной лицензии
               </ListItemButton>
