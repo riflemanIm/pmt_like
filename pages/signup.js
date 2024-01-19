@@ -11,7 +11,6 @@ import { profile } from "../src/actions/user";
 import useForm from "../src/hooks/useForm";
 import useInterval from "../src/hooks/useInterval";
 import validate from "../src/validation/validationSignUp";
-import axios from "axios";
 
 export default function SignIn({ countries, menu }) {
   const {
