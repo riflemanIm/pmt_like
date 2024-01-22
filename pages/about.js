@@ -7,6 +7,7 @@ import BaseCard from "../src/components/baseCard/BaseCard";
 import img from "../assets/images/bg/bg20.jpg";
 import { css } from "@emotion/css";
 import { Grid, useMediaQuery } from "@mui/material";
+import { getYearCompany } from "../src/helpers";
 
 const Accordion = styled((props) => (
   <MuiAccordion elevation={0} square {...props} />
@@ -44,7 +45,7 @@ export default function Solution({ menu }) {
             `}
           >
             <Typography variant="h2" sx={{ color: "#fff", fontSize: 44 }}>
-              24 года
+              {getYearCompany()}
             </Typography>
             <Typography variant="body2" mt={2} sx={{ color: "#fff" }}>
               Компания основана в 1999 году.

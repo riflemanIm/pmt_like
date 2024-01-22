@@ -12,6 +12,7 @@ import { css } from "@emotion/css";
 import { useMediaQuery } from "@mui/material";
 import { sign } from "jsonwebtoken";
 import fs from "fs";
+import { getYearCompany } from "../src/helpers";
 // import axios from "axios";
 // import { getParam } from "../src/helpers";
 
@@ -60,7 +61,7 @@ export default function Solution({ menu }) {
             `}
           >
             <Typography variant="h2" sx={{ color: "#fff", fontSize: 44 }}>
-              24 года
+              {getYearCompany()}
             </Typography>
             <Typography variant="body2" mt={2} sx={{ color: "#fff" }}>
               Компания основана в 1999 году.

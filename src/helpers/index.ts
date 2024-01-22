@@ -11,6 +11,20 @@ export const removeHtml = (text: string) => {
   return text.replace(regex, "");
 };
 
+export function getYearCompany() {
+  const dateNow = new Date();
+  const number = dateNow.getFullYear() - 1999;
+  const cases = [2, 0, 1, 1, 1, 2];
+  const titles = ["год", "года", "лет"];
+  const plural =
+    titles[
+      number % 100 > 4 && number % 100 < 20
+        ? 2
+        : cases[number % 10 < 5 ? number % 10 : 5]
+    ];
+  return `${number} ${plural}`;
+}
+
 export const cleanPhoneValue = (value: string | null) => {
   if (value == null) return "";
   // удаляем разрешенные символы
