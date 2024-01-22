@@ -11,6 +11,11 @@ export const removeHtml = (text: string) => {
   return text.replace(regex, "");
 };
 
+export function getYearNow() {
+  const dateNow = new Date();
+  return dateNow.getFullYear();
+}
+
 export function getYearCompany() {
   const dateNow = new Date();
   const number = dateNow.getFullYear() - 1999;
