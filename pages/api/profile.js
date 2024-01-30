@@ -1,5 +1,5 @@
 import { q } from "../../src/lib/db";
-import isEmpty, { cleanPhoneValue } from "../../src/helpers";
+import isEmpty from "../../src/helpers";
 import { isValidEmail } from "../../src/validation/validators";
 
 export default async function handler(req, res) {
@@ -40,7 +40,7 @@ export default async function handler(req, res) {
       const values = [
         req.body.email,
         req.body.name,
-        cleanPhoneValue(req.body.phone),
+        req.body.phone,
 
         req.body.country_id,
         req.body.town,

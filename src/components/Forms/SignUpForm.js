@@ -19,14 +19,14 @@ import {
   MenuItem,
 } from "@mui/material";
 
-import InputMask from "react-input-mask";
+//import InputMask from "react-input-mask";
 // icons
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 
-import isEmpty, { MASK_PHONE } from "../../helpers";
+import isEmpty from "../../helpers";
 
 const useStyles = makeStyles((theme) => ({
   creatingButtonContainer: {
@@ -85,14 +85,14 @@ function SignUpForm({
     event.preventDefault();
   };
 
-  const handlePhoneChange = (e) => {
-    const vals = {
-      ...values,
-      phone: e.target.value,
-    };
-    setValues(vals);
-    setErrors(validate(vals));
-  };
+  // const handlePhoneChange = (e) => {
+  //   const vals = {
+  //     ...values,
+  //     phone: e.target.value,
+  //   };
+  //   setValues(vals);
+  //   setErrors(validate(vals));
+  // };
   const handleChangeCountry = (event) => {
     const vals = {
       ...values,
@@ -297,26 +297,19 @@ function SignUpForm({
         </Grid>
 
         <Grid item xs={12} sm={values.id == null ? 6 : 4}>
-          <InputMask
-            mask={MASK_PHONE}
+          <Input
+            name="phone"
+            variant="outlined"
             value={values?.phone || ""}
-            onChange={handlePhoneChange}
-          >
-            {() => (
-              <Input
-                name="phone"
-                variant="outlined"
-                value={values?.phone || ""}
-                margin="normal"
-                label="Телефон"
-                type="text"
-                fullWidth
-                required={true}
-                error={errors?.phone != null}
-                helperText={errors?.phone != null && errors?.phone}
-              />
-            )}
-          </InputMask>
+            onChange={handleChange}
+            margin="normal"
+            label="Телефон"
+            type="text"
+            fullWidth
+            required={true}
+            error={errors?.phone != null}
+            helperText={errors?.phone != null && errors?.phone}
+          />
         </Grid>
 
         <Grid item xs={12} sm={6}>

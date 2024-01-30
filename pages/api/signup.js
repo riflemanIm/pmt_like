@@ -1,9 +1,5 @@
 import { q } from "../../src/lib/db";
-import isEmpty, {
-  cleanPhoneValue,
-  clientIp,
-  password,
-} from "../../src/helpers";
+import isEmpty, { clientIp } from "../../src/helpers";
 import { isValidEmail } from "../../src/validation/validators";
 import SENDMAIL from "../../src/helpers/mail";
 import md5 from "md5";
@@ -44,14 +40,14 @@ export default async function handler(req, res) {
         req.body.email,
         req.body.password,
         req.body.name,
-        cleanPhoneValue(req.body.phone),
+        req.body.phone,
 
         req.body.country_id,
         req.body.town,
         req.body.address,
         req.body.company,
 
-        clientIp(req),
+        req.body.ip,
         req.body.link ?? "",
 
         req.body.email,

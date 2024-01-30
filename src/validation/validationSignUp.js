@@ -1,4 +1,4 @@
-import { isValidEmail, isValidPhone } from "./validators";
+import { isValidEmail } from "./validators";
 
 export default function validate(values) {
   let errors = {};
@@ -68,8 +68,8 @@ export default function validate(values) {
     errors.name = "Введите имя";
   }
 
-  if (values.phone !== null && !isValidPhone(values.phone)) {
-    errors.phone = "Некорректный телефон";
+  if (!values.phone) {
+    errors.phone = "Введите телефон";
   }
   if (values.company != null && !values.company) {
     errors.company = "Введите место работы";
