@@ -7,6 +7,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import { UserProvider } from "../src/context/UserContext";
 
 import Head from "next/head";
+import Script from "next/script";
 import CssBaseline from "@mui/material/CssBaseline";
 import theme from "../src/theme/theme";
 import createEmotionCache from "../src/createEmotionCache";
@@ -23,15 +24,14 @@ const MyApp = (props) => {
       <Head>
         <title>Пост Модерн Текнолоджи </title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
-        <script src="/static/bot.js"></script>
       </Head>
-
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <UserProvider>
           <Component {...pageProps} />
         </UserProvider>
       </ThemeProvider>
+      <Script src="/static/bot.js"></Script>
     </CacheProvider>
   );
 };
