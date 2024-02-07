@@ -45,10 +45,11 @@ export default async function handler(req, res) {
         } else if (error != null) {
           console.log("error send mail", error);
           //throw new Error("error send mail");
+          throw new Error({ error: "error send mail" });
         }
       });
     } else {
-      throw new Error("EMAIL_DOESNT_EXISTS");
+      res.status(200).json({});
     }
   } catch (error) {
     // unhide to check error

@@ -86,6 +86,13 @@ export async function sendPass(dispatch, login) {
               serverResponse: "PASS_SENDED",
             },
           });
+        else
+          dispatch({
+            type: "SET_SERVER_RESPONSE",
+            payload: {
+              serverResponse: "EMAIL_DOESNT_EXISTS",
+            },
+          });
       })
       .catch((err) => {
         console.log("  ---- err ---", err?.message);
