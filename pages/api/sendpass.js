@@ -26,7 +26,7 @@ export default async function handler(req, res) {
     });
 
     const user = !isEmpty(result[0]) ? { ...result[0] } : {};
-    console.log("user", user);
+    //console.log("user", user);
     if (!isEmpty(user)) {
       /** --------- send mail -------------- */
 

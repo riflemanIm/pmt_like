@@ -27,19 +27,19 @@ export default function SendPassword({ menu }) {
     validate
   );
 
-  // useEffect(() => {
-  //   //console.log("locale", locale);
-  //   if (isAuthenticated) {
-  //     Router.push("/lk");
-  //   }
-  // }, [isAuthenticated]);
-
   useEffect(() => {
-    setValues({
-      login: "oleglambin@gmail.com",
-      //      password: "bh4G93eT",
-    });
-  }, []);
+    //console.log("locale", locale);
+    if (isAuthenticated) {
+      Router.push("/lk");
+    }
+  }, [isAuthenticated]);
+
+  // useEffect(() => {
+  //   setValues({
+  //     login: "oleglambin@gmail.com",
+  //     //      password: "bh4G93eT",
+  //   });
+  // }, []);
 
   return (
     <FullLayout menu={menu} img={img.src}>
