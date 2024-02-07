@@ -26,7 +26,8 @@ export default async function handler(req, res) {
         link
 
        FROM forum_user u 
-       WHERE (login=? OR email=?) AND pwd = ?`;
+       WHERE (login=? OR email=?) AND pwd = ?
+       LIMIT 1`;
     const result = await q({
       query: querySql,
       values: [login, login, req.body.password],

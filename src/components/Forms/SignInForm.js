@@ -54,22 +54,6 @@ export default function SignInForm({
 }) {
   const classes = useStyles();
 
-  const authIdentifiers = "email";
-
-  const loginLabel = () => {
-    switch (authIdentifiers) {
-      case "email": {
-        return "Email или логин";
-      }
-      case "phone": {
-        return "Телефон";
-      }
-      default: {
-        return "Email или Телефон";
-      }
-    }
-  };
-
   const [visibilePass, setVisibilePass] = useState(false);
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
@@ -101,7 +85,7 @@ export default function SignInForm({
             value={values.login || ""}
             onChange={handleChange}
             margin="normal"
-            label={loginLabel()}
+            label="Email или логин"
             type="text"
             fullWidth
             required
@@ -182,9 +166,19 @@ export default function SignInForm({
             </Button>
           )}
         </Grid>
-        <Grid item xs={12} textAlign="center">
+        <Grid item xs={6} textAlign="center">
           <Button
-            color="primary"
+            color="warning"
+            variant="text"
+            href="/sendpassword"
+            className={classes.submitButton}
+          >
+            Выслать пароль
+          </Button>
+        </Grid>
+        <Grid item xs={6} textAlign="center">
+          <Button
+            color="info"
             variant="text"
             href="/signup"
             className={classes.submitButton}

@@ -68,6 +68,36 @@ export async function loginUser(dispatch, login, password) {
     dispatch({ type: "LOGIN_FAILURE" });
   }
 }
+export async function sendPass(dispatch, login) {
+  if (login.length > 0) {
+    dispatch({
+      type: "LOADING",
+    });
+    await axios
+      .post("/api/sendpass", {
+        login,
+      })
+      .then(({ data }) => {
+        console.log("data", data);
+        if (!isEmpty(data))
+          dispatch({
+            type: "SET_SERVER_RESPONSE",
+            payload: {
+              serverResponse: "PASS_SENDED",
+            },
+          });
+      })
+      .catch((err) => {
+        console.log("  ---- err ---", err?.message);
+        dispatch({
+          type: "SET_SERVER_RESPONSE",
+          payload: { serverResponse: err?.message },
+        });
+      });
+  } else {
+    dispatch({ type: "LOGIN_FAILURE" });
+  }
+}
 
 export async function profile(dispatch, values) {
   if (!isEmpty(values)) {
