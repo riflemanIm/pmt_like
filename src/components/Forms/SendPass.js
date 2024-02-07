@@ -65,9 +65,9 @@ export default function SendPassword({
               <Typography variant="h6">
                 {" "}
                 {serverResponse === "PASS_SENDED"
-                  ? "Пароль выслан Вам на email"
+                  ? "Пароль выслан Вам на Email"
                   : serverResponse === "EMAIL_DOESNT_EXISTS"
-                  ? "Такой email не зарагистрирован"
+                  ? "Такой Email не зарегистрирован"
                   : serverResponse}
               </Typography>
             </Alert>
