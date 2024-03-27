@@ -22,12 +22,12 @@ export async function getIpData(setValues) {
   try {
     const { data } = await axios.get("https://api.ipify.org/?format=json");
     setValues({
-      login: "support",
-      password: "Temp_Lic$$",
-      version: "8.105",
-      code: "11111111",
-      reason_standart: "Плановые работы",
-      reason: "работы",
+      // login: "support",
+      // password: "Temp_Lic$$",
+      // version: "8.105",
+      // code: "11111111",
+      // reason_standart: "Плановые работы",
+      // reason: "работы",
       ip: data.ip,
     });
   } catch (error) {
