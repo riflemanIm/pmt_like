@@ -48,7 +48,7 @@ export default async function handler(req, res) {
       .execute("GenerateRescueLicenseWeb");
 
     if (result.recordset[0].ExitCode) {
-      console.log("result", result.recordset[0]);
+      //console.log("result", result.recordset[0]);
       throw new Error(
         "В настоящее время получить лицензию невозможно. Повторите попытку позже.\n"
       );

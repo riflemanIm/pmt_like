@@ -11,7 +11,7 @@ export async function getCountries() {
       `${process.env.API_URL}/countries`,
       postData
     );
-    console.log("data--", data);
+    //console.log("data--", data);
     return data;
   } catch (error) {
     console.log("error", getError(error));
