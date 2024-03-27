@@ -8,7 +8,7 @@ import img from "../assets/images/bg/bg6.jpg";
 import LicenceForm from "../src/components/Forms/LicenceForm";
 
 import { useUserStateDispatch } from "../src/context/UserContext";
-import { getIpData, getRescueLicence } from "../src/actions/user";
+import { checkAuth, getIpData, getRescueLicence } from "../src/actions/user";
 import useForm from "../src/hooks/useForm";
 import validate from "../src/validation/validationLicence";
 
@@ -28,15 +28,24 @@ export default function GenerateRescueLicence({ menu }) {
     useForm(submitData, validate);
 
   useEffect(() => {
+    checkAuth(userDispatch, user.token);
+  }, []);
+
+  useEffect(() => {
     if (!isAuthenticated) {
-      Router.push("/");
+      Router.push("/signin");
     }
     if (isAuthenticated) {
       getIpData(setValues);
+      if (rescueLicence === "") {
+        setTimeout(() => {
+          Router.push("/generate_rescue_license"), 3000;
+        });
+      }
     }
   }, [isAuthenticated]);
 
-  // console.log("rescueLicence", rescueLicence);
+  //console.log("rescueLicence", rescueLicence);
 
   const [copySuccess, setCopySuccess] = useState("");
   const handleCopy = () => {
@@ -50,7 +59,11 @@ export default function GenerateRescueLicence({ menu }) {
         Получение аварийной лицензии
       </Typography>
       <BaseCard>
-        {rescueLicence ? (
+        {rescueLicence === "" ? (
+          <Alert severity="warning">
+            Вернулась пустая строка, ввести попробуйте другие данные{" "}
+          </Alert>
+        ) : rescueLicence != null ? (
           <Box
             sx={{
               display: "flex",

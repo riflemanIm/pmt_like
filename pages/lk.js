@@ -6,16 +6,20 @@ import BaseCard from "../src/components/baseCard/BaseCard";
 import img from "../assets/images/bg/bg6.jpg";
 
 import { useUserStateDispatch } from "../src/context/UserContext";
+import { checkAuth } from "../src/actions/user";
 
 export default function SignIn({ menu }) {
   const {
     userState: { isAuthenticated, user },
+    userDispatch,
   } = useUserStateDispatch();
-
+  useEffect(() => {
+    checkAuth(userDispatch, user.token);
+  }, []);
   useEffect(() => {
     //
     if (!isAuthenticated) {
-      Router.push("/");
+      Router.push("/signin");
     }
   }, [isAuthenticated]);
   console.log("user", user);

@@ -20,8 +20,9 @@ const Accordion = styled((props) => (
   <MuiAccordion elevation={0} square {...props} />
 ))();
 
-export default function Solution({ menu }) {
+export default function Index({ menu }) {
   //console.log("menu", menu);
+  console.log("process.env", process.env);
   const [expanded, setExpanded] = React.useState(false);
 
   const handleChange = (panel) => (event, isExpanded) => {

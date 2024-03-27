@@ -22,12 +22,12 @@ export async function getIpData(setValues) {
   try {
     const { data } = await axios.get("https://api.ipify.org/?format=json");
     setValues({
-      // login: "support",
-      // password: "pmtsupport",
-      // version: "8.105",
-      // code: "ABCDEF09",
-      // reason_standart: "Плановые работы",
-      // reason: "работы",
+      login: "support",
+      password: "Temp_Lic$$",
+      version: "8.105",
+      code: "11111111",
+      reason_standart: "Плановые работы",
+      reason: "работы",
       ip: data.ip,
     });
   } catch (error) {
@@ -58,10 +58,10 @@ export async function loginUser(dispatch, login, password) {
           });
       })
       .catch((err) => {
-        console.log("  ---- err ---", err?.message);
+        console.log("  ---- err ---", err?.response?.data?.message);
         dispatch({
           type: "SET_SERVER_RESPONSE",
-          payload: { serverResponse: err?.message },
+          payload: { serverResponse: err?.response?.data?.message },
         });
       });
   } else {
@@ -95,10 +95,21 @@ export async function sendPass(dispatch, login) {
           });
       })
       .catch((err) => {
-        console.log("  ---- err ---", err?.message);
+        if (err?.response?.data?.message === "jwt expired") {
+          dispatch({
+            type: "SIGN_OUT_SUCCESS",
+          });
+          dispatch({
+            type: "SET_SERVER_RESPONSE",
+            payload: {
+              serverResponse:
+                "Время авторизации вышло. Войдите заново пожалуйста",
+            },
+          });
+        }
         dispatch({
           type: "SET_SERVER_RESPONSE",
-          payload: { serverResponse: err?.message },
+          payload: { serverResponse: err?.response?.data?.message },
         });
       });
   } else {
@@ -149,7 +160,18 @@ export async function profile(dispatch, values) {
           });
       })
       .catch((err) => {
-        console.log("  ---- err ---", getError(err));
+        if (err?.response?.data?.message === "jwt expired") {
+          dispatch({
+            type: "SIGN_OUT_SUCCESS",
+          });
+          dispatch({
+            type: "SET_SERVER_RESPONSE",
+            payload: {
+              serverResponse:
+                "Время авторизации вышло. Войдите заново пожалуйста",
+            },
+          });
+        }
         dispatch({
           type: "SET_SERVER_RESPONSE",
           payload: { serverResponse: getError(err) },
@@ -158,41 +180,33 @@ export async function profile(dispatch, values) {
   }
 }
 
-// export async function checkAuth(dispatch, token) {
-//   //console.log("checkAuth", token);
+export async function checkAuth(dispatch, token) {
+  //console.log("checkAuth", token);
 
-//   if (!isEmpty(token)) {
-//     // dispatch({
-//     //   type: "LOADING",
-//     // });
-//     await axios
-//       .post("/api/check-auth", {
-//         token,
-//       })
-//       .then(({ data }) => {
-//         //console.log("check-auth", data);
-//         if (data.token === token)
-//           dispatch({
-//             type: "SET_USER",
-//             payload: {
-//               isAuthenticated: true,
-//             },
-//           });
-//         else
-//           dispatch({
-//             type: "SET_SERVER_RESPONSE",
-//             payload: "WRONG",
-//           });
-//       })
-//       .catch((err) => {
-//         console.log("  ---- err ---", err?.message);
-//         dispatch({
-//           type: "SIGN_OUT_SUCCESS",
-//           payload: err?.message,
-//         });
-//       });
-//   }
-// }
+  if (!isEmpty(token)) {
+    await axios
+      .post("/api/check-auth", {
+        token,
+      })
+      .then(({ data }) => {
+        console.log("check-auth", data);
+      })
+      .catch((err) => {
+        if (err?.response?.data?.message === "jwt expired") {
+          dispatch({
+            type: "SIGN_OUT_SUCCESS",
+          });
+          dispatch({
+            type: "SET_SERVER_RESPONSE",
+            payload: {
+              serverResponse:
+                "Время авторизации вышло. Войдите заново пожалуйста",
+            },
+          });
+        }
+      });
+  }
+}
 
 export async function sendFormEmail({ setSend, bilet, values, locale }) {
   setSend({
@@ -246,10 +260,23 @@ export async function getRescueLicence(dispatch, values, user) {
         });
     })
     .catch((err) => {
-      console.log("  ---- err ---", err?.message);
+      if (err?.response?.data?.message === "jwt expired") {
+        dispatch({
+          type: "SIGN_OUT_SUCCESS",
+        });
+        dispatch({
+          type: "SET_SERVER_RESPONSE",
+          payload: {
+            serverResponse:
+              "Время авторизации вышло. Войдите заново пожалуйста",
+          },
+        });
+      }
+
+      console.log("  ---- err ---", err);
       dispatch({
         type: "SET_SERVER_RESPONSE",
-        payload: { serverResponse: err?.message },
+        payload: { serverResponse: err?.response?.data?.message },
       });
     });
 }

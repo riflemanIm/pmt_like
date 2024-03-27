@@ -7,7 +7,7 @@ import img from "../assets/images/bg/contact_bg.jpg";
 import SignUpForm from "../src/components/Forms/SignUpForm";
 
 import { useUserStateDispatch } from "../src/context/UserContext";
-import { getCountries, profile } from "../src/actions/user";
+import { checkAuth, getCountries, profile } from "../src/actions/user";
 import useForm from "../src/hooks/useForm";
 import useInterval from "../src/hooks/useInterval";
 import validate from "../src/validation/validationSignUp";
@@ -17,6 +17,9 @@ export default function SignIn({ countries, menu }) {
     userState: { loaded, serverResponse, isAuthenticated, user },
     userDispatch,
   } = useUserStateDispatch();
+  useEffect(() => {
+    checkAuth(userDispatch, user.token);
+  }, []);
 
   useInterval(
     () => {
@@ -55,7 +58,7 @@ export default function SignIn({ countries, menu }) {
   useEffect(() => {
     //console.log("user", user);
     if (!isAuthenticated) {
-      Router.push("/");
+      Router.push("/signin");
     } else {
       setValues({
         ...user,
