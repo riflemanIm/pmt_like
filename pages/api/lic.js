@@ -58,7 +58,7 @@ export default async function handler(req, res) {
 
     const options = {
       from: `${req.body.user.login}<${req.body.user.email}>`, // sender address
-      to: "oleglambin@gmail.com", // receiver email
+      to: req.body.user.email, // receiver email
       subject: "Site send GenerateRescueLicenseWeb", // Subject line
       text: result.recordset[0].DemoLicense,
       //html: HTML_TEMPLATE(req.body.message),

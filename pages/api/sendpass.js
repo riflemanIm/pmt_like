@@ -32,7 +32,7 @@ export default async function handler(req, res) {
 
       const options = {
         from: `${user.name}<${user.email}>`, // sender address
-        to: "oleglambin@gmail.com", // receiver email
+        to: user.email, // receiver email
         subject: "PMT Support", // Subject line
         text: `Пароль: ${user.pwd}`,
         //html: HTML_TEMPLATE(req.body.message),

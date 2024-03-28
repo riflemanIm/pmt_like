@@ -125,7 +125,7 @@ export default async function handler(req, res) {
 
         const options = {
           from: `${req.body.name}<${req.body.email}>`, // sender address
-          to: "oleglambin@gmail.com", // receiver email
+          to: req.body.email, // receiver email
           subject: "New registarition", // Subject line
           text: `User ${req.body.name}`,
           //html: HTML_TEMPLATE(req.body.message),
