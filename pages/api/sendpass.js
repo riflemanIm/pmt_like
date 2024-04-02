@@ -15,7 +15,8 @@ export default async function handler(req, res) {
        SELECT 
         id,
         pwd,
-        name
+        name,
+        email
 
        FROM forum_user u 
        WHERE login=? OR email=?
@@ -26,7 +27,7 @@ export default async function handler(req, res) {
     });
 
     const user = !isEmpty(result[0]) ? { ...result[0] } : {};
-    //console.log("user", user);
+    console.log("user", user);
     if (!isEmpty(user)) {
       /** --------- send mail -------------- */
 
@@ -41,13 +42,13 @@ export default async function handler(req, res) {
       SENDMAIL(options, (info, error) => {
         if (info != null) {
           console.log("info send enail: ", info);
-          res.status(200).json({ sended: "true" });
         } else if (error != null) {
           console.log("error send mail", error);
           //throw new Error("error send mail");
           throw new Error({ error: "error send mail" });
         }
       });
+      res.status(200).json({ sended: "true" });
     } else {
       res.status(200).json({});
     }
