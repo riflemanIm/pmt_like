@@ -31,7 +31,7 @@ export default async function handler(req, res) {
 
     if (!isEmpty(user)) {
       /** --------- send mail -------------- */
-      const text = `Вашь Пароль: ${user.pwd}\n\n <br/><br/>Это письмо сформировано автоматически, отвечать на него не нужно.`;
+      const text = `Ваш пароль: ${user.pwd}\n\n <br/><br/>Это письмо сформировано автоматически, отвечать на него не нужно.`;
       const options = {
         from: "support<support@pmtech.ru>", // sender address
         to: user.email, // receiver email
