@@ -1,6 +1,6 @@
 import { q } from "../../src/lib/db";
 import isEmpty from "../../src/helpers";
-import SENDMAIL from "../../src/helpers/mail";
+import SENDMAIL, { HTML_TEMPLATE } from "../../src/helpers/mail";
 // import md5 from "md5";
 
 export default async function handler(req, res) {
@@ -36,6 +36,7 @@ export default async function handler(req, res) {
         from: "support<support@pmtech.ru>", // sender address
         to: user.email, // receiver email
         subject: "PMT Support", // Subject line
+        text,
         html: HTML_TEMPLATE(text),
       };
 
