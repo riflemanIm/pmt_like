@@ -23,7 +23,7 @@ export const HTML_TEMPLATE = (text) => {
       <html>
         <head>
           <meta charset="utf-8">
-          <title>Site form</title>
+          <title>ООО «Пост Модерн Текнолоджи»</title>
           <style>
             .container {
               width: 100%;
@@ -38,8 +38,8 @@ export const HTML_TEMPLATE = (text) => {
               padding: 20px;
             }
             .email-header {
-              background-color: #333;
-              color: #fff;
+              background-color: ##f4f4f4;
+              color: #333;
               padding: 20px;
               text-align: center;
             }
@@ -47,8 +47,8 @@ export const HTML_TEMPLATE = (text) => {
               padding: 20px;
             }
             .email-footer {
-              background-color: #333;
-              color: #fff;
+              background-color: ##f4f4f4;
+              color: #333;
               padding: 20px;
               text-align: center;
             }
@@ -58,13 +58,13 @@ export const HTML_TEMPLATE = (text) => {
           <div class="container">
             <div class="email">
               <div class="email-header">
-                <h1>pmtech.ru</h1>
+                <h1>PMT Support</h1>
               </div>
               <div class="email-body">
                 <p>${text}</p>
               </div>
               <div class="email-footer">
-                <p>from site form</p>
+                <p>ООО «Пост Модерн Текнолоджи» email: pmt@pmtech.ru</p>
               </div>
             </div>
           </div>
