@@ -32,7 +32,7 @@ export default async function handler(req, res) {
       /** --------- send mail -------------- */
 
       const options = {
-        from: `${user.name}<${user.email}>`, // sender address
+        from: "support<support@pmtech.ru>", // sender address
         to: user.email, // receiver email
         subject: "PMT Support", // Subject line
         text: `Пароль: ${user.pwd}`,
