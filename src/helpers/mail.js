@@ -40,7 +40,7 @@ export const HTML_TEMPLATE = (text) => {
             .email-header {
               background-color: ##f4f4f4;
               color: #333;
-              padding: 20px;
+              padding: 10px;
               text-align: center;
             }
             .email-body {
@@ -49,7 +49,7 @@ export const HTML_TEMPLATE = (text) => {
             .email-footer {
               background-color: ##f4f4f4;
               color: #333;
-              padding: 20px;
+              padding: 10px;
               text-align: center;
             }
           </style>
