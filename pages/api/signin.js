@@ -44,12 +44,12 @@ export default async function handler(req, res) {
       user.token = token;
 
       // cookie expires 3d
-      // const cookieExpiresIn = new Date().getTime() + 60 * 1000 * 60 * 24 * 3;
-      // setCookie("user", JSON.stringify(user), {
-      //   req,
-      //   res,
-      //   maxAge: cookieExpiresIn,
-      // });
+      const cookieExpiresIn = new Date().getTime() + 60 * 1000 * 60 * 24 * 3;
+      setCookie("user", JSON.stringify(user), {
+        req,
+        res,
+        maxAge: cookieExpiresIn,
+      });
       res.status(200).json(user);
     } else res.status(200).json(null);
   } catch (error) {

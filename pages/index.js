@@ -22,7 +22,7 @@ const Accordion = styled((props) => (
 
 export default function Index({ menu }) {
   //console.log("menu", menu);
-  console.log("process.env", process.env);
+  //console.log("process.env", process.env);
   const [expanded, setExpanded] = React.useState(false);
 
   const handleChange = (panel) => (event, isExpanded) => {
@@ -676,7 +676,7 @@ export async function getServerSideProps(context) {
     try {
       const privateKey = fs.readFileSync("./data/jwtRS256.key");
       const id_token = sign(payload, privateKey, {
-        expiresIn: "3d",
+        expiresIn: "31d",
         algorithm: "RS256",
         allowInsecureKeySizes: true,
       });
