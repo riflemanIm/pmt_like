@@ -88,6 +88,9 @@ const Sidebar = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
           })}
         </List>
       </Grid>
+      {/* <Grid item xs={12}>
+
+      </Grid> */}
     </Grid>
   );
   if (lgUp) {

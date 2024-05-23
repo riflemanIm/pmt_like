@@ -13,23 +13,13 @@ const useStyles = makeStyles(() => ({
 const Footer = () => {
   const classes = useStyles();
   return (
-    <Box sx={{ p: 3, textAlign: "center", color: "#fff" }}>
+    <Box sx={{ p: 3, textAlign: "center" }}>
       <Typography my={3}>
-        <a
-          href="https://reestr.digital.gov.ru/reestr/303659/"
-          target="_blank"
-          className={classes.link}
-        >
+        <a href="https://reestr.digital.gov.ru/reestr/303659/" target="_blank">
           Реестровая запись №2309 от 15.12.2016 в РПО
         </a>
       </Typography>
-      <Typography
-        sx={{
-          color: "#F6F7F9",
-        }}
-      >
-        © {getYearNow()} All rights reserved by PMT
-      </Typography>
+      <Typography>© {getYearNow()} All rights reserved by PMT</Typography>
     </Box>
   );
 };
