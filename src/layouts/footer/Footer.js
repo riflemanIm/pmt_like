@@ -10,8 +10,8 @@ const Footer = () => {
           href="https://reestr.digital.gov.ru/reestr/303659/"
           target="_blank"
           sx={(theme) => ({
-            color: theme.palette.primary.dark,
-            textDecoration: "none",
+            color: `${theme.palette.primary.dark} !important`,
+            textDecoration: "none !important",
           })}
         >
           Реестровая запись №2309 от 15.12.2016 в РПО
