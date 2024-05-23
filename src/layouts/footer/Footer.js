@@ -19,7 +19,9 @@ const Footer = () => {
           Реестровая запись №2309 от 15.12.2016 в РПО
         </a>
       </Typography>
-      <Typography>© {getYearNow()} All rights reserved by PMT</Typography>
+      <Typography color="#fff">
+        © {getYearNow()} All rights reserved by PMT
+      </Typography>
     </Box>
   );
 };
