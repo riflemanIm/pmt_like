@@ -41,13 +41,14 @@ export default async function handler(req, res) {
       req.body.lic === "rescue"
         ? "GenerateRescueLicenseWeb"
         : "GenerateDemoLicenseWeb";
+    const uDBCodeLength = req.body.lic === "rescue" ? 30 : 45;
     result = await pool
       .request()
       .input("uLogin", sql.VarChar(30), req.body.login)
       .input("uPassword", sql.VarChar(30), req.body.password)
       .input("uIP", sql.VarChar(30), req.body.ip)
       .input("uVersion", sql.VarChar(30), req.body.version)
-      .input("uDBCode", sql.VarChar(30), req.body.code)
+      .input("uDBCode", sql.VarChar(uDBCodeLength), req.body.code)
       .execute(procedureName);
 
     if (result.recordset[0].ExitCode) {
