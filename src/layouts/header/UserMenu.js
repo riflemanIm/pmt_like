@@ -105,9 +105,16 @@ const UserMenu = () => {
               <ListItemButton color="primary" href="/profile">
                 Профиль
               </ListItemButton>
-              <ListItemButton color="primary" href="/generate_rescue_license">
+              <ListItemButton
+                color="primary"
+                href="/generate_license?lic=rescue"
+              >
                 Получение аварийной лицензии
               </ListItemButton>
+              <ListItemButton color="primary" href="/generate_license?lic=demo">
+                Получение ДЕМО лицензии (для Партнеров)
+              </ListItemButton>
+
               <ListItemButton
                 color="primary"
                 target="_blank"

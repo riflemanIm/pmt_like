@@ -63,10 +63,10 @@ function userReducer(state, action) {
           : !!state.isAuthenticated,
         serverResponse: action.payload.serverResponse,
       };
-    case "RESCUE_LICENCE":
+    case "LICENCE":
       return {
         ...state,
-        rescueLicence: action.payload,
+        licence: action.payload,
         loaded: true,
       };
     default: {
@@ -87,7 +87,7 @@ function UserProvider({ children }) {
     isAuthenticated,
     user,
     serverResponse: null,
-    rescueLicence: null,
+    licence: null,
     loaded: true,
   });
 

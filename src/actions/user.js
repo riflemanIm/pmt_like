@@ -22,12 +22,12 @@ export async function getIpData(setValues) {
   try {
     const { data } = await axios.get("https://api.ipify.org/?format=json");
     setValues({
-      // login: "support",
-      // password: "Temp_Lic$$",
-      // version: "8.105",
-      // code: "11111111",
-      // reason_standart: "Плановые работы",
-      // reason: "работы",
+      login: "support",
+      password: "Temp_Lic$$",
+      version: "8.105",
+      code: "11111111",
+      reason_standart: "Плановые работы",
+      reason: "работы",
       ip: data.ip,
     });
   } catch (error) {
@@ -238,7 +238,7 @@ export async function sendFormEmail({ setSend, bilet, values, locale }) {
     });
 }
 
-export async function getRescueLicence(dispatch, values, user) {
+export async function getLicence(dispatch, values, user, lic) {
   dispatch({
     type: "LOADING",
   });
@@ -246,17 +246,18 @@ export async function getRescueLicence(dispatch, values, user) {
     .post("/api/lic", {
       ...values,
       user,
+      lic,
     })
     .then(({ data }) => {
       if (!isEmpty(data))
         dispatch({
-          type: "RESCUE_LICENCE",
+          type: "LICENCE",
           payload: data.lic,
         });
       else
         dispatch({
           type: "SET_SERVER_RESPONSE",
-          payload: { serverResponse: "WRONG_RESCUE_LICENCE" },
+          payload: { serverResponse: "WRONG_LICENCE" },
         });
     })
     .catch((err) => {

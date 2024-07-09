@@ -25,7 +25,7 @@ export default async function handler(req, res) {
     if (isEmpty(result)) {
       res.status(401).json({ message: "The user is not logged in" });
     }
-    /** --------- gettingn Rescue License fron mssql -------------- */
+    /** --------- gettingn Rescue or Demo License fron mssql -------------- */
     const config = {
       user: "pmtsite",
       password: "licretreiver",
@@ -37,7 +37,10 @@ export default async function handler(req, res) {
     };
 
     let pool = await sql.connect(config);
-
+    const procedureName =
+      req.body.lic === "rescue"
+        ? "GenerateRescueLicenseWeb"
+        : "GenerateDemoLicenseWeb";
     result = await pool
       .request()
       .input("uLogin", sql.VarChar(30), req.body.login)
@@ -45,7 +48,7 @@ export default async function handler(req, res) {
       .input("uIP", sql.VarChar(30), req.body.ip)
       .input("uVersion", sql.VarChar(30), req.body.version)
       .input("uDBCode", sql.VarChar(30), req.body.code)
-      .execute("GenerateRescueLicenseWeb");
+      .execute(procedureName);
 
     if (result.recordset[0].ExitCode) {
       //console.log("result", result.recordset[0]);
