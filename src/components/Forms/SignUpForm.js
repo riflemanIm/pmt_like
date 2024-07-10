@@ -111,9 +111,6 @@ function SignUpForm({
     values.town == null ||
     values.address == null;
 
-  console.log("values", values);
-  console.log("errors", errors);
-
   return (
     <>
       <Fade

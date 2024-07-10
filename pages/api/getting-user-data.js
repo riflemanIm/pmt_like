@@ -5,9 +5,7 @@ import { setCookie } from "cookies-next";
 // import md5 from "md5";
 
 export default async function handler(req, res) {
-  //const route = req.body.route;
-  console.log("==body==", req.body);
-  //const prefix = req.body.locale === "en" ? `${req.body.locale}_` : "";
+  //console.log("==body==", req.body);
 
   try {
     let querySql = `
