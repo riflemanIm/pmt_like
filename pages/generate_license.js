@@ -21,7 +21,7 @@ export default function GenerateeLicence({ menu }) {
   const router = useRouter();
   const { lic } = router.query;
 
-  console.log(lic);
+  //  console.log(lic);
 
   // licence =
   //   "34E85FECA7A588D887EE0D8752B2763EF9411A0C128F0D10227B7442FE8AEE8C27830E101E8FB7E1D4C4A061425861D9C20C500B2BA67F398C57CF9339617CE95FE5CF59280029D9F8BC2724";

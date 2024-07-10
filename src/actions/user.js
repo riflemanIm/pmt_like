@@ -34,11 +34,28 @@ export async function getIpData(setValues) {
     console.log("error", error);
   }
 }
+
+export async function getUserData(setValues, email) {
+  try {
+    const { data } = await axios.post("/api/getting-user-data", {
+      email,
+    });
+    setValues({
+      ...data,
+      password: data.pwd,
+      repassword: data.pwd,
+    });
+  } catch (error) {
+    console.log("error", error);
+  }
+}
+
 export async function loginUser(dispatch, login, password) {
   if (login.length > 0 && password.length > 0) {
     dispatch({
       type: "LOADING",
     });
+
     await axios
       .post("/api/signin", {
         login,

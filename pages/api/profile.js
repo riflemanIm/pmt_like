@@ -51,6 +51,8 @@ export default async function handler(req, res) {
         req.body.link ?? "",
 
         req.body.email,
+        req.body.password,
+
         req.body.id,
       ];
 
@@ -71,7 +73,8 @@ export default async function handler(req, res) {
           ipaddress=?,
           link=?, 
           
-          email_extra=?
+          email_extra=?,
+          pwd=?
                   
         WHERE id=?`;
 
