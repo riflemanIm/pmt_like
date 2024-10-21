@@ -90,51 +90,51 @@ export default function Solution({ menu }) {
           лечебные учреждения РФ как:
         </Typography>
         <Grid container spacing={3}>
-          <Grid item xs={3}>
+          <Grid item md={3} sm={6} xs={12}>
             ГКБ им. С.П.&nbsp;Боткина (Москва)
           </Grid>
-          <Grid item xs={3}>
+          <Grid item md={3} sm={6} xs={12}>
             НИИ Неотложной детской хирургии и&nbsp;травмотологии
             Л.М.&nbsp;Рошаля (Москва)
           </Grid>
-          <Grid item xs={3}>
+          <Grid item md={3} sm={6} xs={12}>
             Морозовская ДГКБ (Москва)
           </Grid>
-          <Grid item xs={3}>
+          <Grid item md={3} sm={6} xs={12}>
             Поликлиники ОАО "Газпром" (Москва, Санкт-Петербург)
           </Grid>
-          <Grid item xs={3}>
+          <Grid item md={3} sm={6} xs={12}>
             Центральная поликлиника ОАО "РЖД" (Москва)
           </Grid>
-          <Grid item xs={3}>
+          <Grid item md={3} sm={6} xs={12}>
             ФМБЦ им. А.И.&nbsp;Бурназяна ФМБА России (Москва)
           </Grid>
-          <Grid item xs={3}>
+          <Grid item md={3} sm={6} xs={12}>
             ФЦ Ортопедии и травматологии (Чебоксары)
           </Grid>
-          <Grid item xs={3}>
+          <Grid item md={3} sm={6} xs={12}>
             ФЦ Сердечно-сосудистой хирургии (Пенза)
           </Grid>
-          <Grid item xs={3}>
+          <Grid item md={3} sm={6} xs={12}>
             НИИ Патологии кровообращения им. Е.Н.&nbsp;Мешалкина (Новосибирск)
           </Grid>
-          <Grid item xs={3}>
+          <Grid item md={3} sm={6} xs={12}>
             НИИ Травматологии и ортопедии (Нижний Новгород)
           </Grid>
-          <Grid item xs={3}>
+          <Grid item md={3} sm={6} xs={12}>
             Институт хирургии им. А.В.&nbsp;Вишневского (Москва)
           </Grid>
-          <Grid item xs={3}>
+          <Grid item md={3} sm={6} xs={12}>
             Центральный военный госпиталь и сеть медицинских центров Спецстроя
             России (Москва)
           </Grid>
-          <Grid item xs={3}>
+          <Grid item md={3} sm={6} xs={12}>
             НЦАГиП им. В.И.&nbsp;Кулакова (Москва)
           </Grid>
-          <Grid item xs={3}>
+          <Grid item md={3} sm={6} xs={12}>
             Благотворительный центр женского здоровья "Белая Роза" (Москва)
           </Grid>
-          <Grid item xs={3}>
+          <Grid item md={3} sm={6} xs={12}>
             Сети клиник "Медси", "Мать и Дитя", "АВА-Петер", "Ниармедик",
             "Чайка", "Medswiss"
           </Grid>

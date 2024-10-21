@@ -343,7 +343,7 @@ export default function Partnership({ menu }) {
             </Typography>
             <ul>
               <li>
-                <a href="http://www.it-anatech.ru" target="_blank">
+                <a href="https://it-anatech.ru" target="_blank">
                   Анатек
                 </a>
               </li>
