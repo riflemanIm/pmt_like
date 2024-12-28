@@ -7,6 +7,7 @@ import img from "../assets/images/bg/bg6.jpg";
 
 import { useUserStateDispatch } from "../src/context/UserContext";
 import { checkAuth } from "../src/actions/user";
+import NewYearGreeting from "../src/components/NewYearGreeting";
 
 export default function SignIn({ menu }) {
   const {
@@ -29,9 +30,7 @@ export default function SignIn({ menu }) {
         Личный кабинет
       </Typography>
       <BaseCard>
-        Немного позже, здесь будут новости для клиентов, как индивидуальные, так
-        и общие. А пока, весь что есть функционал доступен в меню пользователя
-        (вверху сайта)
+        <NewYearGreeting />
       </BaseCard>
     </FullLayout>
   );
