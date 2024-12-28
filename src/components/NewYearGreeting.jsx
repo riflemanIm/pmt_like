@@ -1,5 +1,5 @@
 import React from "react";
-import img from "../../assets/images/bg/bg_hny.webp";
+import img from "../../assets/images/hny_card1.webp";
 import { Typography } from "@mui/material";
 const NewYearGreeting = () => {
   return (
