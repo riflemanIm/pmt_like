@@ -102,6 +102,9 @@ const UserMenu = () => {
               aria-label="secondary mailbox folder"
               onClick={handleClose4}
             >
+              <ListItemButton color="primary" href="/lk">
+                Новости
+              </ListItemButton>
               <ListItemButton color="primary" href="/profile">
                 Профиль
               </ListItemButton>

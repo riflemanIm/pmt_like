@@ -3,11 +3,12 @@ import Router from "next/router";
 import Typography from "@mui/material/Typography";
 import FullLayout from "../src/layouts/FullLayout";
 import BaseCard from "../src/components/baseCard/BaseCard";
-import img from "../assets/images/bg/bg6.jpg";
 
 import { useUserStateDispatch } from "../src/context/UserContext";
 import { checkAuth } from "../src/actions/user";
 import NewYearGreeting from "../src/components/NewYearGreeting";
+//import img from "../assets/images/bg/bg_hny1.webp";
+import img from "../assets/images/bg/bg2.jpg";
 
 export default function SignIn({ menu }) {
   const {
