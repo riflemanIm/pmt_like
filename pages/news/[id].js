@@ -1,39 +1,95 @@
-import React from "react";
+// ===== CLIENT-SIDE PAGE FOR SINGLE NEWS =====
+// File: /app/news/[id]/page.js
 
-export default function NewsPage(props) {
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import axios from "axios";
+import { Container, Typography, Button, TextField, Box } from "@mui/material";
+
+export default function NewsDetailPage() {
+  const router = useRouter();
+  const { id } = router.query;
+  const [newsItem, setNewsItem] = useState({ title: "", content: "" });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (!id) return;
+
+    const fetchNewsItem = async () => {
+      try {
+        const response = await axios.get(`/api/news`, { params: { id } });
+        setNewsItem(response.data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNewsItem();
+  }, [id]);
+
+  const handleUpdate = async () => {
+    try {
+      await axios.put("/api/news", {
+        id,
+        title: newsItem.title,
+        content: newsItem.content,
+      });
+      router.push("/news");
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`/api/news`, { params: { id } });
+      router.push("/news");
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  if (loading) return <Typography>Loading news...</Typography>;
+  if (error) return <Typography color="error">Error: {error}</Typography>;
+  if (!newsItem.title && !newsItem.content)
+    return <Typography>No news item found.</Typography>;
+
   return (
-    <Grid container spacing={0}>
-      <Grid item xs={12} lg={12}>
-        sss
-      </Grid>
-    </Grid>
+    <Container>
+      <Typography variant="h4" gutterBottom>
+        Edit News
+      </Typography>
+      <Box display="flex" flexDirection="column" gap={2} mb={4}>
+        <TextField
+          label="Title"
+          value={newsItem.title}
+          onChange={(e) => setNewsItem({ ...newsItem, title: e.target.value })}
+          fullWidth
+        />
+        <TextField
+          label="Content"
+          value={newsItem.content}
+          onChange={(e) =>
+            setNewsItem({ ...newsItem, content: e.target.value })
+          }
+          fullWidth
+          multiline
+        />
+        <Button variant="contained" color="primary" onClick={handleUpdate}>
+          Update News
+        </Button>
+        <Button variant="outlined" color="error" onClick={handleDelete}>
+          Delete News
+        </Button>
+      </Box>
+    </Container>
   );
 }
 
-//Another option using getserversideprops, but must pass {data} to the page
-export async function getServerSideProps(context) {
-  const { id } = context.query;
-  const locale = context.locale;
-
-  const postData = {
-    method: "Post",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      route,
-      locale,
-    }),
-  };
-  let res = await fetch(`${process.env.API_URL}/page`, postData);
-  const data = await res.json();
-
-  const postData1 = {
-    method: "Post",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      locale,
-    }),
-  };
-  const res1 = await fetch(`${process.env.API_URL}/menu`, postData1);
-  const menu = await res1.json();
-  return { props: { data, menu } };
-}
+// ===== MOCK DATA FILE REMOVED =====
+// The news data is now stored in the MySQL database.
