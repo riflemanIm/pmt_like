@@ -1,142 +1,68 @@
-import React, {
-  useReducer,
-  useContext,
-  createContext,
-  useMemo,
-  ReactNode,
-} from "react";
-import {
-  saveToLocalStorage,
-  removeFromLocalStorage,
-  getFromLocalStorage,
-} from "../helpers/storageHelpers";
+import React, { useReducer, useContext, createContext, ReactNode } from "react";
 
 // Типы для состояния и действий
-interface User {
-  token?: string;
-  [key: string]: any;
+export interface NewsItem {
+  id: number;
+  title: string;
+  content: string;
 }
 
-interface UserState {
-  isAuthenticated: boolean;
-  user: User;
-  serverResponse: any | null;
-  licence: string | null;
-  loaded: boolean;
+export interface NewsState {
+  news: NewsItem[];
+  loading: boolean;
+  error: string | null;
 }
 
-type UserAction =
-  | { type: "LOGIN"; payload: User }
-  | { type: "SIGN_OUT_SUCCESS"; payload: any }
-  | { type: "SET_USER"; payload: Partial<UserState> }
+export type NewsAction =
+  | { type: "SET_NEWS"; payload: NewsItem[] }
+  | { type: "ADD_NEWS"; payload: NewsItem }
   | { type: "LOADING" }
-  | {
-      type: "SET_SERVER_RESPONSE";
-      payload: { data: User; serverResponse: any };
-    }
-  | { type: "LICENCE"; payload: string };
+  | { type: "SET_ERROR"; payload: string | null };
 
-// Создаем контекст
-const UserContext = createContext<{
-  userState: UserState;
-  userDispatch: React.Dispatch<UserAction>;
-} | null>(null);
-
-// Редьюсер для управления состоянием пользователя
-function userReducer(state: UserState, action: UserAction): UserState {
+// Редьюсер
+function newsReducer(state: NewsState, action: NewsAction): NewsState {
   switch (action.type) {
-    case "LOGIN":
-      saveToLocalStorage("user", action.payload);
-      return {
-        ...state,
-        user: action.payload,
-        isAuthenticated: true,
-        loaded: true,
-        serverResponse: null,
-      };
-
-    case "SIGN_OUT_SUCCESS":
-      removeFromLocalStorage("user");
-      return {
-        ...state,
-        isAuthenticated: false,
-        user: {},
-        loaded: true,
-        serverResponse: action.payload,
-      };
-
-    case "SET_USER":
-      return {
-        ...state,
-        ...action.payload,
-        loaded: true,
-      };
-
+    case "SET_NEWS":
+      return { ...state, news: action.payload, loading: false, error: null };
+    case "ADD_NEWS":
+      return { ...state, news: [...state.news, action.payload] };
     case "LOADING":
-      return {
-        ...state,
-        loaded: false,
-      };
-
-    case "SET_SERVER_RESPONSE":
-      if (action.payload.data) {
-        saveToLocalStorage("user", action.payload.data);
-      }
-      return {
-        ...state,
-        user: action.payload.data
-          ? { ...state.user, ...action.payload.data }
-          : state.user,
-        isAuthenticated: !!action.payload.data || state.isAuthenticated,
-        serverResponse: action.payload.serverResponse,
-        loaded: true,
-      };
-
-    case "LICENCE":
-      return {
-        ...state,
-        licence: action.payload,
-        loaded: true,
-      };
-
+      return { ...state, loading: true };
+    case "SET_ERROR":
+      return { ...state, error: action.payload, loading: false };
     default:
       throw new Error(`Unhandled action type: ${(action as any).type}`);
   }
 }
 
-// Провайдер состояния пользователя
-interface UserProviderProps {
-  children: ReactNode;
-}
+// Контекст
+const NewsContext = createContext<{
+  newsState: NewsState;
+  newsDispatch: React.Dispatch<NewsAction>;
+} | null>(null);
 
-function UserProvider({ children }: UserProviderProps) {
-  const initialUser = getFromLocalStorage<User>("user") || {};
-  const isAuthenticated = !!initialUser?.token;
+// Провайдер
+export function NewsProvider({ children }: { children: ReactNode }) {
+  const initialState: NewsState = {
+    news: [],
+    loading: false,
+    error: null,
+  };
 
-  const [userState, userDispatch] = useReducer(userReducer, {
-    isAuthenticated,
-    user: initialUser,
-    serverResponse: null,
-    licence: null,
-    loaded: true,
-  });
+  const [newsState, newsDispatch] = useReducer(newsReducer, initialState);
 
-  const value = useMemo(
-    () => ({ userState, userDispatch }),
-    [userState, userDispatch]
+  return (
+    <NewsContext.Provider value={{ newsState, newsDispatch }}>
+      {children}
+    </NewsContext.Provider>
   );
-
-  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }
 
-// Кастомный хук для состояния и dispatch
-function useUserStateDispatch() {
-  const context = useContext(UserContext);
+// Кастомный хук
+export function useNewsStateDispatch() {
+  const context = useContext(NewsContext);
   if (!context) {
-    throw new Error("useUserStateDispatch must be used within a UserProvider");
+    throw new Error("useNewsStateDispatch must be used within a NewsProvider");
   }
   return context;
 }
-
-// Экспортируем провайдер и хук
-export { UserProvider, useUserStateDispatch };

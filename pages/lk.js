@@ -10,7 +10,7 @@ import NewYearGreeting from "../src/components/NewYearGreeting";
 //import img from "../assets/images/bg/bg_hny1.webp";
 import img from "../assets/images/bg/bg2.jpg";
 
-export default function SignIn({ menu }) {
+export default function PrivetAccount() {
   const {
     userState: { isAuthenticated, user },
     userDispatch,
@@ -24,9 +24,9 @@ export default function SignIn({ menu }) {
       Router.push("/signin");
     }
   }, [isAuthenticated]);
-  console.log("user", user);
+
   return (
-    <FullLayout menu={menu} img={img.src}>
+    <FullLayout img={img.src}>
       <Typography variant="h1" mb={8}>
         Личный кабинет
       </Typography>

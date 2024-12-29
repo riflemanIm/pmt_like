@@ -16,7 +16,7 @@ const Accordion = styled((props) => (
 export default function Solution({ menu }) {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("lg"));
   return (
-    <FullLayout menu={menu} img={img.src}>
+    <FullLayout img={img.src}>
       {!isMobile && (
         <div
           className={css`

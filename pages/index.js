@@ -30,7 +30,7 @@ export default function Index({ menu }) {
   };
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("lg"));
   return (
-    <FullLayout menu={menu} img={img.src}>
+    <FullLayout img={img.src}>
       <Typography variant="h1" mb={8}>
         Решения
       </Typography>

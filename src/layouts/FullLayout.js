@@ -34,7 +34,7 @@ const PageWrapper = experimentalStyled("div")(({ theme }) => ({
   paddingTop: "74px",
 }));
 
-const FullLayout = ({ children, menu, img }) => {
+const FullLayout = ({ children, img }) => {
   const [isSidebarOpen, setSidebarOpen] = React.useState(true);
   const [isMobileSidebarOpen, setMobileSidebarOpen] = React.useState(false);
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"));
@@ -53,7 +53,6 @@ const FullLayout = ({ children, menu, img }) => {
           isSidebarOpen={isSidebarOpen}
           isMobileSidebarOpen={isMobileSidebarOpen}
           onSidebarClose={() => setMobileSidebarOpen(false)}
-          menu={menu}
         />
         <PageWrapper>
           <Container
