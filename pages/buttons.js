@@ -14,7 +14,7 @@ import FullLayout from "../src/layouts/FullLayout";
 const Buttons = ({ menu }) => {
   console.log("menu", menu);
   return (
-    <FullLayout menu={menu}>
+    <FullLayout>
       <Grid container spacing={0}>
         {/* ------------------------- row 1 ------------------------- */}
         <Grid item xs={12} lg={6}>

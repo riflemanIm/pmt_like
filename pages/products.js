@@ -22,7 +22,7 @@ export default function Products({ menu }) {
   };
 
   return (
-    <FullLayout menu={menu} img={img.src}>
+    <FullLayout img={img.src}>
       <Typography variant="h1" mb={8}>
         Продуктовая линейка
       </Typography>

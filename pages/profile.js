@@ -69,7 +69,7 @@ export default function SignIn({ countries, menu }) {
   }, [isAuthenticated]);
 
   return (
-    <FullLayout menu={menu} img={img.src}>
+    <FullLayout img={img.src}>
       <Typography variant="h1" mb={8}>
         Профиль
       </Typography>

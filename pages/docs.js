@@ -20,7 +20,7 @@ export default function Licenses({ menu }) {
   };
 
   return (
-    <FullLayout menu={menu} img={img.src}>
+    <FullLayout img={img.src}>
       <Typography variant="h1" mb={8}>
         Документация
       </Typography>

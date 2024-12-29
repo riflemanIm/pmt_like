@@ -10,7 +10,7 @@ import img from "../assets/images/bg/bg19.jpg";
 export default function Index({ menu }) {
   //console.log("menu", menu);
   return (
-    <FullLayout menu={menu} img={img.src}>
+    <FullLayout img={img.src}>
       <Grid container spacing={0}>
         <Grid item xs={12} lg={12}>
           <Effect />
