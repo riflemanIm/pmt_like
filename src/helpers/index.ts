@@ -73,6 +73,9 @@ export function getError(err: any) {
   //  console.log("=== err ===", err);
   if (typeof err === "string") return err;
 
+  if (err?.message != null && typeof err.message === "string")
+    return err.message;
+
   if (
     typeof err?.response?.data === "object" &&
     err?.response?.data?.message != null

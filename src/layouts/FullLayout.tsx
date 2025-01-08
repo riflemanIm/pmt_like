@@ -1,15 +1,18 @@
 import React from "react";
-import {
-  experimentalStyled,
-  useMediaQuery,
-  Container,
-  Box,
-} from "@mui/material";
+import { experimentalStyled } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import Container from "@mui/material/Container";
+import Box from "@mui/material/Box";
 import Header from "./header/Header";
 import Sidebar from "./sidebar/Sidebar";
 import Footer from "./footer/Footer";
 
-const MainWrapper = experimentalStyled("div")(({ img }) => ({
+interface FullLayoutProps {
+  children: React.ReactNode;
+  img: string;
+}
+
+const MainWrapper = experimentalStyled("div")<{ img: string }>(({ img }) => ({
   display: "flex",
   minHeight: "100vh",
   overflow: "hidden",
@@ -34,10 +37,12 @@ const PageWrapper = experimentalStyled("div")(({ theme }) => ({
   paddingTop: "74px",
 }));
 
-const FullLayout = ({ children, img }) => {
-  const [isSidebarOpen, setSidebarOpen] = React.useState(true);
-  const [isMobileSidebarOpen, setMobileSidebarOpen] = React.useState(false);
-  const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"));
+const FullLayout: React.FC<FullLayoutProps> = ({ children, img }) => {
+  const [isSidebarOpen, setSidebarOpen] = React.useState<boolean>(true);
+  const [isMobileSidebarOpen, setMobileSidebarOpen] =
+    React.useState<boolean>(false);
+  const lgUp = useMediaQuery((theme: any) => theme.breakpoints.up("lg"));
+
   return (
     <MainWrapper img={img}>
       <Container>
