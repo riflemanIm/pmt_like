@@ -13,6 +13,12 @@ import {
 } from "../../src/context/NewsContext";
 import img from "../../assets/images/bg/bg2.jpg";
 import Loading from "components/Loading";
+import dynamic from "next/dynamic";
+import "react-markdown-editor-lite/lib/index.css";
+import ReactMarkdown from "react-markdown";
+const MdEditor = dynamic(() => import("react-markdown-editor-lite"), {
+  ssr: false,
+});
 
 const NewsItemAdd: React.FC = () => {
   const router = useRouter();
@@ -44,6 +50,9 @@ const NewsItemAdd: React.FC = () => {
       newsDispatch({ type: "SET_ERROR", payload: (err as Error).message });
     }
   };
+  const handleEditorChange = ({ text }: { text: string }) => {
+    setNewNewsItem({ ...newNewsItem, content: text });
+  };
 
   return (
     <FullLayout img={img.src}>
@@ -63,14 +72,11 @@ const NewsItemAdd: React.FC = () => {
             }
             fullWidth
           />
-          <TextField
-            label="Content"
+          <MdEditor
             value={newNewsItem.content}
-            onChange={(e) =>
-              setNewNewsItem({ ...newNewsItem, content: e.target.value })
-            }
-            fullWidth
-            multiline
+            style={{ height: "500px" }}
+            renderHTML={(text) => <ReactMarkdown>{text}</ReactMarkdown>}
+            onChange={handleEditorChange}
           />
           <Button variant="contained" color="primary" onClick={handleAdd}>
             Add News

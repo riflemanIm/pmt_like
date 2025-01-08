@@ -17,6 +17,12 @@ import {
 } from "../../src/context/NewsContext";
 import img from "../../assets/images/bg/bg2.jpg";
 import Loading from "components/Loading";
+import dynamic from "next/dynamic";
+import "react-markdown-editor-lite/lib/index.css";
+import ReactMarkdown from "react-markdown";
+const MdEditor = dynamic(() => import("react-markdown-editor-lite"), {
+  ssr: false,
+});
 
 const NewsItem: React.FC = () => {
   const router = useRouter();
@@ -50,7 +56,7 @@ const NewsItem: React.FC = () => {
     try {
       const newsId = Number(id);
       if (!isNaN(newsId) && newsItem) {
-        await updateNewsItem(newsId, newsItem, newsDispatch);
+        await updateNewsItem(newsDispatch, newsItem);
       } else {
         newsDispatch({ type: "SET_ERROR", payload: "Invalid news ID" });
       }
@@ -73,15 +79,18 @@ const NewsItem: React.FC = () => {
     }
   };
 
-  if (loading) return <Typography>Loading news...</Typography>;
-  if (error) return <Typography color="error">Error: {error}</Typography>;
-  if (!newsItem?.title && !newsItem?.content)
-    return <Typography>No news item found.</Typography>;
+  const handleEditorChange = ({ text }: { text: string }) => {
+    if (newsItem)
+      newsDispatch({
+        type: "SET_NEWS_ITEM",
+        payload: { ...newsItem, content: text },
+      });
+  };
 
   return (
     <FullLayout img={img.src}>
       <Typography variant="h1" mb={8}>
-        {id ? "Edit News" : "Add News"}
+        Edit News
       </Typography>
       <BaseCard>
         {loading && <Loading />}
@@ -90,8 +99,9 @@ const NewsItem: React.FC = () => {
         <Box display="flex" flexDirection="column" gap={2} mb={4}>
           <TextField
             label="Title"
-            value={newsItem.title}
+            value={newsItem ? newsItem.title : ""}
             onChange={(e) =>
+              newsItem &&
               newsDispatch({
                 type: "SET_NEWS_ITEM",
                 payload: { ...newsItem, title: e.target.value },
@@ -99,19 +109,13 @@ const NewsItem: React.FC = () => {
             }
             fullWidth
           />
-          <TextField
-            label="Content"
-            value={newsItem.content}
-            onChange={(e) =>
-              newsDispatch({
-                type: "SET_NEWS_ITEM",
-                payload: { ...newsItem, content: e.target.value },
-              })
-            }
-            fullWidth
-            multiline
-            sx={{ mb: 3 }}
+          <MdEditor
+            value={newsItem ? newsItem.content : ""}
+            style={{ height: "500px" }}
+            renderHTML={(text) => <ReactMarkdown>{text}</ReactMarkdown>}
+            onChange={handleEditorChange}
           />
+
           <Button
             variant="contained"
             color="primary"

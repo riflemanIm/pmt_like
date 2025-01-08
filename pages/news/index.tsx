@@ -26,7 +26,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-
+import ReactMarkdown from "react-markdown";
 import Loading from "components/Loading";
 import { formatDate } from "../../src/helpers/dates";
 import img from "../../assets/images/bg/bg2.jpg";
@@ -105,7 +105,7 @@ function NewsPage() {
                     >
                       {item.updated_at
                         ? formatDate(item.updated_at, "DD.MM.YYYY")
-                        : "N/A"}
+                        : ""}
                     </Typography>
                   </Typography>
 
@@ -128,7 +128,9 @@ function NewsPage() {
                   </IconButton>
                 </>
               </AccordionSummary>
-              <AccordionDetails>{item.content}</AccordionDetails>
+              <AccordionDetails>
+                <ReactMarkdown>{item.content}</ReactMarkdown>
+              </AccordionDetails>
             </Accordion>
           </div>
         ))}
