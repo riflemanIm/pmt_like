@@ -2,9 +2,10 @@ import React, { useReducer, useContext, createContext, ReactNode } from "react";
 
 // Типы для состояния и действий
 export interface NewsItem {
-  id: number;
+  id?: number;
   title: string;
   content: string;
+  updated_at?: string;
 }
 
 export interface NewsState {

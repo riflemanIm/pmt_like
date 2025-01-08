@@ -1,13 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Typography, Box, TextField, Button } from "@mui/material";
 import FullLayout from "../../src/layouts/FullLayout";
 import BaseCard from "../../src/components/baseCard/BaseCard";
-import {
-  fetchNewsItem,
-  updateNewsItem,
-  deleteNewsItem,
-} from "../../src/actions/news";
+import { updateNewsItem } from "../../src/actions/news";
 import { useUserStateDispatch } from "../../src/context/UserContext";
 import { checkAuth } from "../../src/actions/user";
 import {
@@ -24,9 +20,9 @@ const MdEditor = dynamic(() => import("react-markdown-editor-lite"), {
   ssr: false,
 });
 
-const NewsItem: React.FC = () => {
+const NewsItemAdd: React.FC = () => {
   const router = useRouter();
-  const { id } = router.query;
+
   const {
     userState: { isAuthenticated, user },
     userDispatch,
@@ -34,6 +30,7 @@ const NewsItem: React.FC = () => {
 
   const { newsItem, loading, error } = useNewsState();
   const newsDispatch = useNewsStateDispatch();
+  const [newNewsItem, setNewNewsItem] = useState({ title: "", content: "" });
 
   useEffect(() => {
     checkAuth(userDispatch, user.token);
@@ -42,55 +39,25 @@ const NewsItem: React.FC = () => {
   useEffect(() => {
     if (!isAuthenticated) {
       router.push("/signin");
-    } else {
-      const newsId = Number(id);
-      if (!isNaN(newsId)) {
-        fetchNewsItem(newsId, newsDispatch);
-      } else {
-        newsDispatch({ type: "SET_ERROR", payload: "Invalid news ID" });
-      }
     }
-  }, [isAuthenticated, id]);
+  }, [isAuthenticated]);
 
-  const handleUpdate = async () => {
+  const handleAdd = async () => {
     try {
-      const newsId = Number(id);
-      if (!isNaN(newsId) && newsItem) {
-        await updateNewsItem(newsDispatch, newsItem);
-      } else {
-        newsDispatch({ type: "SET_ERROR", payload: "Invalid news ID" });
-      }
+      await updateNewsItem(newsDispatch, newNewsItem);
+      setNewNewsItem({ title: "", content: "" });
     } catch (err) {
       newsDispatch({ type: "SET_ERROR", payload: (err as Error).message });
     }
   };
-
-  const handleDelete = async () => {
-    try {
-      const newsId = Number(id);
-      if (!isNaN(newsId)) {
-        const r = await deleteNewsItem(newsId, newsDispatch);
-        if (r) router.push("/news");
-      } else {
-        newsDispatch({ type: "SET_ERROR", payload: "Invalid news ID" });
-      }
-    } catch (err) {
-      newsDispatch({ type: "SET_ERROR", payload: (err as Error).message });
-    }
-  };
-
   const handleEditorChange = ({ text }: { text: string }) => {
-    if (newsItem)
-      newsDispatch({
-        type: "SET_NEWS_ITEM",
-        payload: { ...newsItem, content: text },
-      });
+    setNewNewsItem({ ...newNewsItem, content: text });
   };
 
   return (
     <FullLayout img={img.src}>
       <Typography variant="h1" mb={8}>
-        Edit News
+        Add News
       </Typography>
       <BaseCard>
         {loading && <Loading />}
@@ -99,38 +66,20 @@ const NewsItem: React.FC = () => {
         <Box display="flex" flexDirection="column" gap={2} mb={4}>
           <TextField
             label="Title"
-            value={newsItem ? newsItem.title : ""}
+            value={newNewsItem.title}
             onChange={(e) =>
-              newsItem &&
-              newsDispatch({
-                type: "SET_NEWS_ITEM",
-                payload: { ...newsItem, title: e.target.value },
-              })
+              setNewNewsItem({ ...newNewsItem, title: e.target.value })
             }
             fullWidth
           />
           <MdEditor
-            value={newsItem ? newsItem.content : ""}
+            value={newNewsItem.content}
             style={{ height: "500px" }}
             renderHTML={(text) => <ReactMarkdown>{text}</ReactMarkdown>}
             onChange={handleEditorChange}
           />
-
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleUpdate}
-            sx={{ mb: 3 }}
-          >
-            Сохранить
-          </Button>
-          <Button
-            variant="outlined"
-            color="error"
-            onClick={handleDelete}
-            sx={{ mb: 3 }}
-          >
-            Удалить
+          <Button variant="contained" color="primary" onClick={handleAdd}>
+            Add News
           </Button>
 
           <Button
@@ -152,7 +101,7 @@ const NewsItem: React.FC = () => {
 export default function NewsItemPage() {
   return (
     <NewsProvider>
-      <NewsItem />
+      <NewsItemAdd />
     </NewsProvider>
   );
 }

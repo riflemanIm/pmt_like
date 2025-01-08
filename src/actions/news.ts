@@ -40,14 +40,17 @@ export async function fetchNewsItem(
 }
 
 export async function updateNewsItem(
-  id: number,
-  newsItem: NewsItem,
-  dispatch: React.Dispatch<NewsAction>
+  dispatch: React.Dispatch<NewsAction>,
+  newsItem: NewsItem
 ): Promise<void> {
   dispatch({ type: "LOADING" });
 
   try {
-    await axios.put(`/api/news`, newsItem);
+    if (!newsItem.id) {
+      await axios.post("/api/news", newsItem);
+    } else {
+      await axios.put(`/api/news`, newsItem);
+    }
     dispatch({ type: "SET_NEWS_ITEM", payload: newsItem });
   } catch (error) {
     if (axios.isAxiosError(error)) {

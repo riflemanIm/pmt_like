@@ -33,7 +33,7 @@ export default async function handler(
         }
       } else {
         const rows = (await q<RowDataPacket[]>({
-          query: "SELECT * FROM news",
+          query: "SELECT * FROM news Order by updated_at desc",
         })) as NewsItem[];
 
         res.status(200).json(rows);

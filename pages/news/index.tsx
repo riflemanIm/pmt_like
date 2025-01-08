@@ -17,7 +17,7 @@ import {
   useNewsStateDispatch,
 } from "../../src/context/NewsContext";
 import { fetchNews } from "../../src/actions/news";
-import { Typography, IconButton } from "@mui/material";
+import { Typography, IconButton, Button } from "@mui/material";
 
 import { styled } from "@mui/material/styles";
 import MuiAccordion from "@mui/material/Accordion";
@@ -26,8 +26,10 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import img from "../../assets/images/bg/bg2.jpg";
+import ReactMarkdown from "react-markdown";
 import Loading from "components/Loading";
+import { formatDate } from "../../src/helpers/dates";
+import img from "../../assets/images/bg/bg2.jpg";
 
 const Accordion = styled((props: any) => (
   <MuiAccordion elevation={0} square {...props} />
@@ -97,7 +99,16 @@ function NewsPage() {
                     sx={{ width: "80%", flexShrink: 0 }}
                   >
                     {item.title}
+                    <Typography
+                      variant="body2"
+                      sx={{ color: "text.secondary", fontSize: 14, mt: 1 }}
+                    >
+                      {item.updated_at
+                        ? formatDate(item.updated_at, "DD.MM.YYYY")
+                        : ""}
+                    </Typography>
                   </Typography>
+
                   <IconButton
                     component={Link}
                     edge="end"
@@ -117,10 +128,21 @@ function NewsPage() {
                   </IconButton>
                 </>
               </AccordionSummary>
-              <AccordionDetails>{item.content}</AccordionDetails>
+              <AccordionDetails>
+                <ReactMarkdown>{item.content}</ReactMarkdown>
+              </AccordionDetails>
             </Accordion>
           </div>
         ))}
+        <Button
+          variant="contained"
+          color="primary"
+          component={Link}
+          href={`/news/add`}
+          sx={{ mt: 3 }}
+        >
+          Добавить новость
+        </Button>
       </BaseCard>
     </FullLayout>
   );
