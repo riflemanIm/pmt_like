@@ -16,6 +16,7 @@ import {
   useNewsStateDispatch,
 } from "../../src/context/NewsContext";
 import img from "../../assets/images/bg/bg2.jpg";
+import Loading from "components/Loading";
 
 const NewsItem: React.FC = () => {
   const router = useRouter();
@@ -83,6 +84,9 @@ const NewsItem: React.FC = () => {
         {id ? "Edit News" : "Add News"}
       </Typography>
       <BaseCard>
+        {loading && <Loading />}
+        {error && <Typography color="error">Error: {error}</Typography>}
+
         <Box display="flex" flexDirection="column" gap={2} mb={4}>
           <TextField
             label="Title"

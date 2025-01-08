@@ -17,6 +17,7 @@
     "classnames": "^2.5.1",
     "clsx": "2.1.0",
     "cookies-next": "^4.1.1",
+    "dayjs": "^1.11.13",
     "eslint-config-next": "^14.1.0",
     "feather-icons-react": "^0.7.0",
     "jsonwebtoken": "^9.0.2",
