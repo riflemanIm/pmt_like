@@ -14,7 +14,8 @@ export async function getCountries() {
     //console.log("data--", data);
     return data;
   } catch (error) {
-    console.log("error", getError(error));
+    console.error("Error fetching countries:", getError(error));
+    throw new Error("Failed to fetch countries");
   }
 }
 
@@ -31,7 +32,8 @@ export async function getIpData(setValues) {
       ip: data.ip,
     });
   } catch (error) {
-    console.log("error", error);
+    console.error("Error fetching IP data:", getError(error));
+    throw new Error("Failed to fetch IP data");
   }
 }
 

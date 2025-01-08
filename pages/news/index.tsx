@@ -11,20 +11,46 @@ import BaseCard from "../../src/components/baseCard/BaseCard";
 import { useUserStateDispatch } from "../../src/context/UserContext";
 import { checkAuth } from "../../src/actions/user";
 import {
-  useNewsStateDispatch,
+  useNewsState,
   NewsItem,
   NewsProvider,
+  useNewsStateDispatch,
 } from "../../src/context/NewsContext";
 import { fetchNews } from "../../src/actions/news";
-import { Typography, List, ListItem, ListItemText } from "@mui/material";
+import { Typography, IconButton } from "@mui/material";
+
+import { styled } from "@mui/material/styles";
+import MuiAccordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import img from "../../assets/images/bg/bg2.jpg";
+import Loading from "components/Loading";
+
+const Accordion = styled((props: any) => (
+  <MuiAccordion elevation={0} square {...props} />
+))();
 
 function NewsPage() {
   const {
     userState: { isAuthenticated, user },
     userDispatch,
   } = useUserStateDispatch();
-  const { newsState, newsDispatch } = useNewsStateDispatch();
+
+  const { news, loading, error } = useNewsState();
+  const newsDispatch = useNewsStateDispatch();
+
+  const [expanded, setExpanded] = React.useState<string | false>(false);
+
+  interface HandleChangeProps {
+    (panel: string): (event: React.SyntheticEvent, isExpanded: boolean) => void;
+  }
+
+  const handleChange: HandleChangeProps = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+  };
 
   useEffect(() => {
     checkAuth(userDispatch, user.token);
@@ -40,13 +66,6 @@ function NewsPage() {
       fetchNews(newsDispatch);
     }
   }, [isAuthenticated]);
-  if (newsState.loading) {
-    return <Typography>Loading news...</Typography>;
-  }
-
-  if (newsState.error) {
-    return <Typography color="error">Error: {newsState.error}</Typography>;
-  }
 
   return (
     <FullLayout img={img.src}>
@@ -54,13 +73,54 @@ function NewsPage() {
         Личный кабинет
       </Typography>
       <BaseCard>
-        <List>
-          {newsState.news.map((item: NewsItem) => (
-            <ListItem key={item.id} component={Link} href={`/news/${item.id}`}>
-              <ListItemText primary={item.title} />
-            </ListItem>
-          ))}
-        </List>
+        <Typography variant="h3">Новости</Typography>
+
+        {loading && <Loading />}
+
+        {error && <Typography color="error">Error: {error}</Typography>}
+
+        {news.map((item: NewsItem, inx: number) => (
+          <div style={{ marginTop: 48 }} key={item.id}>
+            <Accordion
+              expanded={expanded === `panel${inx}`}
+              onChange={handleChange(`panel${inx}`)}
+            >
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1bh-content"
+                id="panel1bh-header"
+              >
+                <>
+                  <Typography
+                    variant="h5"
+                    my={1}
+                    sx={{ width: "80%", flexShrink: 0 }}
+                  >
+                    {item.title}
+                  </Typography>
+                  <IconButton
+                    component={Link}
+                    edge="end"
+                    aria-label="Edit"
+                    href={`/news/${item.id}`}
+                    sx={{ mr: 2 }}
+                  >
+                    <EditIcon color="primary" />
+                  </IconButton>
+                  <IconButton
+                    component={Link}
+                    edge="end"
+                    aria-label="Delete"
+                    href={`/news/${item.id}`}
+                  >
+                    <DeleteIcon color="error" />
+                  </IconButton>
+                </>
+              </AccordionSummary>
+              <AccordionDetails>{item.content}</AccordionDetails>
+            </Accordion>
+          </div>
+        ))}
       </BaseCard>
     </FullLayout>
   );

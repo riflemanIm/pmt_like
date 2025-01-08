@@ -9,6 +9,7 @@ export interface NewsItem {
 
 export interface NewsState {
   news: NewsItem[];
+  newsItem: NewsItem | null;
   loading: boolean;
   error: string | null;
 }
@@ -16,53 +17,88 @@ export interface NewsState {
 export type NewsAction =
   | { type: "SET_NEWS"; payload: NewsItem[] }
   | { type: "ADD_NEWS"; payload: NewsItem }
+  | { type: "SET_NEWS_ITEM"; payload: NewsItem }
+  | { type: "REMOVE_NEWS_ITEM"; payload: number }
   | { type: "LOADING" }
   | { type: "SET_ERROR"; payload: string | null };
 
 // Редьюсер
-function newsReducer(state: NewsState, action: NewsAction): NewsState {
+const newsReducer = (state: NewsState, action: NewsAction): NewsState => {
   switch (action.type) {
     case "SET_NEWS":
       return { ...state, news: action.payload, loading: false, error: null };
     case "ADD_NEWS":
-      return { ...state, news: [...state.news, action.payload] };
+      return {
+        ...state,
+        news: [...state.news, action.payload],
+        loading: false,
+        error: null,
+      };
+    case "SET_NEWS_ITEM":
+      return {
+        ...state,
+        newsItem: action.payload,
+        loading: false,
+        error: null,
+      };
+    case "REMOVE_NEWS_ITEM":
+      return {
+        ...state,
+        news: state.news.filter((item) => item.id !== action.payload),
+        loading: false,
+        error: null,
+      };
     case "LOADING":
       return { ...state, loading: true };
     case "SET_ERROR":
       return { ...state, error: action.payload, loading: false };
     default:
-      throw new Error(`Unhandled action type: ${(action as any).type}`);
+      return state;
   }
-}
+};
 
-// Контекст
-const NewsContext = createContext<{
-  newsState: NewsState;
-  newsDispatch: React.Dispatch<NewsAction>;
-} | null>(null);
+// Начальное состояние
+const initialState: NewsState = {
+  news: [],
+  newsItem: null,
+  loading: false,
+  error: null,
+};
+
+// Контексты
+const NewsStateContext = createContext<NewsState | undefined>(undefined);
+const NewsDispatchContext = createContext<
+  React.Dispatch<NewsAction> | undefined
+>(undefined);
 
 // Провайдер
-export function NewsProvider({ children }: { children: ReactNode }) {
-  const initialState: NewsState = {
-    news: [],
-    loading: false,
-    error: null,
-  };
-
-  const [newsState, newsDispatch] = useReducer(newsReducer, initialState);
+export const NewsProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
+  const [state, dispatch] = useReducer(newsReducer, initialState);
 
   return (
-    <NewsContext.Provider value={{ newsState, newsDispatch }}>
-      {children}
-    </NewsContext.Provider>
+    <NewsStateContext.Provider value={state}>
+      <NewsDispatchContext.Provider value={dispatch}>
+        {children}
+      </NewsDispatchContext.Provider>
+    </NewsStateContext.Provider>
   );
-}
+};
 
-// Кастомный хук
-export function useNewsStateDispatch() {
-  const context = useContext(NewsContext);
-  if (!context) {
+// Хуки для использования контекста
+export const useNewsState = (): NewsState => {
+  const context = useContext(NewsStateContext);
+  if (context === undefined) {
+    throw new Error("useNewsState must be used within a NewsProvider");
+  }
+  return context;
+};
+
+export const useNewsStateDispatch = (): React.Dispatch<NewsAction> => {
+  const context = useContext(NewsDispatchContext);
+  if (context === undefined) {
     throw new Error("useNewsStateDispatch must be used within a NewsProvider");
   }
   return context;
-}
+};
