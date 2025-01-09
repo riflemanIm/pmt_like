@@ -1,6 +1,13 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/router";
-import { Typography, Box, TextField, Button } from "@mui/material";
+import {
+  Typography,
+  Box,
+  TextField,
+  Button,
+  Switch,
+  FormControlLabel,
+} from "@mui/material";
 import FullLayout from "../../src/layouts/FullLayout";
 import BaseCard from "../../src/components/baseCard/BaseCard";
 import {
@@ -24,7 +31,7 @@ const MdEditor = dynamic(() => import("react-markdown-editor-lite"), {
   ssr: false,
 });
 
-const NewsItem: React.FC = () => {
+const NewsItemComp: React.FC = () => {
   const router = useRouter();
   const { id } = router.query;
   const {
@@ -86,6 +93,17 @@ const NewsItem: React.FC = () => {
         payload: { ...newsItem, content: text },
       });
   };
+  const handleStatusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (newsItem) {
+      const updatedNewsItem = {
+        ...newsItem,
+        status: event.target.checked ? (1 as 1) : (0 as 0),
+        title: newsItem.title || "",
+        content: newsItem.content || "",
+      };
+      newsDispatch({ type: "SET_NEWS_ITEM", payload: updatedNewsItem });
+    }
+  };
 
   return (
     <FullLayout img={img.src}>
@@ -115,7 +133,16 @@ const NewsItem: React.FC = () => {
             renderHTML={(text) => <ReactMarkdown>{text}</ReactMarkdown>}
             onChange={handleEditorChange}
           />
-
+          <FormControlLabel
+            control={
+              <Switch
+                checked={newsItem ? newsItem.status === 1 : false}
+                onChange={handleStatusChange}
+                color="primary"
+              />
+            }
+            label="Status"
+          />
           <Button
             variant="contained"
             color="primary"
@@ -152,7 +179,7 @@ const NewsItem: React.FC = () => {
 export default function NewsItemPage() {
   return (
     <NewsProvider>
-      <NewsItem />
+      <NewsItemComp />
     </NewsProvider>
   );
 }

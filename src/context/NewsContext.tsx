@@ -5,7 +5,9 @@ export interface NewsItem {
   id?: number;
   title: string;
   content: string;
-  updated_at?: string;
+  status: 0 | 1;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface NewsState {
@@ -20,6 +22,7 @@ export type NewsAction =
   | { type: "ADD_NEWS"; payload: NewsItem }
   | { type: "SET_NEWS_ITEM"; payload: NewsItem }
   | { type: "REMOVE_NEWS_ITEM"; payload: number }
+  | { type: "UPDATE_NEWS_STATUS"; payload: { id: number; status: 0 | 1 } }
   | { type: "LOADING" }
   | { type: "SET_ERROR"; payload: string | null };
 
@@ -46,6 +49,17 @@ const newsReducer = (state: NewsState, action: NewsAction): NewsState => {
       return {
         ...state,
         news: state.news.filter((item) => item.id !== action.payload),
+        loading: false,
+        error: null,
+      };
+    case "UPDATE_NEWS_STATUS":
+      return {
+        ...state,
+        news: state.news.map((item) =>
+          item.id === action.payload.id
+            ? { ...item, status: action.payload.status }
+            : item
+        ),
         loading: false,
         error: null,
       };
