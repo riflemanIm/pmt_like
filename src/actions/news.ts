@@ -27,8 +27,6 @@ export async function fetchNewsItem(
 
   try {
     const { data } = await axios.get<NewsItem>(`/api/news?id=${id}`);
-    //console.log("data", data);
-
     dispatch({ type: "SET_NEWS_ITEM", payload: data });
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -52,6 +50,25 @@ export async function updateNewsItem(
       await axios.put(`/api/news`, newsItem);
     }
     dispatch({ type: "SET_NEWS_ITEM", payload: newsItem });
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      dispatch({ type: "SET_ERROR", payload: getError(error) });
+    } else {
+      dispatch({ type: "SET_ERROR", payload: "An unexpected error occurred" });
+    }
+  }
+}
+
+export async function updateNewsItemStatus(
+  id: number,
+  status: 0 | 1,
+  dispatch: React.Dispatch<NewsAction>
+): Promise<void> {
+  dispatch({ type: "LOADING" });
+
+  try {
+    await axios.patch(`/api/news`, { id, status });
+    dispatch({ type: "UPDATE_NEWS_STATUS", payload: { id, status } });
   } catch (error) {
     if (axios.isAxiosError(error)) {
       dispatch({ type: "SET_ERROR", payload: getError(error) });
