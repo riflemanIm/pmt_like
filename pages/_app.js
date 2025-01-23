@@ -32,7 +32,7 @@ const MyApp = (props) => {
           <Component {...pageProps} />
         </UserProvider>
       </ThemeProvider>
-      <Script src="/static/bot.js"></Script>
+      {/* <Script src="/static/bot.js"></Script> */}
     </CacheProvider>
   );
 };

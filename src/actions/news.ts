@@ -3,12 +3,13 @@ import { NewsAction, NewsItem } from "../context/NewsContext";
 import { getError } from "../helpers";
 
 export async function fetchNews(
-  dispatch: React.Dispatch<NewsAction>
+  dispatch: React.Dispatch<NewsAction>,
+  token?: string
 ): Promise<void> {
   dispatch({ type: "LOADING" });
 
   try {
-    const { data } = await axios.get<NewsItem[]>("/api/news");
+    const { data } = await axios.get<NewsItem[]>(`/api/news?token=${token}`);
     dispatch({ type: "SET_NEWS", payload: data });
   } catch (error) {
     if (axios.isAxiosError(error)) {

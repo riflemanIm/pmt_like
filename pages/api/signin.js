@@ -2,7 +2,9 @@ import { q } from "../../src/lib/db";
 import isEmpty, { getParam } from "../../src/helpers";
 import { sign } from "jsonwebtoken";
 import { setCookie } from "cookies-next";
-// import md5 from "md5";
+
+// ALTER TABLE `pmtechru_utf`.`forum_user`
+// ADD COLUMN `role` ENUM('admin', 'user') NOT NULL DEFAULT 'user' AFTER `change_pass_date`;
 
 export default async function handler(req, res) {
   //const route = req.body.route;
@@ -23,7 +25,8 @@ export default async function handler(req, res) {
         town,
         address,
         company,
-        link
+        link,
+        role
 
        FROM forum_user u 
        WHERE (login=? OR email=?) AND pwd = ?

@@ -31,7 +31,6 @@ import MuiAccordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import ReactMarkdown from "react-markdown";
 import Loading from "components/Loading";
@@ -71,7 +70,7 @@ function NewsPage() {
     }
     if (isAuthenticated) {
       // Загружаем новости при монтировании компонента
-      fetchNews(newsDispatch);
+      fetchNews(newsDispatch, user.token);
     }
   }, [isAuthenticated]);
 
@@ -135,46 +134,50 @@ function NewsPage() {
                   </>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <Box textAlign="right">
-                    <FormControlLabel
-                      control={
-                        <Switch
-                          value={item.status === 1}
-                          checked={item.status === 1}
-                          onChange={(e) =>
-                            item.id !== undefined &&
-                            handleStatusChange(e, item.id)
-                          }
-                          color="primary"
-                        />
-                      }
-                      label="Status"
-                    />
+                  {user.role === "admin" && (
+                    <Box textAlign="right">
+                      <FormControlLabel
+                        control={
+                          <Switch
+                            value={item.status === 1}
+                            checked={item.status === 1}
+                            onChange={(e) =>
+                              item.id !== undefined &&
+                              handleStatusChange(e, item.id)
+                            }
+                            color="primary"
+                          />
+                        }
+                        label="Status"
+                      />
 
-                    <IconButton
-                      component={Link}
-                      edge="end"
-                      aria-label="Edit"
-                      href={`/news/${item.id}`}
-                      sx={{ mr: 2 }}
-                    >
-                      <EditIcon color="primary" />
-                    </IconButton>
-                  </Box>
+                      <IconButton
+                        component={Link}
+                        edge="end"
+                        aria-label="Edit"
+                        href={`/news/${item.id}`}
+                        sx={{ mr: 2 }}
+                      >
+                        <EditIcon color="primary" />
+                      </IconButton>
+                    </Box>
+                  )}
                   <ReactMarkdown>{item.content}</ReactMarkdown>
                 </AccordionDetails>
               </Accordion>
             </div>
           ))}
-        <Button
-          variant="contained"
-          color="primary"
-          component={Link}
-          href={`/news/add`}
-          sx={{ mt: 3 }}
-        >
-          Добавить новость
-        </Button>
+        {user.role === "admin" && (
+          <Button
+            variant="contained"
+            color="primary"
+            component={Link}
+            href={`/news/add`}
+            sx={{ mt: 3 }}
+          >
+            Добавить новость
+          </Button>
+        )}
       </BaseCard>
     </FullLayout>
   );

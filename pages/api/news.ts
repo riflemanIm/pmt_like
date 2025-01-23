@@ -2,6 +2,9 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { q } from "../../src/lib/db";
 import { NewsItem } from "../../src/context/NewsContext";
 import { ResultSetHeader, RowDataPacket } from "mysql2";
+import isEmpty from "helpers";
+import { JwtPayload, verify } from "jsonwebtoken";
+import { string } from "prop-types";
 
 interface PostBody {
   title: string;
@@ -17,10 +20,24 @@ interface PatchBody {
   id: number;
   status: 0 | 1;
 }
+// interface User {
+//   id: number;
+//   name: string;
+//   login: string;
+//   email: string;
+//   phone: string;
+//   country_id: number;
+//   town: string;
+//   address: string;
+//   company: string;
+//   link: string;
+//   role: "admin" | "user";
+//   iat: number;
+//   exp: number;
+// }
 
 async function handleGet(req: NextApiRequest, res: NextApiResponse) {
-  const { id } = req.query;
-
+  const { id, token } = req.query;
   if (id) {
     const rows = (await q<RowDataPacket[]>({
       query: "SELECT * FROM news WHERE id = ?",
@@ -33,8 +50,13 @@ async function handleGet(req: NextApiRequest, res: NextApiResponse) {
       res.status(404).json({ message: "News item not found" });
     }
   } else {
+    const user = await handleCheckUser(token as string, res);
+
     const rows = (await q<RowDataPacket[]>({
-      query: "SELECT * FROM news",
+      query:
+        user && (user as JwtPayload).role === "admin"
+          ? "SELECT * FROM news"
+          : "SELECT * FROM news WHERE status = '1'",
     })) as NewsItem[];
     res.status(200).json(rows);
   }
@@ -89,6 +111,29 @@ async function handleDelete(req: NextApiRequest, res: NextApiResponse) {
     res.status(200).json({ message: "News item deleted successfully" });
   } else {
     res.status(404).json({ error: "News item not found" });
+  }
+}
+
+async function handleCheckUser(
+  token: string,
+  res: NextApiResponse
+): Promise<void | string | JwtPayload> {
+  //console.log("token", token);
+  if (isEmpty(token)) {
+    res.status(401).json({ message: "A token is required for authentication" });
+  }
+
+  try {
+    /** --------- check token and user -------------- */
+    const decoded = verify(token, process.env.TOKEN_KEY as string);
+    if (decoded && isEmpty(decoded)) {
+      return res.status(401).json({ message: "Check token has failed" });
+    }
+    if (typeof decoded !== "string") {
+      return decoded;
+    }
+  } catch (err) {
+    return res.status(500).json({ message: (err as Error).message });
   }
 }
 
