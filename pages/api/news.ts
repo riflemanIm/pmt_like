@@ -4,7 +4,6 @@ import { NewsItem } from "../../src/context/NewsContext";
 import { ResultSetHeader, RowDataPacket } from "mysql2";
 import isEmpty from "helpers";
 import { JwtPayload, verify } from "jsonwebtoken";
-import { string } from "prop-types";
 
 interface PostBody {
   title: string;
