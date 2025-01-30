@@ -13,7 +13,10 @@ import BaseCard from "../../src/components/baseCard/BaseCard";
 import { updateNewsItem } from "../../src/actions/news";
 import { useUserStateDispatch } from "../../src/context/UserContext";
 import { checkAuth } from "../../src/actions/user";
-import { useNewsStateDispatch } from "../../src/context/NewsContext";
+import {
+  NewsProvider,
+  useNewsStateDispatch,
+} from "../../src/context/NewsContext";
 import img from "../../assets/images/bg/bg2.jpg";
 import dynamic from "next/dynamic";
 import "react-markdown-editor-lite/lib/index.css";
@@ -23,7 +26,7 @@ const MdEditor = dynamic(() => import("react-markdown-editor-lite"), {
   ssr: false,
 });
 
-const AddNewsPage: React.FC = () => {
+function AddNews() {
   const router = useRouter();
   const {
     userState: { isAuthenticated, user },
@@ -116,6 +119,12 @@ const AddNewsPage: React.FC = () => {
       </BaseCard>
     </FullLayout>
   );
-};
-
-export default AddNewsPage;
+}
+// Оборачиваем в провайдер
+export default function AddNewsPage() {
+  return (
+    <NewsProvider>
+      <AddNews />
+    </NewsProvider>
+  );
+}

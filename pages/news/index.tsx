@@ -47,7 +47,7 @@ function NewsPage() {
     userDispatch,
   } = useUserStateDispatch();
   const newsDispatch = useNewsStateDispatch();
-  const { news, newsItem, loading, error } = useNewsState();
+  const { news, loading, error } = useNewsState();
 
   const [expanded, setExpanded] = React.useState<string | false>(false);
 

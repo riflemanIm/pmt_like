@@ -102,7 +102,7 @@ export const NewsProvider: React.FC<{ children: ReactNode }> = ({
 };
 
 // Хуки для использования контекста
-export const useNewsState = (): NewsState => {
+const useNewsState = (): NewsState => {
   const context = useContext(NewsStateContext);
   if (context === undefined) {
     throw new Error("useNewsState must be used within a NewsProvider");
@@ -110,10 +110,12 @@ export const useNewsState = (): NewsState => {
   return context;
 };
 
-export const useNewsStateDispatch = (): React.Dispatch<NewsAction> => {
+const useNewsStateDispatch = (): React.Dispatch<NewsAction> => {
   const context = useContext(NewsDispatchContext);
   if (context === undefined) {
     throw new Error("useNewsStateDispatch must be used within a NewsProvider");
   }
   return context;
 };
+
+export { useNewsStateDispatch, useNewsState };

@@ -31,7 +31,7 @@ const MdEditor = dynamic(() => import("react-markdown-editor-lite"), {
   ssr: false,
 });
 
-const NewsItemComp: React.FC = () => {
+function NewsItemComp() {
   const router = useRouter();
   const { id } = router.query;
   const {
@@ -173,7 +173,7 @@ const NewsItemComp: React.FC = () => {
       </BaseCard>
     </FullLayout>
   );
-};
+}
 
 // Оборачиваем в провайдер
 export default function NewsItemPage() {
