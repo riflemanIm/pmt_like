@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import { styled } from "@mui/material/styles";
 import MuiAccordion from "@mui/material/Accordion";
 import Typography from "@mui/material/Typography";
@@ -6,8 +6,12 @@ import FullLayout from "../src/layouts/FullLayout";
 import BaseCard from "../src/components/baseCard/BaseCard";
 import img from "../assets/images/bg/bg20.jpg";
 import { css } from "@emotion/css";
-import { Grid, useMediaQuery } from "@mui/material";
+import { Button, Grid, IconButton, Stack, useMediaQuery } from "@mui/material";
 import { getYearCompany } from "../src/helpers";
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
+import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
+import Modale from "../src/components/Modals/Modale";
+import PdfView from "../src/components/PdfViewer";
 
 const Accordion = styled((props) => (
   <MuiAccordion elevation={0} square {...props} />
@@ -15,6 +19,28 @@ const Accordion = styled((props) => (
 
 export default function Solution({ menu }) {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("lg"));
+  const [modal, setModal] = useState({
+    open: false,
+    url: null,
+    title: null,
+    type: null,
+    error: null,
+  });
+
+  const toggleModal = useCallback(
+    (params) => {
+      const { url, title, type, error } = { ...(params || {}) };
+      setModal({
+        open: !modal.open,
+        url,
+        title,
+        type: type != null ? type.toLowerCase() : "",
+        error,
+      });
+    },
+    [modal.open]
+  );
+
   return (
     <FullLayout img={img.src}>
       {!isMobile && (
@@ -147,6 +173,46 @@ export default function Solution({ menu }) {
           Тверская, Хабаровский край.
         </Typography>
       </BaseCard>
+
+      <BaseCard
+        title="Политика обработки персональных данных"
+        style={{ marginTop: 24 }}
+      >
+        <Stack spacing={2} direction="row" justifyContent="center">
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<PictureAsPdfIcon />}
+            onClick={() =>
+              toggleModal({
+                url: "/docs/person_data_pmt_policy.pdf",
+                title: "Политика обработки персональных данных",
+                type: ".pdf",
+              })
+            }
+          >
+            Посмотреть
+          </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            startIcon={<DownloadForOfflineIcon />}
+            content="a"
+            href="/docs/person_data_pmt_policy.pdf"
+            target="_blank"
+          >
+            Скачать
+          </Button>
+        </Stack>
+      </BaseCard>
+      <Modale
+        open={modal.open}
+        toggleModal={toggleModal}
+        title={modal.title}
+        height={720}
+      >
+        <PdfView url={modal.url} />
+      </Modale>
     </FullLayout>
   );
 }

@@ -6,7 +6,7 @@ import BaseCard from "../src/components/baseCard/BaseCard";
 
 import { useUserStateDispatch } from "../src/context/UserContext";
 import { checkAuth } from "../src/actions/user";
-import NewYearGreeting from "../src/components/NewYearGreeting";
+//import NewYearGreeting from "../src/components/NewYearGreeting";
 //import img from "../assets/images/bg/bg_hny1.webp";
 import img from "../assets/images/bg/bg2.jpg";
 
@@ -31,7 +31,10 @@ export default function PrivetAccount() {
         Личный кабинет
       </Typography>
       <BaseCard>
-        <NewYearGreeting />
+        {/* <NewYearGreeting /> */}
+        Немного позже, здесь будут новости для клиентов, как индивидуальные, так
+        и общие. А пока, весь что есть функционал доступен в меню пользователя
+        (вверху сайта)
       </BaseCard>
     </FullLayout>
   );

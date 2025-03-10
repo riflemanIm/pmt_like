@@ -1,23 +1,23 @@
-import React from 'react';
-import { DialogTitle, useMediaQuery } from '@mui/material';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
-import FullscreenIcon from '@mui/icons-material/Fullscreen';
-import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
-import { makeStyles } from '@mui/styles';
+import React from "react";
+import { DialogTitle, useMediaQuery } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import FullscreenIcon from "@mui/icons-material/Fullscreen";
+import FullscreenExitIcon from "@mui/icons-material/FullscreenExit";
+import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
   closeButton: {
-    position: 'absolute',
+    position: "absolute",
     right: theme.spacing(1),
     top: theme.spacing(1),
   },
   fullscreenButton: {
-    position: 'absolute',
+    position: "absolute",
     right: theme.spacing(6),
     top: theme.spacing(1),
   },
-  title: { width: '94%' },
+  title: { width: "94%" },
 }));
 
 /* eslint-disable react/prop-types */ // TODO: upgrade to latest eslint tooling
@@ -30,9 +30,7 @@ export default function Modale({
   children,
 }) {
   const classes = useStyles();
-  const isMobile = useMediaQuery((theme) =>
-    theme.breakpoints.down('md'),
-  );
+  const isMobile = useMediaQuery((theme) => theme.breakpoints.down("md"));
   return (
     <>
       {!isMobile && (
@@ -40,6 +38,7 @@ export default function Modale({
           aria-label="fullScreenBtn"
           className={classes.fullscreenButton}
           onClick={toggleFullscreen}
+          color="primary"
         >
           {fullScreen ? <FullscreenExitIcon /> : <FullscreenIcon />}
         </IconButton>
@@ -49,6 +48,7 @@ export default function Modale({
         aria-label="close"
         className={classes.closeButton}
         onClick={toggleModal}
+        color="secondary"
       >
         <CloseIcon />
       </IconButton>
