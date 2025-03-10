@@ -7,12 +7,12 @@ import { ThemeProvider } from "@mui/material/styles";
 import { UserProvider } from "../src/context/UserContext";
 
 import Head from "next/head";
-import Script from "next/script";
 import CssBaseline from "@mui/material/CssBaseline";
 import theme from "../src/theme/theme";
 import createEmotionCache from "../src/createEmotionCache";
 import "../styles/style.css";
-
+import "react-pdf/dist/esm/Page/AnnotationLayer.css";
+import "react-pdf/dist/esm/Page/TextLayer.css";
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
