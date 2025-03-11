@@ -13,7 +13,7 @@ import FeatherIcon from "feather-icons-react/build/FeatherIcon";
 
 const Accordion = styled((props) => (
   <MuiAccordion elevation={0} square {...props} />
-))();
+))({});
 
 export default function Licenses({ menu }) {
   //console.log("menu", menu);

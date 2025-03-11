@@ -1,21 +1,15 @@
 import React, { useCallback, useState } from "react";
-import { styled } from "@mui/material/styles";
-import MuiAccordion from "@mui/material/Accordion";
 import Typography from "@mui/material/Typography";
 import FullLayout from "../src/layouts/FullLayout";
 import BaseCard from "../src/components/baseCard/BaseCard";
 import img from "../assets/images/bg/bg20.jpg";
 import { css } from "@emotion/css";
-import { Button, Grid, IconButton, Stack, useMediaQuery } from "@mui/material";
+import { Button, Grid, Stack, useMediaQuery } from "@mui/material";
 import { getYearCompany } from "../src/helpers";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
 import Modale from "../src/components/Modals/Modale";
 import PdfView from "../src/components/PdfViewer";
-
-const Accordion = styled((props) => (
-  <MuiAccordion elevation={0} square {...props} />
-))();
 
 export default function Solution({ menu }) {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("lg"));
@@ -200,6 +194,7 @@ export default function Solution({ menu }) {
             content="a"
             href="/docs/person_data_pmt_policy.pdf"
             target="_blank"
+            download="Политика обработки персональных данных"
           >
             Скачать
           </Button>

@@ -1,19 +1,11 @@
 import React from "react";
-import { styled } from "@mui/material/styles";
-import MuiAccordion from "@mui/material/Accordion";
 import Typography from "@mui/material/Typography";
 import FullLayout from "../src/layouts/FullLayout";
 import BaseCard from "../src/components/baseCard/BaseCard";
 import img from "../assets/images/bg/bg9.jpg";
 import { Box } from "@mui/material";
-// import LocationOnIcon from "@mui/icons-material/LocationOn";
-// import WatchLaterIcon from "@mui/icons-material/WatchLater";
 import PhoneIcon from "@mui/icons-material/Phone";
-//import InfoIcon from "@mui/icons-material/Email";
 import MailIcon from "@mui/icons-material/Mail";
-const Accordion = styled((props) => (
-  <MuiAccordion elevation={0} square {...props} />
-))();
 
 export default function Contacts({ menu }) {
   //console.log("menu", menu);
@@ -63,7 +55,7 @@ export default function Contacts({ menu }) {
             border: 0,
           }}
           loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
+          referrerPolicy="no-referrer-when-downgrade"
         ></iframe>{" "}
       </BaseCard>
     </FullLayout>

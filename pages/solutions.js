@@ -11,7 +11,7 @@ import img from "../assets/images/bg/bg6.jpg";
 
 const Accordion = styled((props) => (
   <MuiAccordion elevation={0} square {...props} />
-))();
+))({});
 
 export default function Solution({ menu }) {
   //console.log("menu", menu);
