@@ -2,7 +2,7 @@
 // File: /app/news/page.tsx
 
 "use client";
-import React, { useEffect } from "react";
+import React, { Dispatch, useEffect } from "react";
 import Router from "next/router";
 import Link from "next/link";
 import FullLayout from "../../src/layouts/FullLayout";
@@ -36,6 +36,7 @@ import ReactMarkdown from "react-markdown";
 import Loading from "components/Loading";
 import { formatDate } from "../../src/helpers/dates";
 import img from "../../assets/images/bg/bg2.jpg";
+type Action = { type: string; payload?: any };
 
 const Accordion = styled((props: any) => (
   <MuiAccordion elevation={0} square {...props} />
@@ -60,7 +61,7 @@ function NewsPage() {
   };
 
   useEffect(() => {
-    checkAuth(userDispatch, user.token);
+    checkAuth(userDispatch as Dispatch<Action>, user.token ?? "");
   }, []);
 
   useEffect(() => {
