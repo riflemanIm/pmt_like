@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import { makeStyles } from "@mui/styles";
 //components
@@ -28,38 +29,41 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 
 import isEmpty from "../../helpers";
 
-const useStyles = makeStyles((theme) => ({
-  creatingButtonContainer: {
-    marginBottom: theme.spacing(3),
-    display: "flex",
-  },
-  submitButton: {
-    textTransform: "none",
-    width: "100%",
-  },
-  errorMessage: {
-    //textAlign: 'center',
-    marginBottom: theme.spacing(4),
-    width: "100%",
-  },
+const useStyles = makeStyles((theme) => {
+  console.log("theme", theme);
+  return {
+    creatingButtonContainer: {
+      marginBottom: theme.spacing(3),
+      display: "flex",
+    },
+    submitButton: {
+      textTransform: "none",
+      width: "100%",
+    },
+    errorMessage: {
+      //textAlign: 'center',
+      marginBottom: theme.spacing(4),
+      width: "100%",
+    },
 
-  agreementButton: {
-    textAlign: "left",
-    textTransform: "none",
-    fontWeight: 500,
-  },
+    agreementButton: {
+      textAlign: "left",
+      textTransform: "none",
+      fontWeight: 500,
+    },
 
-  loginLoader: {
-    marginLeft: theme.spacing(4),
-  },
+    loginLoader: {
+      marginLeft: theme.spacing(4),
+    },
 
-  passwordSuccess: {
-    color: theme.palette.success.main,
-  },
-  passwordError: {
-    color: theme.palette.warning.error,
-  },
-}));
+    passwordSuccess: {
+      color: theme.palette.success.main,
+    },
+    passwordError: {
+      color: theme.palette.warning.error,
+    },
+  };
+});
 
 /* eslint-disable react/prop-types */ // TODO: upgrade to latest eslint tooling
 

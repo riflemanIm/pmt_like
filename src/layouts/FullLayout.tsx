@@ -1,5 +1,5 @@
 import React from "react";
-import { experimentalStyled } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
@@ -12,7 +12,7 @@ interface FullLayoutProps {
   img: string;
 }
 
-const MainWrapper = experimentalStyled("div")<{ img: string }>(({ img }) => ({
+const MainWrapper = styled("div")<{ img: string }>(({ img }) => ({
   display: "flex",
   minHeight: "100vh",
   overflow: "hidden",
@@ -29,7 +29,7 @@ const MainWrapper = experimentalStyled("div")<{ img: string }>(({ img }) => ({
   //filter: "blur(5px)",
 }));
 
-const PageWrapper = experimentalStyled("div")(({ theme }) => ({
+const PageWrapper = styled("div")(({ theme }) => ({
   display: "flex",
   flex: "1 1 auto",
   overflow: "hidden",

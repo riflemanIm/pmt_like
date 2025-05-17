@@ -7,51 +7,65 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import ModaleTitle from "./ModaleTitle";
 import classNames from "classnames";
 
-const useStyles = makeStyles((theme) => ({
-  conteiner: {
-    minWidth: 320,
-    overflowY: "auto",
-    overflowX: "hidden",
-    scrollbarWidth: "thin",
-    scrollbarColor: `${theme.palette.primary.hero} #fff`,
-    "&::-webkit-scrollbar, & *::-webkit-scrollbar": {
-      backgroundColor: "#fff",
+// Fix: Get theme properly and use default values for missing properties
+const useStyles = makeStyles((theme) => {
+  // Default colors in case the theme properties are missing
+  const primaryHero =
+    theme?.palette?.primary?.hero || theme?.palette?.primary?.main || "#1976d2";
+  const primaryLighter =
+    theme?.palette?.primary?.lighter ||
+    theme?.palette?.primary?.light ||
+    "#42a5f5";
+
+  return {
+    conteiner: {
+      minWidth: 320,
+      overflowY: "auto",
+      overflowX: "hidden",
+      scrollbarWidth: "thin",
+      scrollbarColor: `${primaryHero} #fff`,
+      "&::-webkit-scrollbar, & *::-webkit-scrollbar": {
+        backgroundColor: "#fff",
+      },
+      "&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb": {
+        borderRadius: 8,
+        backgroundColor: primaryLighter,
+        border: "5px solid #fff",
+      },
+      "&::-webkit-scrollbar-thumb:focus, & *::-webkit-scrollbar-thumb:focus": {
+        backgroundColor: "#fff",
+      },
+      "&::-webkit-scrollbar-thumb:active, & *::-webkit-scrollbar-thumb:active":
+        {
+          backgroundColor: primaryLighter,
+          border: "3px solid #fff",
+        },
+      "&::-webkit-scrollbar-thumb:hover, & *::-webkit-scrollbar-thumb:hover": {
+        backgroundColor: primaryLighter,
+        border: "3px solid #fff",
+      },
+      "&::-webkit-scrollbar-corner, & *::-webkit-scrollbar-corner": {
+        backgroundColor: "#fff",
+      },
     },
-    "&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb": {
-      borderRadius: 8,
-      backgroundColor: theme.palette.primary.lighter,
-      border: "5px solid #fff",
+    scrollHide: {
+      overflowY: "hidden",
     },
-    "&::-webkit-scrollbar-thumb:focus, & *::-webkit-scrollbar-thumb:focus": {
-      backgroundColor: "#fff",
+    dialog: {
+      borderRadius: 24,
+      [theme.breakpoints?.down("md")]: {
+        borderRadius: 4,
+      },
     },
-    "&::-webkit-scrollbar-thumb:active, & *::-webkit-scrollbar-thumb:active": {
-      backgroundColor: theme.palette.primary.lighter,
-      border: "3px solid #fff",
+    backdrop: {
+      "& .MuiBackdrop-root": {
+        backgroundColor: `${
+          theme?.palette?.grey?.[500] || "#9e9e9e"
+        } !important`,
+      },
     },
-    "&::-webkit-scrollbar-thumb:hover, & *::-webkit-scrollbar-thumb:hover": {
-      backgroundColor: theme.palette.primary.lighter,
-      border: "3px solid #fff",
-    },
-    "&::-webkit-scrollbar-corner, & *::-webkit-scrollbar-corner": {
-      backgroundColor: "#fff",
-    },
-  },
-  scrollHide: {
-    overflowY: "hidden",
-  },
-  dialog: {
-    borderRadius: 24,
-    [theme.breakpoints.down("md")]: {
-      borderRadius: 4,
-    },
-  },
-  backdrop: {
-    "& .MuiBackdrop-root": {
-      backgroundColor: `${theme.palette.grey[500]} !important`,
-    },
-  },
-}));
+  };
+});
 
 /* eslint-disable react/prop-types */ // TODO: upgrade to latest eslint tooling
 export default function Modale({

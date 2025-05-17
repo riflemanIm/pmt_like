@@ -1,6 +1,11 @@
 import React from "react";
-import { Typography, LinearProgress, CircularProgress } from "@mui/material";
-import Grid from "@mui/material/Unstable_Grid2";
+import {
+  Typography,
+  LinearProgress,
+  CircularProgress,
+  Unstable_Grid2 as Grid,
+} from "@mui/material";
+
 interface LoadingProps {
   msg?: string;
   isLinear?: boolean;
