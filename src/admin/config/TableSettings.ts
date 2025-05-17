@@ -1,0 +1,1 @@
+export const DEFAULT_FILTER_DELAY = 1; // указывается в секундах

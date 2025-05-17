@@ -1,13 +1,26 @@
-a {
-	color: #5f5c93;
-	text-decoration: none;
+:root {
+  --primary-color: #5f5c93;
+  --border-radius-small: 6px;
+  --border-radius-circle: 50%;
+  --font-family-base: 'Avenir Next Cyr', sans-serif;
 }
 
+/* Base link style */
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+a:hover {
+  color: darken(var(--primary-color), 10%);
+}
+
+/* Utility classes */
 .borderRadius {
-  border-radius: 6px;
+  border-radius: var(--border-radius-small);
 }
 .roundedCircle {
-  border-radius: 100%;
+  border-radius: var(--border-radius-circle);
 }
 
 @font-face {

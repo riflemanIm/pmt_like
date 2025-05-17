@@ -13,7 +13,8 @@ import createEmotionCache from "../src/createEmotionCache";
 import "../styles/style.css";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
-// Client-side cache, shared for the whole session of the user in the browser.
+
+//Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
 const MyApp = (props) => {
