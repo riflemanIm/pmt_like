@@ -323,7 +323,7 @@ function SignUpForm({
               onChange={handleChangeCountry}
               label="Страна"
             >
-              {countries.map((item) => (
+              {(countries || []).map((item) => (
                 <MenuItem value={item.id} key={item.id}>
                   {item.rus}
                 </MenuItem>

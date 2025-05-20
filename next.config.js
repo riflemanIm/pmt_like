@@ -1,11 +1,6 @@
 // next.config.js
-const withTM = require("next-transpile-modules")([
-  "@mui/x-data-grid",
-  "react-pdf",
-]);
-
 /** @type {import('next').NextConfig} */
-module.exports = withTM({
+module.exports = {
   reactStrictMode: true,
-  // Больше никаких кастомных CSS webpack-правил здесь!
-});
+  // больше никаких appDir или экспериментальных флагов
+};

@@ -18,8 +18,8 @@ export default class MyDocument extends Document {
 
           <link
             rel="apple-touch-icon"
-            sizes="180x180"
-            href="/favicon/apple-touch-icon.png"
+            sizes="192x192"
+            href="/favicon/android-chrome-192x192.png"
           />
           <link
             rel="icon"

@@ -1,37 +1,39 @@
+"use client";
 import React, { useEffect } from "react";
-import Router from "next/router";
+import { useRouter } from "next/navigation";
 import Typography from "@mui/material/Typography";
-import FullLayout from "../src/layouts/FullLayout";
-import img from "../assets/images/bg/bg6.jpg";
+import FullLayout from "../../src/layouts/FullLayout";
+import img from "../../assets/images/bg/bg6.jpg";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
-import { useUserStateDispatch } from "../src/context/UserContext";
 import { Button, Grid } from "@mui/material";
 import { deleteCookie } from "cookies-next";
+import { useUserStateDispatch } from "../../src/context/UserContext";
 
-export default function SignIn({ menu }) {
+export default function LogoutClient() {
+  const router = useRouter();
   const {
     userState: { isAuthenticated },
   } = useUserStateDispatch();
 
+  // Удаляем куку при загрузке client-side
   useEffect(() => {
-    //console.log("locale", locale);
+    deleteCookie("user");
+    deleteCookie("auth_token");
+  }, []);
+
+  // Если вдруг снова залогинились автоматически, кидаем в /lk
+  useEffect(() => {
     if (isAuthenticated) {
-      Router.push("/lk");
+      router.push("/lk");
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, router]);
 
   return (
     <FullLayout img={img.src}>
       <Typography variant="h1" mb={8}>
         Вы вышли из системы
       </Typography>
-      <Grid
-        container
-        sx={{
-          maxWidth: 400,
-          margin: "auto",
-        }}
-      >
+      <Grid container sx={{ maxWidth: 400, margin: "auto" }}>
         <Grid item xs={12} my={5} textAlign="center">
           <Button
             fullWidth
@@ -39,22 +41,21 @@ export default function SignIn({ menu }) {
             color="primary"
             endIcon={<LoginOutlinedIcon />}
             size="large"
-            href="/signin"
+            onClick={() => router.push("/signin")}
           >
             Войти
           </Button>
         </Grid>
         <Grid item xs={12} textAlign="center">
-          <Button color="primary" variant="text" href="/signup">
+          <Button
+            color="primary"
+            variant="text"
+            onClick={() => router.push("/signup")}
+          >
             Регистрация
           </Button>
         </Grid>
       </Grid>
     </FullLayout>
   );
-}
-export async function getServerSideProps(context) {
-  if (context.req?.cookies?.user)
-    deleteCookie("user", { req: context.req, res: context.res });
-  return { props: {} };
 }

@@ -83,7 +83,26 @@ const components = {
       },
     },
   },
-
+  MuiButton: {
+    styleOverrides: {
+      root: {
+        textTransform: "none",
+        boxShadow: "none",
+        height: 46,
+        minWidth: 200,
+        borderRadius: 9,
+        "&:hover": {
+          boxShadow: "none",
+          color: "#fff",
+        },
+      },
+      textPrimary: {
+        "&:hover": {
+          color: "inherit",
+        },
+      },
+    },
+  },
   MuiListItem: {
     styleOverrides: {
       root: {
@@ -139,7 +158,7 @@ const components = {
         backgroundColor: "#fdfdfdd9",
         backdropFilter: "saturate(180%) blur(5px)",
         marginBottom: 34,
-        //border: `1px solid ${theme.palette.grey["A100"]}`,
+        //border: `1px solid ${palette.grey["A100"]}`,
         boxShadow: "0px 7px 30px 0px rgba(90, 114, 123, 0.11)",
         "&:not(:last-child)": {
           borderBottom: 0,

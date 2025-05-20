@@ -1,15 +1,15 @@
+"use client";
+import createCache from "@emotion/cache";
 import { CacheProvider } from "@emotion/react";
+import React from "react";
 import { UserProvider } from "../src/context/UserContext";
+import theme from "../src/theme/theme";
+
 // 1) JSS-ThemeProvider (для makeStyles)
 import { ThemeProvider as StylesThemeProvider } from "@mui/styles";
 // 2) Emotion ThemeProvider (для sx, styled и т.п.)
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
-
-import createCache from "@emotion/cache";
-import Head from "next/head";
-import theme from "../src/theme/theme";
-import "../styles/style.css";
 
 //Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createCache({
@@ -17,29 +17,16 @@ const clientSideEmotionCache = createCache({
   prepend: true,
 });
 
-const MyApp = (props) => {
-  const { Component, pageProps } = props;
-
+export default function Providers({ children }: { children: React.ReactNode }) {
   return (
     <CacheProvider value={clientSideEmotionCache}>
-      <Head>
-        <title>Пост Модерн Текнолоджи</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        {/* Remove all security-related meta tags, they should be in next.config.js */}
-      </Head>
-      // 1) сначала JSS-провайдер, чтобы makeStyles нашёл theme.spacing
       <StylesThemeProvider theme={theme}>
-        {/* 2) потом MUI ThemeProvider, чтобы sx/styled тоже увидели эту же тему */}
         <MuiThemeProvider theme={theme}>
           <CssBaseline />
-          <UserProvider>
-            <Component {...pageProps} />
-          </UserProvider>
+          <UserProvider>{children}</UserProvider>
         </MuiThemeProvider>
       </StylesThemeProvider>
       {/* <Script src="/static/bot.js"></Script> */}
     </CacheProvider>
   );
-};
-
-export default MyApp;
+}

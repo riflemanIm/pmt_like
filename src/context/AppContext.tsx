@@ -17,7 +17,7 @@ import {
 import { ForumUserDto } from "types/dto";
 
 // Base API URL
-const API_URL = process.env.API_URL as string;
+const API_URL = process.env.NEXT_PUBLIC_API_URL as string;
 
 /**
  * AuthUser: minimal authenticated user

@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import Link from "next/link";
 import PropTypes from "prop-types";
@@ -14,7 +15,7 @@ import FeatherIcon from "feather-icons-react";
 import LogoIcon from "../logo/LogoIcon";
 import Menuitems from "./MenuItems";
 
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 //import ProfileDD from "../header/ProfileDD";
 
 const Sidebar = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {

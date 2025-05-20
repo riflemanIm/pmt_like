@@ -1,28 +1,41 @@
-import axios, { AxiosError } from "axios";
+
+import axios, { AxiosInstance, AxiosError } from "axios";
 import isEmpty, { getError } from "../helpers";
 import type { Dispatch } from "react";
+//import type { ForumUserDto } from "types/dto";
+import { UserAction } from "context/UserContext";
 
-// Base API URL from environment
-const API_URL = process.env.API_URL as string;
+// Base API URL
+const API_URL = process.env.NEXT_PUBLIC_API_URL as string;
+console.log('NEXT_PUBLIC_API_URL',API_URL)
+// Create an axios instance that injects the auth token on each request
+const apiClient: AxiosInstance = axios.create({
+  baseURL: API_URL,
+  headers: {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+  },
+});
 
-// Set default headers for JSON
-axios.defaults.headers.common["Accept"] = "application/json";
-axios.defaults.headers.post["Content-Type"] = "application/json";
-
-// Helper to get auth token
-function getAuthToken(): string | null {
-  if (typeof window === "undefined") return null;
-  return localStorage.getItem("auth_token");
-}
+apiClient.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("auth_token");
+    if (token && config.headers) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
 // 1. Fetch countries
 export async function getCountries(): Promise<any[]> {
   try {
-    const { data } = await axios.get(`${API_URL}/countries`);
+    const { data } = await apiClient.get<any[]>("/countries");
     return data;
   } catch (error: unknown) {
-    console.error("Error fetching countries:", getError(error));
-    throw new Error("Failed to fetch countries");
+    console.log("Error fetching countries:", getError(error));
+    //throw new Error("Failed to fetch countries");
   }
 }
 
@@ -31,7 +44,7 @@ export async function getIpData(
   setValues: (vals: { ip: string }) => void
 ): Promise<void> {
   try {
-    const { data } = await axios.get<{ ip: string }>(
+    const { data } = await apiClient.get<{ ip: string }>(
       "https://api.ipify.org?format=json"
     );
     setValues({ ip: data.ip });
@@ -47,34 +60,25 @@ export async function getUserData(
   email: string
 ): Promise<void> {
   try {
-    const token = getAuthToken();
-    const { data } = await axios.post<any>(
-      "/api/getting-user-data",
-      { email },
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
+    const { data } = await apiClient.post<any>("/getting-user-data", { email });
     setValues({ ...data, password: data.pwd, repassword: data.pwd });
   } catch (error: unknown) {
     console.error("Error fetching user data:", getError(error));
   }
 }
 
-// Generic action type
-type Action = { type: string; payload?: any };
-
 // 4. Login
 export async function loginUser(
-  dispatch: Dispatch<Action>,
+  dispatch: Dispatch<UserAction>,
   login: string,
   password: string
 ): Promise<void> {
   if (!login || !password) {
-    dispatch({ type: "LOGIN_FAILURE" });
     return;
   }
   dispatch({ type: "LOADING" });
   try {
-    const { data } = await axios.post<any>("/api/signin", { login, password });
+    const { data } = await apiClient.post<any>("/signin", { login, password });
     if (!isEmpty(data)) {
       localStorage.setItem("auth_token", data.token);
       dispatch({ type: "LOGIN", payload: data });
@@ -93,16 +97,15 @@ export async function loginUser(
 
 // 5. Request password reset
 export async function sendPass(
-  dispatch: Dispatch<Action>,
+  dispatch: Dispatch<UserAction>,
   login: string
 ): Promise<void> {
   if (!login) {
-    dispatch({ type: "LOGIN_FAILURE" });
     return;
   }
   dispatch({ type: "LOADING" });
   try {
-    const { data } = await axios.post<any>("/api/sendpass", { login });
+    const { data } = await apiClient.post<any>("/sendpass", { login });
     dispatch({
       type: "SET_SERVER_RESPONSE",
       payload: { serverResponse: data ? "PASS_SENT" : "EMAIL_NOT_FOUND" },
@@ -126,27 +129,23 @@ export async function sendPass(
 
 // 6. Create or update profile
 export async function profile(
-  dispatch: Dispatch<Action>,
+  dispatch: Dispatch<UserAction>,
   values: any
 ): Promise<void> {
   if (isEmpty(values)) return;
   dispatch({ type: "LOADING" });
   try {
-    const { data: ipData } = await axios.get<{ ip: string }>(
+    const { data: ipData } = await apiClient.get<{ ip: string }>(
       "https://api.ipify.org?format=json"
     );
     const payload = { ...values, ip: ipData.ip };
-    const token = getAuthToken();
     let response;
     if (values.id) {
-      response = await axios.put<any>("/api/profile", payload, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      response = await apiClient.put<any>("/profile", payload);
     } else {
-      response = await axios.post<any>("/api/profile", payload);
+      response = await apiClient.post<any>("/profile", payload);
     }
     const result = response.data;
-
     if (result.result === "ok" || result.result === "Updated") {
       dispatch({
         type: "SET_SERVER_RESPONSE",
@@ -156,7 +155,10 @@ export async function profile(
           data: { ...values, id: result.id, token: result.token },
         },
       });
-      if (result.token) localStorage.setItem("auth_token", result.token);
+      if (result.token) {
+        localStorage.setItem("auth_token", result.token);
+
+      }
     } else {
       dispatch({
         type: "SET_SERVER_RESPONSE",
@@ -182,28 +184,22 @@ export async function profile(
 
 // 7. Check authentication
 export async function checkAuth(
-  dispatch: Dispatch<Action>,
+  dispatch: Dispatch<UserAction>,
   token: string
 ): Promise<void> {
   if (!isEmpty(token)) {
-    await axios
-      .post(
-        "/api/check-auth",
-        { token },
-        { headers: { Authorization: `Bearer ${token}` } }
-      )
-      .then(({ data }) => {
-        console.log("check-auth", data);
-      })
-      .catch((err) => {
-        if (err?.response?.data?.message === "jwt expired") {
-          dispatch({ type: "SIGN_OUT_SUCCESS" });
-          dispatch({
-            type: "SET_SERVER_RESPONSE",
-            payload: { serverResponse: "Session expired. Please login again." },
-          });
-        }
-      });
+    try {
+      await apiClient.post("/check-auth", { token });
+    } catch (err: unknown) {
+      const msg = getError(err as AxiosError);
+      if (msg === "jwt expired") {
+        dispatch({ type: "SIGN_OUT_SUCCESS" });
+        dispatch({
+          type: "SET_SERVER_RESPONSE",
+          payload: { serverResponse: "Session expired. Please login again." },
+        });
+      }
+    }
   }
 }
 
@@ -216,7 +212,7 @@ export async function sendFormEmail(
 ): Promise<void> {
   setSend({ isLoaded: false, response: null });
   try {
-    const { data } = await axios.post<any>("/api/send-form", {
+    const { data } = await apiClient.post<any>("/send-form", {
       bilet,
       locale,
       ...values,
@@ -231,16 +227,14 @@ export async function sendFormEmail(
 
 // 9. Get licence
 export async function getLicence(
-  dispatch: Dispatch<Action>,
+  dispatch: Dispatch<UserAction>,
   values: any,
-  user: any,
   lic: string
 ): Promise<void> {
   dispatch({ type: "LOADING" });
   try {
-    const { data } = await axios.post<any>("/api/lic", {
+    const { data } = await apiClient.post<any>("/lic", {
       ...values,
-      user,
       lic,
     });
     if (!isEmpty(data)) dispatch({ type: "LICENCE", payload: data.lic });
@@ -251,17 +245,7 @@ export async function getLicence(
       });
   } catch (err: unknown) {
     const msg = getError(err);
-    if (msg === "jwt expired") {
-      dispatch({ type: "SIGN_OUT_SUCCESS" });
-      dispatch({
-        type: "SET_SERVER_RESPONSE",
-        payload: { serverResponse: "Session expired. Please login again." },
-      });
-    } else {
-      dispatch({
-        type: "SET_SERVER_RESPONSE",
-        payload: { serverResponse: msg },
-      });
-    }
+    if (msg === "jwt expired") dispatch({ type: "SIGN_OUT_SUCCESS" });
+    dispatch({ type: "SET_SERVER_RESPONSE", payload: { serverResponse: msg } });
   }
 }

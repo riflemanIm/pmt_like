@@ -1,22 +1,32 @@
+"use client";
 import React, { useEffect } from "react";
-import Router from "next/router";
+import { useRouter } from "next/navigation";
+import FullLayout from "../../src/layouts/FullLayout";
+import BaseCard from "../../src/components/baseCard/BaseCard";
 import Typography from "@mui/material/Typography";
-import FullLayout from "../src/layouts/FullLayout";
-import BaseCard from "../src/components/baseCard/BaseCard";
-import img from "../assets/images/bg/contact_bg.jpg";
-import SignUpForm from "../src/components/Forms/SignUpForm";
+import img from "../../assets/images/bg/contact_bg.jpg";
+import SignUpForm from "../../src/components/Forms/SignUpForm";
+import useForm from "../../src/hooks/useForm";
+import validate from "../../src/validation/validationSignUp";
+import { profile, getUserData, checkAuth } from "../../src/actions/user";
+import { useUserStateDispatch } from "context/UserContext";
+import useInterval from "hooks/useInterval";
 
-import { useUserStateDispatch } from "../src/context/UserContext";
-import { getCountries, profile } from "../src/actions/user";
-import useForm from "../src/hooks/useForm";
-import useInterval from "../src/hooks/useInterval";
-import validate from "../src/validation/validationSignUp";
+interface ProfileFormProps {
+  countries: any[];
+}
 
-export default function SignIn({ countries, menu }) {
+export default function ProfileForm({ countries }: ProfileFormProps) {
   const {
-    userState: { loaded, serverResponse, isAuthenticated },
+    userState: { isAuthenticated, user, loaded, serverResponse },
     userDispatch,
   } = useUserStateDispatch();
+
+  const router = useRouter();
+
+  // useEffect(() => {
+  //   checkAuth(userDispatch, user.token);
+  // }, []);
 
   useInterval(
     () => {
@@ -28,7 +38,7 @@ export default function SignIn({ countries, menu }) {
           type: "SET_SERVER_RESPONSE",
           payload: { serverResponse: null },
         });
-        Router.push("/signup");
+        router.push("/signup");
       }
 
       if (serverResponse === "SUCCESS_CREATE") {
@@ -36,15 +46,14 @@ export default function SignIn({ countries, menu }) {
           type: "SET_SERVER_RESPONSE",
           payload: { serverResponse: null },
         });
-        Router.push("/signin");
+        router.push("/signin");
       }
     },
     serverResponse !== null,
-    5000
+    50000
   );
 
   const submit = () => {
-    console.log("submit");
     profile(userDispatch, values);
   };
 
@@ -52,21 +61,18 @@ export default function SignIn({ countries, menu }) {
     useForm(submit, validate);
 
   useEffect(() => {
-    //console.log("locale", locale);
-    if (isAuthenticated) {
-      Router.push("/lk");
+    //console.log("user", user);
+    if (!isAuthenticated) {
+      router.push("/signin");
     } else {
-      setValues({
-        ...values,
-        country_id: values.country_id ?? 175,
-      });
+      getUserData(setValues, user.email);
     }
   }, [isAuthenticated]);
 
   return (
     <FullLayout img={img.src}>
       <Typography variant="h1" mb={8}>
-        Регистрация
+        Профиль
       </Typography>
       <BaseCard>
         <SignUpForm
@@ -80,12 +86,9 @@ export default function SignIn({ countries, menu }) {
           serverResponse={serverResponse}
           isLoading={!loaded}
           countries={countries}
+          beginigText="Здесь вы можете отредактировать данные профиля"
         />
       </BaseCard>
     </FullLayout>
   );
-}
-export async function getServerSideProps() {
-  const countries = await getCountries();
-  return { props: { countries } };
 }

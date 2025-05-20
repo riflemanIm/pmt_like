@@ -204,7 +204,7 @@ export default function Innovations({ menu }) {
 //       locale,
 //     }),
 //   };
-//   const res = await fetch(`${process.env.API_URL}/menu`, postData1);
+//   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/menu`, postData1);
 //   const menu = await res.json();
 
 //   return { props: { menu } };

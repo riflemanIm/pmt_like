@@ -1,3 +1,4 @@
+"use client";
 import React, {
   useReducer,
   useContext,
@@ -25,14 +26,14 @@ interface UserState {
   loaded: boolean;
 }
 
-type UserAction =
+export type UserAction =
   | { type: "LOGIN"; payload: User }
-  | { type: "SIGN_OUT_SUCCESS"; payload: any }
+  | { type: "SIGN_OUT_SUCCESS" }
   | { type: "SET_USER"; payload: Partial<UserState> }
   | { type: "LOADING" }
   | {
       type: "SET_SERVER_RESPONSE";
-      payload: { data: User; serverResponse: any };
+      payload: { data?: User; serverResponse: any };
     }
   | { type: "LICENCE"; payload: string };
 
@@ -62,7 +63,7 @@ function userReducer(state: UserState, action: UserAction): UserState {
         isAuthenticated: false,
         user: {},
         loaded: true,
-        serverResponse: action.payload,
+        serverResponse: null,
       };
 
     case "SET_USER":

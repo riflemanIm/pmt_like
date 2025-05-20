@@ -3,7 +3,7 @@ import {
   Typography,
   LinearProgress,
   CircularProgress,
-  Unstable_Grid2 as Grid,
+  Grid2,
 } from "@mui/material";
 
 interface LoadingProps {
@@ -19,7 +19,7 @@ const Loading: React.FC = ({
   size = 38,
   variant = "h5",
 }: LoadingProps) => (
-  <Grid
+  <Grid2
     container
     spacing={3}
     sx={{
@@ -30,14 +30,14 @@ const Loading: React.FC = ({
     justifyContent="center"
   >
     {msg != null && (
-      <Grid xs="auto">
+      <Grid2 size="auto">
         <Typography variant={variant}>{msg}</Typography>
-      </Grid>
+      </Grid2>
     )}
-    <Grid xs={msg != null && !isLinear ? 1.5 : 12} textAlign="center">
+    <Grid2 size={msg != null && !isLinear ? 1.5 : 12} textAlign="center">
       {!isLinear ? <CircularProgress size={size} /> : <LinearProgress />}
-    </Grid>
-  </Grid>
+    </Grid2>
+  </Grid2>
 );
 
 export default Loading;

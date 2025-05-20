@@ -1,5 +1,5 @@
 import React from "react";
-import { DialogTitle, useMediaQuery } from "@mui/material";
+import { Box, DialogTitle, useMediaQuery } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
@@ -33,25 +33,27 @@ export default function Modale({
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("md"));
   return (
     <>
-      {!isMobile && (
-        <IconButton
-          aria-label="fullScreenBtn"
-          className={classes.fullscreenButton}
-          onClick={toggleFullscreen}
-          color="primary"
-        >
-          {fullScreen ? <FullscreenExitIcon /> : <FullscreenIcon />}
-        </IconButton>
-      )}
-
-      <IconButton
-        aria-label="close"
-        className={classes.closeButton}
-        onClick={toggleModal}
-        color="secondary"
+      <Box
+        sx={{
+          position: "absolute",
+          right: 8,
+          top: 12,
+        }}
       >
-        <CloseIcon />
-      </IconButton>
+        {!isMobile && (
+          <IconButton
+            aria-label="fullScreenBtn"
+            onClick={toggleFullscreen}
+            color="primary"
+          >
+            {fullScreen ? <FullscreenExitIcon /> : <FullscreenIcon />}
+          </IconButton>
+        )}
+
+        <IconButton aria-label="close" onClick={toggleModal} color="secondary">
+          <CloseIcon />
+        </IconButton>
+      </Box>
       <DialogTitle className={classes.title}>{title}</DialogTitle>
       {children != null && children}
     </>
