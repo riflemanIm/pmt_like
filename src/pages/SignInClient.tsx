@@ -19,12 +19,6 @@ export default function SignInClient() {
     userDispatch,
   } = useUserStateDispatch();
 
-  // Сбрасываем старую куку при загрузке клиентской части
-  useEffect(() => {
-    deleteCookie("user");
-    deleteCookie("auth_token");
-  }, []);
-
   // После успешного логина — переходим в ЛК
   useEffect(() => {
     if (isAuthenticated) {

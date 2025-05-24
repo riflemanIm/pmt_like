@@ -58,7 +58,7 @@ export default function SignInForm({
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-
+  console.log("serverResponse", serverResponse);
   return useMemo(
     () => (
       <Grid

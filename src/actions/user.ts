@@ -1,4 +1,3 @@
-
 import axios, { AxiosInstance, AxiosError } from "axios";
 import isEmpty, { getError } from "../helpers";
 import type { Dispatch } from "react";
@@ -7,7 +6,7 @@ import { UserAction } from "context/UserContext";
 
 // Base API URL
 const API_URL = process.env.NEXT_PUBLIC_API_URL as string;
-console.log('NEXT_PUBLIC_API_URL',API_URL)
+console.log("NEXT_PUBLIC_API_URL", API_URL);
 // Create an axios instance that injects the auth token on each request
 const apiClient: AxiosInstance = axios.create({
   baseURL: API_URL,
@@ -76,6 +75,7 @@ export async function loginUser(
   if (!login || !password) {
     return;
   }
+  console.log("loginUser----");
   dispatch({ type: "LOADING" });
   try {
     const { data } = await apiClient.post<any>("/signin", { login, password });
@@ -90,8 +90,11 @@ export async function loginUser(
     }
   } catch (err: unknown) {
     const msg = getError(err);
-    console.error("Login error:", msg);
-    dispatch({ type: "SET_SERVER_RESPONSE", payload: { serverResponse: msg } });
+    console.log("Login error:", msg);
+    dispatch({
+      type: "SET_SERVER_RESPONSE",
+      payload: { serverResponse: "Неверный пароль/логин" },
+    });
   }
 }
 
@@ -157,7 +160,6 @@ export async function profile(
       });
       if (result.token) {
         localStorage.setItem("auth_token", result.token);
-
       }
     } else {
       dispatch({
