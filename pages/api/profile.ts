@@ -187,40 +187,53 @@ export default async function handler(
           return res.status(200).json({ result: "ok", token, id: userId });
         }
         // Else admin-create user
-        if (admin.role !== "admin")
-          return res.status(403).json({ message: "Forbidden" });
-        const data = req.body as UserBody;
-        const {
-          email,
-          name,
-          phone,
-          country_id,
-          town,
-          address,
-          company,
-          ip = "",
-          link = "",
-          password,
-          role = "user",
-        } = data;
-        if (!isValidEmail(email) || !name || !password)
-          return res.status(400).json({ message: "Invalid input" });
-        const dup = await q<RowDataPacket[]>({
-          query: "SELECT id FROM forum_user WHERE email = ?",
-          values: [email],
-        });
-        if (!isEmpty(dup))
-          return res.status(400).json({ message: "EMAIL_EXISTS" });
-        const insert = await q<ResultSetHeader>({
-          query: `INSERT INTO forum_user
-            (email, email_extra, login, name, pwd, phone, country_id, town, address, company, ipaddress, link, role, change_pass_date)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())`,
-          values: [
-            email,
-            email,
+        if (admin.role == "admin") {
+          const data = req.body as UserBody;
+          const {
             email,
             name,
+            phone,
+            country_id,
+            town,
+            address,
+            company,
+            ip = "",
+            link = "",
             password,
+            role = "user",
+          } = data;
+          if (!isValidEmail(email) || !name || !password)
+            return res.status(400).json({ message: "Invalid input" });
+          const dup = await q<RowDataPacket[]>({
+            query: "SELECT id FROM forum_user WHERE email = ?",
+            values: [email],
+          });
+          if (!isEmpty(dup))
+            return res.status(400).json({ message: "EMAIL_EXISTS" });
+          const insert = await q<ResultSetHeader>({
+            query: `INSERT INTO forum_user
+            (email, email_extra, login, name, pwd, phone, country_id, town, address, company, ipaddress, link, role, change_pass_date)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())`,
+            values: [
+              email,
+              email,
+              email,
+              name,
+              password,
+              phone,
+              country_id,
+              town,
+              address,
+              company,
+              ip,
+              link,
+              role,
+            ],
+          });
+          return res.status(201).json({
+            id: insert.insertId,
+            email,
+            name,
             phone,
             country_id,
             town,
@@ -229,21 +242,8 @@ export default async function handler(
             ip,
             link,
             role,
-          ],
-        });
-        return res.status(201).json({
-          id: insert.insertId,
-          email,
-          name,
-          phone,
-          country_id,
-          town,
-          address,
-          company,
-          ip,
-          link,
-          role,
-        });
+          });
+        }
       }
 
       case "PUT": {

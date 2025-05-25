@@ -3,6 +3,7 @@ import isEmpty, { getError } from "../helpers";
 import type { Dispatch } from "react";
 //import type { ForumUserDto } from "types/dto";
 import { UserAction } from "context/UserContext";
+import { CountryDto } from "types/dto";
 
 // Base API URL
 const API_URL = process.env.NEXT_PUBLIC_API_URL as string;
@@ -28,13 +29,15 @@ apiClient.interceptors.request.use(
 );
 
 // 1. Fetch countries
-export async function getCountries(): Promise<any[]> {
+
+export async function getCountries(): Promise<CountryDto[]> {
   try {
-    const { data } = await apiClient.get<any[]>("/countries");
+    const { data } = await apiClient.get<CountryDto[]>("/countries");
     return data;
   } catch (error: unknown) {
-    console.log("Error fetching countries:", getError(error));
-    //throw new Error("Failed to fetch countries");
+    const msg = getError(error);
+    console.error(`Error fetching countries: ${msg}`);
+    throw new Error(`Failed to fetch countries: ${msg}`);
   }
 }
 
@@ -72,9 +75,6 @@ export async function loginUser(
   login: string,
   password: string
 ): Promise<void> {
-  if (!login || !password) {
-    return;
-  }
   console.log("loginUser----");
   dispatch({ type: "LOADING" });
   try {
@@ -138,8 +138,8 @@ export async function profile(
   if (isEmpty(values)) return;
   dispatch({ type: "LOADING" });
   try {
-    const { data: ipData } = await apiClient.get<{ ip: string }>(
-      "https://api.ipify.org?format=json"
+    const { data: ipData } = await axios.get<{ ip: string }>(
+      "https://api.ipify.org?format=json" // без лишнего '/'
     );
     const payload = { ...values, ip: ipData.ip };
     let response;

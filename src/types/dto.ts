@@ -11,3 +11,8 @@ export interface ForumUserDto {
   link: string;
   password: string;
 }
+
+export interface CountryDto {
+  id: number;
+  rus: string;
+}

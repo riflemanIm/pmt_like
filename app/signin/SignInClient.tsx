@@ -1,16 +1,15 @@
 "use client";
-import React, { useEffect } from "react";
-import { useRouter } from "next/navigation";
 import Typography from "@mui/material/Typography";
-import FullLayout from "../layouts/FullLayout";
-import BaseCard from "../components/baseCard/BaseCard";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import img from "../../assets/images/bg/bg6.jpg";
-import SignInForm from "../components/Forms/SignInForm";
-import useForm from "../hooks/useForm";
-import validate from "../validation/validationSignIn";
-import { deleteCookie } from "cookies-next";
-import { loginUser } from "../actions/user";
-import { useUserStateDispatch } from "../context/UserContext";
+import { loginUser } from "actions/user";
+import BaseCard from "components/baseCard/BaseCard";
+import SignInForm from "components/Forms/SignInForm";
+import { useUserStateDispatch } from "context/UserContext";
+import useForm from "hooks/useForm";
+import FullLayout from "layouts/FullLayout";
+import validate from "validation/validationSignIn";
 
 export default function SignInClient() {
   const router = useRouter();
@@ -27,6 +26,9 @@ export default function SignInClient() {
   }, [isAuthenticated, router]);
 
   const onSubmit = () => {
+    if (!values.login || !values.password) {
+      return;
+    }
     loginUser(userDispatch, values.login, values.password);
   };
 

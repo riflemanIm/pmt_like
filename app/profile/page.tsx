@@ -15,7 +15,6 @@ export default async function ProfilePage() {
   // }
 
   // Fetch auxiliary data server-side
-  const countries = await getCountries();
-  console.log("countries", countries);
+
   return <ProfileForm countries={countries} />;
 }
