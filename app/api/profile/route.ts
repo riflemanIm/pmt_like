@@ -52,7 +52,19 @@ export async function GET(req: NextRequest) {
   const id = searchParams.get("id");
   if (id) {
     const rows = await q<RowDataPacket[]>({
-      query: "SELECT * FROM forum_user WHERE id = ?",
+      query: `SELECT 
+       id,
+        name,
+        pwd as password,
+        login,
+        email,
+        phone,
+        country_id,        
+        town,
+        address,
+        company,
+        link
+      FROM forum_user WHERE id = ?`,
       values: [Number(id)],
     });
     if (rows.length === 0)
@@ -61,6 +73,7 @@ export async function GET(req: NextRequest) {
   }
   // list all (admin only)
   const user = getUserFromReq(req);
+  console.log("--user--", user);
   if (user.role !== "admin")
     return NextResponse.json({ message: "Forbidden" }, { status: 403 });
   const all = await q<RowDataPacket[]>({ query: "SELECT * FROM forum_user" });

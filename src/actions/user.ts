@@ -1,9 +1,9 @@
 import axios, { AxiosInstance, AxiosError } from "axios";
 import isEmpty, { getError } from "../helpers";
 import type { Dispatch } from "react";
-//import type { ForumUserDto } from "types/dto";
 import { UserAction } from "context/UserContext";
-import { CountryDto } from "types/dto";
+import { CountryDto, ForumUserDto } from "types/dto";
+import { getFromLocalStorage } from "helpers/storageHelpers";
 
 // Base API URL
 const API_URL = process.env.NEXT_PUBLIC_API_URL as string;
@@ -19,7 +19,7 @@ const apiClient: AxiosInstance = axios.create({
 
 apiClient.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("auth_token");
+    const token = getFromLocalStorage("auth_token");
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -65,19 +65,36 @@ export async function getIpData(
   }
 }
 
-// 3. Fetch user data by email
+// 3. Fetch user data by id
 export async function getUserData(
-  setValues: (vals: any) => void,
-  email: string
+  setValues: (
+    vals: ForumUserDto & { password: string; repassword: string }
+  ) => void,
+  id: number
 ): Promise<void> {
   try {
-    const { data } = await apiClient.post<any>("/getting-user-data", { email });
-    setValues({ ...data, password: data.pwd, repassword: data.pwd });
+    const { data } = await apiClient.get<ForumUserDto>(`/profile?id=${id}`);
+
+    setValues({
+      ...(data as ForumUserDto),
+      password: data.password,
+      repassword: data.password,
+    });
   } catch (error: unknown) {
     console.error("Error fetching user data:", getError(error));
   }
 }
 
+export async function fetchUsers(
+  setUsers: (vals: ForumUserDto[]) => void
+): Promise<void> {
+  try {
+    const { data } = await apiClient.get<ForumUserDto[]>("/profile");
+    setUsers(data);
+  } catch (error: unknown) {
+    console.error("Error fetching users:", getError(error));
+  }
+}
 // 4. Login
 export async function loginUser(
   dispatch: Dispatch<UserAction>,
@@ -259,5 +276,20 @@ export async function getLicence(
     const msg = getError(err);
     if (msg === "jwt expired") dispatch({ type: "SIGN_OUT_SUCCESS" });
     dispatch({ type: "SET_SERVER_RESPONSE", payload: { serverResponse: msg } });
+  }
+}
+
+export async function deleteUser<T extends { id: number }>(
+  setUsers: (vals: T[]) => void,
+  users: T[],
+  id: number
+): Promise<void> {
+  try {
+    const { data } = await apiClient.delete(`/profile?id=${id}`);
+    if (data.message === "Deleted") {
+      setUsers(users.filter((item) => item.id !== id));
+    }
+  } catch (error: unknown) {
+    console.error("Error fetching user data:", getError(error));
   }
 }

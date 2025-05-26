@@ -6,6 +6,7 @@ import Box from "@mui/material/Box";
 import Header from "./header/Header";
 import Sidebar from "./sidebar/Sidebar";
 import Footer from "./footer/Footer";
+import { useUserStateDispatch } from "context/UserContext";
 
 interface FullLayoutProps {
   children: React.ReactNode;
@@ -42,37 +43,46 @@ const FullLayout: React.FC<FullLayoutProps> = ({ children, img }) => {
   const [isMobileSidebarOpen, setMobileSidebarOpen] =
     React.useState<boolean>(false);
   const lgUp = useMediaQuery((theme: any) => theme.breakpoints.up("lg"));
+  const {
+    userState: {
+      user: { role },
+    },
+  } = useUserStateDispatch();
 
   return (
     <MainWrapper img={img}>
-      <Container>
-        <Header
-          sx={{
-            paddingLeft: isSidebarOpen && lgUp ? "265px" : "",
-            backgroundColor: "#fbfbfb70",
-            backdropFilter: "saturate(180%) blur(5px)",
-          }}
-          toggleMobileSidebar={() => setMobileSidebarOpen(true)}
-        />
-        <Sidebar
-          isSidebarOpen={isSidebarOpen}
-          isMobileSidebarOpen={isMobileSidebarOpen}
-          onSidebarClose={() => setMobileSidebarOpen(false)}
-        />
-        <PageWrapper>
-          <Container
-            maxWidth={false}
+      {role === "admin" ? (
+        <Box>{children}</Box>
+      ) : (
+        <Container>
+          <Header
             sx={{
-              paddingTop: "20px",
-              marginLeft: 2,
-              paddingLeft: isSidebarOpen && lgUp ? "280px!important" : "",
+              paddingLeft: isSidebarOpen && lgUp ? "265px" : "",
+              backgroundColor: "#fbfbfb70",
+              backdropFilter: "saturate(180%) blur(5px)",
             }}
-          >
-            <Box sx={{ minHeight: "calc(100vh - 170px)" }}>{children}</Box>
-            <Footer />
-          </Container>
-        </PageWrapper>
-      </Container>
+            toggleMobileSidebar={() => setMobileSidebarOpen(true)}
+          />
+          <Sidebar
+            isSidebarOpen={isSidebarOpen}
+            isMobileSidebarOpen={isMobileSidebarOpen}
+            onSidebarClose={() => setMobileSidebarOpen(false)}
+          />
+          <PageWrapper>
+            <Container
+              maxWidth={false}
+              sx={{
+                paddingTop: "20px",
+                marginLeft: 2,
+                paddingLeft: isSidebarOpen && lgUp ? "280px!important" : "",
+              }}
+            >
+              <Box sx={{ minHeight: "calc(100vh - 170px)" }}>{children}</Box>
+              <Footer />
+            </Container>
+          </PageWrapper>
+        </Container>
+      )}
     </MainWrapper>
   );
 };

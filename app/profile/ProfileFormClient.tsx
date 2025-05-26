@@ -1,22 +1,17 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import FullLayout from "../../src/layouts/FullLayout";
-import BaseCard from "../../src/components/baseCard/BaseCard";
 import Typography from "@mui/material/Typography";
-import img from "../../assets/images/bg/contact_bg.jpg";
-import SignUpForm from "../../src/components/Forms/SignUpForm";
-import useForm from "../../src/hooks/useForm";
-import validate from "../../src/validation/validationSignUp";
-import {
-  profile,
-  getUserData,
-  checkAuth,
-  getCountries,
-} from "../../src/actions/user";
 import { useUserStateDispatch } from "context/UserContext";
 import useInterval from "hooks/useInterval";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { CountryDto } from "types/dto";
+import img from "../../assets/images/bg/contact_bg.jpg";
+import { getCountries, getUserData, profile } from "actions/user";
+import BaseCard from "components/baseCard/BaseCard";
+import SignUpForm from "components/Forms/SignUpForm";
+import useForm from "hooks/useForm";
+import FullLayout from "layouts/FullLayout";
+import validate from "validation/validationSignUp";
 
 export default function ProfileForm() {
   const {
@@ -74,7 +69,7 @@ export default function ProfileForm() {
           console.log("error getCountries", error);
         }
       })();
-      getUserData(setValues, user.email);
+      getUserData(setValues, user.id);
     }
   }, [isAuthenticated]);
 

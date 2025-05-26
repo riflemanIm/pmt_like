@@ -9,7 +9,9 @@ export interface ForumUserDto {
   company: string;
   ip: string;
   link: string;
-  password: string;
+  password?: string;
+  insert_date?: string;
+  timestamp?: string;
 }
 
 export interface CountryDto {

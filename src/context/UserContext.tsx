@@ -58,6 +58,8 @@ function userReducer(state: UserState, action: UserAction): UserState {
 
     case "SIGN_OUT_SUCCESS":
       removeFromLocalStorage("user");
+      removeFromLocalStorage("auth_token");
+
       return {
         ...state,
         isAuthenticated: false,
@@ -111,9 +113,9 @@ interface UserProviderProps {
 }
 
 function UserProvider({ children }: UserProviderProps) {
-  const initialUser = getFromLocalStorage<User>("user") || {};
-  const isAuthenticated = !!initialUser?.token;
-
+  const initialUser = getFromLocalStorage("user") || {};
+  const isAuthenticated = !!getFromLocalStorage("auth_token");
+  console.log("initialUser", initialUser);
   const [userState, userDispatch] = useReducer(userReducer, {
     isAuthenticated,
     user: initialUser,
