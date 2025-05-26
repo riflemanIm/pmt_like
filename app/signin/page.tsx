@@ -1,5 +1,3 @@
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 import SignInClient from "./SignInClient";
 
 // Серверный компонент для страницы входа

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import FullLayout from "../../src/layouts/FullLayout";
 import BaseCard from "../../src/components/baseCard/BaseCard";
@@ -8,15 +8,17 @@ import img from "../../assets/images/bg/contact_bg.jpg";
 import SignUpForm from "../../src/components/Forms/SignUpForm";
 import useForm from "../../src/hooks/useForm";
 import validate from "../../src/validation/validationSignUp";
-import { profile, getUserData, checkAuth } from "../../src/actions/user";
+import {
+  profile,
+  getUserData,
+  checkAuth,
+  getCountries,
+} from "../../src/actions/user";
 import { useUserStateDispatch } from "context/UserContext";
 import useInterval from "hooks/useInterval";
+import { CountryDto } from "types/dto";
 
-interface ProfileFormProps {
-  countries: any[];
-}
-
-export default function ProfileForm({ countries }: ProfileFormProps) {
+export default function ProfileForm() {
   const {
     userState: { isAuthenticated, user, loaded, serverResponse },
     userDispatch,
@@ -24,9 +26,7 @@ export default function ProfileForm({ countries }: ProfileFormProps) {
 
   const router = useRouter();
 
-  // useEffect(() => {
-  //   checkAuth(userDispatch, user.token);
-  // }, []);
+  const [countries, setCountries] = useState<CountryDto[]>();
 
   useInterval(
     () => {
@@ -65,6 +65,15 @@ export default function ProfileForm({ countries }: ProfileFormProps) {
     if (!isAuthenticated) {
       router.push("/signin");
     } else {
+      (async () => {
+        try {
+          const res = await getCountries();
+          setCountries(res);
+          console.log("res", res);
+        } catch (error) {
+          console.log("error getCountries", error);
+        }
+      })();
       getUserData(setValues, user.email);
     }
   }, [isAuthenticated]);
