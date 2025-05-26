@@ -49,7 +49,16 @@ export async function getIpData(
     const { data } = await apiClient.get<{ ip: string }>(
       "https://api.ipify.org?format=json"
     );
-    setValues({ ip: data.ip });
+    setValues({
+      // login: "support",
+      // password: "Temp_Lic$$",
+      // version: "8.105",
+      // code: "11111111",
+      // reason_standart: "Плановые работы",
+      // reason: "работы",
+      ip: data.ip,
+    });
+    //setValues({ ip: data.ip });
   } catch (error: unknown) {
     console.error("Error fetching IP:", getError(error));
     throw new Error("Failed to fetch IP data");
@@ -149,12 +158,12 @@ export async function profile(
       response = await apiClient.post<any>("/profile", payload);
     }
     const result = response.data;
-    if (result.result === "ok" || result.result === "Updated") {
+    if (result.message === "ok" || result.message === "Updated") {
       dispatch({
         type: "SET_SERVER_RESPONSE",
         payload: {
           serverResponse:
-            result.result === "ok" ? "SUCCESS_CREATE" : "SUCCESS_UPDATE",
+            result.message === "ok" ? "SUCCESS_CREATE" : "SUCCESS_UPDATE",
           data: { ...values, id: result.id, token: result.token },
         },
       });
@@ -164,7 +173,7 @@ export async function profile(
     } else {
       dispatch({
         type: "SET_SERVER_RESPONSE",
-        payload: { serverResponse: "SOMETHING_WRONG" },
+        payload: { serverResponse: result.message || "SOMETHING_WRONG" },
       });
     }
   } catch (err: unknown) {
@@ -176,6 +185,7 @@ export async function profile(
         payload: { serverResponse: "Session expired. Please login again." },
       });
     } else {
+      console.log("Error msg", msg);
       dispatch({
         type: "SET_SERVER_RESPONSE",
         payload: { serverResponse: msg },
