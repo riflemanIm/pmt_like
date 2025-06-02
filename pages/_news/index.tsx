@@ -1,3 +1,4 @@
+"use client";
 // ===== CLIENT-SIDE PAGE =====
 // File: /app/news/page.tsx
 

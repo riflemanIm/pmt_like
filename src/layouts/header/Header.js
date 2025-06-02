@@ -52,7 +52,7 @@ const Header = ({ sx, customClass, toggleMobileSidebar, position }) => {
         {/* ------------------------------------------- */}
         {/* <SearchDD /> */}
         {/* ------------ End Menu icon ------------- */}
-        <NoSsr>{isAuthenticated ? <UserMenu /> : <UsersSign />}</NoSsr>
+        {isAuthenticated ? <UserMenu /> : <UsersSign />}
         {/* ------------------------------------------- */}
         {/* Profile Dropdown */}
         {/* ------------------------------------------- */}

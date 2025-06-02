@@ -1,38 +1,41 @@
-import React from "react";
-import Router from "next/router";
-import FeatherIcon from "feather-icons-react";
+"use client";
 import {
+  Avatar,
   Box,
-  Menu,
-  Typography,
-  Link,
-  ListItemButton,
-  List,
   Button,
   Divider,
+  Link,
+  List,
+  ListItemButton,
+  Menu,
+  NoSsr,
   Toolbar,
-  Avatar,
+  Typography,
 } from "@mui/material";
+import FeatherIcon from "feather-icons-react";
+import Router from "next/router";
+import React, { MouseEvent, useState } from "react";
 import { useUserStateDispatch } from "../../context/UserContext";
 
-const UserMenu = () => {
+const UserMenu: React.FC = () => {
   const {
     userState: { user },
     userDispatch,
   } = useUserStateDispatch();
-  const [anchorEl4, setAnchorEl4] = React.useState(null);
 
-  const handleClick4 = (event) => {
-    setAnchorEl4(event.currentTarget);
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+
+  const handleClick = (event: MouseEvent<HTMLElement>): void => {
+    setAnchorEl(event.currentTarget);
   };
 
-  const handleClose4 = () => {
-    setAnchorEl4(null);
+  const handleClose = (): void => {
+    setAnchorEl(null);
   };
-  const logout = () => {
+
+  const logout = (): void => {
     userDispatch({
       type: "SIGN_OUT_SUCCESS",
-      payload: null,
     });
     Router.push("/signout");
   };
@@ -40,22 +43,15 @@ const UserMenu = () => {
   const FRESHDESK_URL_NEW =
     "https://medialog.myfreshworks.com/login/auth/1703779775100?client_id=451979510707337272&redirect_uri=https%3A%2F%2Fmedialog.freshdesk.com%2Ffreshid%2Fcustomer_authorize_callback%3Fhd%3Dsupport.medialog.ru";
 
-  // const FRESHDESK_SHARED_SECRET = "4263f6dfec25ad582a96975db6698c34";
-  // const FRESHDESK_BASE_URL = "http://support.medialog.ru/";
-  // const timestamp = Math.floor(Date.now() / 1000);
-  // const toBeHashed = `${user.name}${FRESHDESK_SHARED_SECRET}${user.email}${timestamp}`;
-  // const hash = md5(toBeHashed, FRESHDESK_SHARED_SECRET);
-  // const FRESHDESK_URL = `${FRESHDESK_BASE_URL}login/sso/?name=${user.name}&email=${user.email}&timestamp=${timestamp}&hash=${hash}`;
-
   return (
-    <>
+    <NoSsr>
       <Toolbar title={user.name}>
         <Button
           aria-label="menu"
           color="inherit"
           aria-controls="profile-menu"
           aria-haspopup="true"
-          onClick={handleClick4}
+          onClick={handleClick}
         >
           <Box display="flex" alignItems="center">
             <Avatar alt={user.name} />
@@ -72,23 +68,22 @@ const UserMenu = () => {
                 variant="h6"
                 color="primary"
                 fontWeight="500"
-                sx={{
-                  mx: 2,
-                }}
+                sx={{ mx: 2 }}
               >
                 {user.name}
               </Typography>
-              <FeatherIcon icon="chevron-down" width="26" height="26" />
+              <FeatherIcon icon="chevron-down" />
             </Box>
           </Box>
         </Button>
       </Toolbar>
+
       <Menu
         id="profile-menu"
-        anchorEl={anchorEl4}
+        anchorEl={anchorEl}
         keepMounted
-        open={Boolean(anchorEl4)}
-        onClose={handleClose4}
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
         sx={{
           "& .MuiMenu-paper": {
             width: "385px",
@@ -100,7 +95,7 @@ const UserMenu = () => {
             <List
               component="nav"
               aria-label="secondary mailbox folder"
-              onClick={handleClose4}
+              onClick={handleClose}
             >
               <ListItemButton color="primary" href="/lk">
                 Новости
@@ -119,9 +114,11 @@ const UserMenu = () => {
               </ListItemButton>
 
               <ListItemButton
+                component="a"
                 color="primary"
                 target="_blank"
                 href={FRESHDESK_URL_NEW}
+                rel="noopener noreferrer"
               >
                 Поддержка
               </ListItemButton>
@@ -129,7 +126,7 @@ const UserMenu = () => {
           </Box>
           <Divider />
           <Box p={2}>
-            <Link to="/">
+            <Link href="/" underline="none">
               <Button
                 onClick={logout}
                 fullWidth
@@ -142,7 +139,7 @@ const UserMenu = () => {
           </Box>
         </Box>
       </Menu>
-    </>
+    </NoSsr>
   );
 };
 

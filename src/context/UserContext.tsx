@@ -18,7 +18,7 @@ interface User {
   [key: string]: any;
 }
 
-interface UserState {
+export interface UserState {
   isAuthenticated: boolean;
   user: User;
   serverResponse: any | null;

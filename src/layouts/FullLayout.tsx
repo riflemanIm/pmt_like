@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { styled } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -51,38 +52,34 @@ const FullLayout: React.FC<FullLayoutProps> = ({ children, img }) => {
 
   return (
     <MainWrapper img={img}>
-      {role === "admin" ? (
-        <Box>{children}</Box>
-      ) : (
-        <Container>
-          <Header
+      <Container>
+        <Header
+          sx={{
+            paddingLeft: isSidebarOpen && lgUp ? "265px" : "",
+            backgroundColor: "#fbfbfb70",
+            backdropFilter: "saturate(180%) blur(5px)",
+          }}
+          toggleMobileSidebar={() => setMobileSidebarOpen(true)}
+        />
+        <Sidebar
+          isSidebarOpen={isSidebarOpen}
+          isMobileSidebarOpen={isMobileSidebarOpen}
+          onSidebarClose={() => setMobileSidebarOpen(false)}
+        />
+        <PageWrapper>
+          <Container
+            maxWidth={false}
             sx={{
-              paddingLeft: isSidebarOpen && lgUp ? "265px" : "",
-              backgroundColor: "#fbfbfb70",
-              backdropFilter: "saturate(180%) blur(5px)",
+              paddingTop: "20px",
+              marginLeft: 2,
+              paddingLeft: isSidebarOpen && lgUp ? "280px!important" : "",
             }}
-            toggleMobileSidebar={() => setMobileSidebarOpen(true)}
-          />
-          <Sidebar
-            isSidebarOpen={isSidebarOpen}
-            isMobileSidebarOpen={isMobileSidebarOpen}
-            onSidebarClose={() => setMobileSidebarOpen(false)}
-          />
-          <PageWrapper>
-            <Container
-              maxWidth={false}
-              sx={{
-                paddingTop: "20px",
-                marginLeft: 2,
-                paddingLeft: isSidebarOpen && lgUp ? "280px!important" : "",
-              }}
-            >
-              <Box sx={{ minHeight: "calc(100vh - 170px)" }}>{children}</Box>
-              <Footer />
-            </Container>
-          </PageWrapper>
-        </Container>
-      )}
+          >
+            <Box sx={{ minHeight: "calc(100vh - 170px)" }}>{children}</Box>
+            <Footer />
+          </Container>
+        </PageWrapper>
+      </Container>
     </MainWrapper>
   );
 };

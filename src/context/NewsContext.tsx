@@ -1,3 +1,4 @@
+"use client";
 import React, { useReducer, useContext, createContext, ReactNode } from "react";
 
 // Типы для состояния и действий

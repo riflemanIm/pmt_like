@@ -25,11 +25,9 @@ const MyApp = (props) => {
       <Head>
         <title>Пост Модерн Текнолоджи</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        {/* Remove all security-related meta tags, they should be in next.config.js */}
       </Head>
-      // 1) сначала JSS-провайдер, чтобы makeStyles нашёл theme.spacing
+
       <StylesThemeProvider theme={theme}>
-        {/* 2) потом MUI ThemeProvider, чтобы sx/styled тоже увидели эту же тему */}
         <MuiThemeProvider theme={theme}>
           <CssBaseline />
           <UserProvider>
