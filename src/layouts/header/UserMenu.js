@@ -125,6 +125,14 @@ const UserMenu = () => {
               >
                 Поддержка
               </ListItemButton>
+
+              <ListItemButton
+                color="primary"
+                target="_blank"
+                href="https://study.medialog.ru"
+              >
+                Онлайн курсы
+              </ListItemButton>
             </List>
           </Box>
           <Divider />

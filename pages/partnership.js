@@ -8,6 +8,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FullLayout from "../src/layouts/FullLayout";
 import BaseCard from "../src/components/baseCard/BaseCard";
 import img from "../assets/images/bg/bg11.jpg";
+import { Button } from "@mui/material";
 
 const Accordion = styled((props) => (
   <MuiAccordion elevation={0} square {...props} />
@@ -510,6 +511,33 @@ export default function Partnership({ menu }) {
             </ul>
           </AccordionDetails>
         </Accordion>
+
+        <BaseCard>
+          <Typography variant="h3" my={1} sx={{ color: "primary.dark" }}>
+            Учебный центр ПМТ
+          </Typography>
+          <Typography my={1} sx={{ color: "text.secondary" }}>
+            Там Вы можете найти очные и дистанционные учебные курсы для освоения
+            медицинской информационной системы МЕДИАЛОГ, подать заявку на
+            прохождение курса, получить круглосуточный доступ к материалам,
+            задачам и тестам
+          </Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth
+            target="_blank"
+            href="https://study.medialog.ru"
+            sx={{ my: 2 }}
+          >
+            Посетить учебный центр ПМТ
+          </Button>
+          <Typography sx={{ color: "text.secondary" }} my={1}>
+            По всем вопросам очного и дистанционного обучения просим обращаться
+            по электронной почте:{" "}
+            <a href="mailto:sales@postmodern.ru">sales@postmodern.ru</a>
+          </Typography>
+        </BaseCard>
       </div>
     </FullLayout>
   );
