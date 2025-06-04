@@ -14,8 +14,9 @@ export async function getCountries() {
     //console.log("data--", data);
     return data;
   } catch (error) {
-    console.error("Error fetching countries:", getError(error));
-    throw new Error("Failed to fetch countries");
+    return [];
+    //console.log("Error fetching countries:", getError(error));
+    //throw new Error("Failed to fetch countries");
   }
 }
 
