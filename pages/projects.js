@@ -53,7 +53,7 @@ export default function Projects({ menu }) {
             </Typography>
 
             <Typography sx={{ color: "text.secondary" }} my={1}>
-              2500 рабочих мест
+              &#62; 5000 рабочих мест
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
@@ -71,7 +71,6 @@ export default function Projects({ menu }) {
             </Typography>
           </AccordionDetails>
         </Accordion>
-
         <Accordion
           expanded={expanded === "panel2"}
           onChange={handleChange("panel2")}
@@ -104,61 +103,7 @@ export default function Projects({ menu }) {
             </Typography>
           </AccordionDetails>
         </Accordion>
-
-        <Accordion
-          expanded={expanded === "panel3"}
-          onChange={handleChange("panel3")}
-        >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel3bh-content"
-            id="panel3bh-header"
-          >
-            <Typography
-              variant="h5"
-              my={1}
-              sx={{ width: "80%", flexShrink: 0 }}
-            >
-              ГКБ им. С.П. Боткина (г. Москва)
-            </Typography>
-            <Typography sx={{ color: "text.secondary" }} my={1}>
-              1200 рабочих мест
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography my={1}>
-              Городская клиническая больница имени С.П. Боткина - крупнейшее
-              многопрофильное лечебное учреждение Москвы. Больница с гордостью
-              носит имя Сергея Петровича Боткина (1832-1889) - выдающегося
-              русского врача - терапевта и достойно продолжает его славные
-              традиции. На протяжении более чем вековой истории существования
-              Боткинская больница оказывает качественную медицинскую помощь с
-              предоставлением жителям столицы полного комплекса диагностических,
-              лечебных, реабилитационных и профилактических услуг. Сегодня ГКБ
-              им. С.П. Боткина оснащена современной базой лечебной и
-              диагностической медицинской техники, позволяющей оказывать
-              специализированную медицинскую помощь различного профиля.
-              Квалифицированный медицинский персонал применяет передовые методы
-              лечения с использованием высокотехнологичного медицинского
-              оборудования. В настоящее время ГКБ им. С.П. Боткина представляет
-              собой крупное медицинское объединение с общим коечным фондом,
-              превышающим 2300 койко-мест. Больница располагает стационаром для
-              оказания специализированной медицинской помощи, в т.ч.
-              высокотехнологичной, по хирургическому, гинекологическому,
-              терапевтическому, нейрохирургическому, травматологическому и
-              другим профилям. В Боткинской больнице в настоящее время работают
-              4300 сотрудников, в том числе 1100 врачей. Только на основной базе
-              больницы трудятся 34 профессора и доктора медицинских наук, более
-              200 кандидатов медицинских наук, 13 врачей удостоены звания
-              "Заслуженный врач Российской Федерации". Практически каждый второй
-              врач имеет высшую квалификационную категорию. Более 400
-              сотрудников расположенных на территории больницы кафедр, НИИ и
-              медицинских центров, также работают в её отделениях, в их числе 36
-              профессоров и 56 доцентов.
-            </Typography>
-          </AccordionDetails>
-        </Accordion>
-
+        -
         <Accordion
           expanded={expanded === "panel4"}
           onChange={handleChange("panel4")}
@@ -202,7 +147,6 @@ export default function Projects({ menu }) {
             </Typography>
           </AccordionDetails>
         </Accordion>
-
         <Accordion
           expanded={expanded === "panel6"}
           onChange={handleChange("panel6")}
@@ -239,7 +183,6 @@ export default function Projects({ menu }) {
             </Typography>
           </AccordionDetails>
         </Accordion>
-
         <Accordion
           expanded={expanded === "panel7"}
           onChange={handleChange("panel7")}
@@ -277,7 +220,6 @@ export default function Projects({ menu }) {
             </Typography>
           </AccordionDetails>
         </Accordion>
-
         <Accordion
           expanded={expanded === "panel8"}
           onChange={handleChange("panel8")}
@@ -316,7 +258,6 @@ export default function Projects({ menu }) {
             </Typography>
           </AccordionDetails>
         </Accordion>
-
         <Accordion
           expanded={expanded === "panel9"}
           onChange={handleChange("panel9")}
@@ -352,7 +293,6 @@ export default function Projects({ menu }) {
             </Typography>
           </AccordionDetails>
         </Accordion>
-
         <Accordion
           expanded={expanded === "panel10"}
           onChange={handleChange("panel10")}
@@ -396,7 +336,6 @@ export default function Projects({ menu }) {
             </Typography>
           </AccordionDetails>
         </Accordion>
-
         <Accordion
           expanded={expanded === "panel11"}
           onChange={handleChange("panel11")}
@@ -439,7 +378,6 @@ export default function Projects({ menu }) {
             </Typography>
           </AccordionDetails>
         </Accordion>
-
         <Accordion
           expanded={expanded === "panel13"}
           onChange={handleChange("panel13")}
@@ -479,7 +417,6 @@ export default function Projects({ menu }) {
             </Typography>
           </AccordionDetails>
         </Accordion>
-
         <Accordion
           expanded={expanded === "panel14"}
           onChange={handleChange("panel14")}
@@ -513,7 +450,6 @@ export default function Projects({ menu }) {
             </Typography>
           </AccordionDetails>
         </Accordion>
-
         <Accordion
           expanded={expanded === "panel15"}
           onChange={handleChange("panel15")}
@@ -547,7 +483,6 @@ export default function Projects({ menu }) {
             </Typography>
           </AccordionDetails>
         </Accordion>
-
         <Accordion
           expanded={expanded === "panel16"}
           onChange={handleChange("panel16")}
@@ -583,7 +518,6 @@ export default function Projects({ menu }) {
             </Typography>
           </AccordionDetails>
         </Accordion>
-
         <Accordion
           expanded={expanded === "panel17"}
           onChange={handleChange("panel17")}
@@ -629,7 +563,6 @@ export default function Projects({ menu }) {
             </Typography>
           </AccordionDetails>
         </Accordion>
-
         <Accordion
           expanded={expanded === "panel18"}
           onChange={handleChange("panel18")}
