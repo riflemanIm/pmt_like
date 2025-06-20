@@ -1,4 +1,4 @@
-// File: app/page.tsx
+// app/page.tsx
 import fs from "fs";
 import { sign } from "jsonwebtoken";
 import { cookies } from "next/headers";
@@ -8,10 +8,8 @@ import { Box } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import img from "../assets/images/bg/bg25.jpg";
 import BaseCard from "../src/components/baseCard/BaseCard";
-import FullLayout from "../src/layouts/FullLayout"; // клиентский ("use client" внутри)
-
-// Импортируем наш клиентский компонент с аккордеонами
-import Accordions from "./Accordions";
+import FullLayout from "../src/layouts/FullLayout";
+import Accordions from "./page/Accordions";
 
 interface SearchParams {
   nonce?: string;
@@ -23,11 +21,11 @@ interface SearchParams {
 export default async function Page({
   searchParams,
 }: {
-  searchParams: SearchParams;
+  searchParams: Promise<SearchParams>;
 }) {
-  const { nonce, redirect_uri, state, client_id } = searchParams;
+  // await searchParams here
+  const { nonce, redirect_uri, state, client_id } = await searchParams;
 
-  // Важно: await cookies() перед использованием
   const cookieStore = await cookies();
   const userCookie = cookieStore.get("user");
 
@@ -95,7 +93,6 @@ function PageLayout() {
       </BaseCard>
 
       <Box sx={{ mt: 6 }}>
-        {/* Клиентский компонент с аккордеонами */}
         <Accordions />
       </Box>
     </FullLayout>

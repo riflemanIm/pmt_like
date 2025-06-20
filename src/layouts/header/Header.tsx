@@ -1,16 +1,32 @@
-import React from "react";
-//import FeatherIcon from "feather-icons-react";
 import MenuIcon from "@mui/icons-material/Menu";
-import { AppBar, Box, IconButton, NoSsr, Toolbar } from "@mui/material";
-import LogoIcon from "../logo/LogoIcon";
-import PropTypes from "prop-types";
-// Dropdown Component
-// import SearchDD from "./SearchDD";
-import UserMenu from "./UserMenu";
+import {
+  AppBar,
+  Box,
+  IconButton,
+  SxProps,
+  Theme,
+  Toolbar,
+} from "@mui/material";
+import AuthSensitive from "layouts/AuthSensitive";
+import React from "react";
 import { useUserStateDispatch } from "../../context/UserContext";
+import LogoIcon from "../logo/LogoIcon";
+import UserMenu from "./UserMenu";
 import UsersSign from "./UsersSign";
 
-const Header = ({ sx, customClass, toggleMobileSidebar, position }) => {
+interface HeaderProps {
+  sx?: SxProps<Theme>;
+  customClass?: string;
+  position?: "fixed" | "absolute" | "sticky" | "relative" | "static";
+  toggleMobileSidebar: () => void;
+}
+
+const Header: React.FC<HeaderProps> = ({
+  sx,
+  customClass,
+  toggleMobileSidebar,
+  position = "static",
+}) => {
   const {
     userState: { isAuthenticated },
   } = useUserStateDispatch();
@@ -47,26 +63,12 @@ const Header = ({ sx, customClass, toggleMobileSidebar, position }) => {
         >
           <MenuIcon color="primary" />
         </IconButton>
-        {/* ------------------------------------------- */}
-        {/* Search Dropdown */}
-        {/* ------------------------------------------- */}
-        {/* <SearchDD /> */}
-        {/* ------------ End Menu icon ------------- */}
-        {isAuthenticated ? <UserMenu /> : <UsersSign />}
-        {/* ------------------------------------------- */}
-        {/* Profile Dropdown */}
-        {/* ------------------------------------------- */}
+        <AuthSensitive fallback={<UsersSign />}>
+          <UserMenu />
+        </AuthSensitive>
       </Toolbar>
     </AppBar>
   );
-};
-
-Header.propTypes = {
-  sx: PropTypes.object,
-  customClass: PropTypes.string,
-  position: PropTypes.string,
-  toggleSidebar: PropTypes.func,
-  toggleMobileSidebar: PropTypes.func,
 };
 
 export default Header;

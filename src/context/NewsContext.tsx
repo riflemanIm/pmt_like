@@ -7,8 +7,8 @@ export interface NewsItem {
   title: string;
   content: string;
   status: 0 | 1;
-  created_at: string;
-  updated_at: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
 export interface NewsState {

@@ -1,21 +1,18 @@
-// /app/news/NewsPageClient.tsx
-
+// app/news/page.tsx
 "use client";
 
 import React, { useEffect, useState, Dispatch } from "react";
-import Router from "next/router";
-import Link from "next/link";
-import FullLayout from "../../src/layouts/FullLayout";
-import BaseCard from "../../src/components/baseCard/BaseCard";
-
-import { useUserStateDispatch } from "../../src/context/UserContext";
-import { checkAuth } from "../../src/actions/user";
+import { useRouter } from "next/navigation";
+import FullLayout from "layouts/FullLayout";
+import BaseCard from "components/baseCard/BaseCard";
+import { useUserStateDispatch } from "context/UserContext";
+import { checkAuth } from "actions/user";
 import {
   useNewsState,
   NewsItem,
   useNewsStateDispatch,
-} from "../../src/context/NewsContext";
-import { fetchNews, updateNewsItemStatus } from "../../src/actions/news";
+} from "context/NewsContext";
+import { fetchNews, updateNewsItemStatus } from "actions/news";
 import {
   Typography,
   IconButton,
@@ -24,7 +21,6 @@ import {
   Switch,
   Box,
 } from "@mui/material";
-
 import { styled } from "@mui/material/styles";
 import MuiAccordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -33,7 +29,6 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import EditIcon from "@mui/icons-material/Edit";
 import ReactMarkdown from "react-markdown";
 import Loading from "components/Loading";
-import { formatDate } from "../../src/helpers/dates";
 import img from "../../assets/images/bg/bg2.jpg";
 
 type Action = { type: string; payload?: any };
@@ -43,31 +38,44 @@ const Accordion = styled((props: any) => (
 ))();
 
 export default function NewsPageClient() {
+  const router = useRouter();
+  const [mounted, setMounted] = useState(false);
+
+  // App state and dispatches
   const {
     userState: { isAuthenticated, user },
     userDispatch,
   } = useUserStateDispatch();
   const newsDispatch = useNewsStateDispatch();
   const { news, loading, error } = useNewsState();
-
   const [expanded, setExpanded] = useState<string | false>(false);
 
-  const handleChange =
-    (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
-      setExpanded(isExpanded ? panel : false);
-    };
-
+  // Run on client only
   useEffect(() => {
-    checkAuth(userDispatch as Dispatch<Action>, user.token ?? "");
+    setMounted(true);
   }, []);
 
+  // Authentication check
   useEffect(() => {
-    if (!isAuthenticated) {
-      Router.push("/signin");
-    } else {
-      fetchNews(newsDispatch, user.token);
+    if (mounted) {
+      checkAuth(userDispatch as Dispatch<Action>, user.token ?? "");
     }
-  }, [isAuthenticated]);
+  }, [mounted, user.token, userDispatch]);
+
+  // Fetch news or redirect
+  useEffect(() => {
+    if (mounted) {
+      if (!isAuthenticated) {
+        router.push("/signin");
+      } else {
+        fetchNews(newsDispatch, user.token);
+      }
+    }
+  }, [mounted, isAuthenticated, newsDispatch, router, user.token]);
+
+  const handleChange =
+    (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) =>
+      setExpanded(isExpanded ? panel : false);
 
   const handleStatusChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -85,6 +93,11 @@ export default function NewsPageClient() {
     }
   };
 
+  if (!mounted) {
+    // Avoid hydration mismatch by waiting for client mount
+    return null;
+  }
+
   return (
     <FullLayout img={img.src}>
       <Typography variant="h1" mb={8}>
@@ -97,15 +110,15 @@ export default function NewsPageClient() {
         {error && <Typography color="error">Error: {error}</Typography>}
 
         {news.map((item: NewsItem, inx: number) => (
-          <div style={{ marginTop: 48 }} key={item.id}>
+          <div key={item.id} style={{ marginTop: 48 }}>
             <Accordion
               expanded={expanded === `panel${inx}`}
               onChange={handleChange(`panel${inx}`)}
             >
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1bh-content"
-                id="panel1bh-header"
+                aria-controls={`panel${inx}-content`}
+                id={`panel${inx}-header`}
               >
                 <Typography variant="h5" my={1} sx={{ width: "60%" }}>
                   {item.title}
@@ -114,7 +127,11 @@ export default function NewsPageClient() {
                     sx={{ color: "text.secondary", fontSize: 14, mt: 1 }}
                   >
                     {item.updated_at
-                      ? formatDate(item.updated_at, "DD.MM.YYYY")
+                      ? item.updated_at
+                          .slice(0, 10)
+                          .split("-")
+                          .reverse()
+                          .join(".")
                       : ""}
                   </Typography>
                 </Typography>
@@ -125,11 +142,9 @@ export default function NewsPageClient() {
                     <FormControlLabel
                       control={
                         <Switch
-                          value={item.status === 1}
                           checked={item.status === 1}
                           onChange={(e) =>
-                            item.id !== undefined &&
-                            handleStatusChange(e, item.id)
+                            item.id != null && handleStatusChange(e, item.id)
                           }
                           color="primary"
                         />
@@ -137,10 +152,7 @@ export default function NewsPageClient() {
                       label="Status"
                     />
                     <IconButton
-                      component={Link}
-                      edge="end"
-                      aria-label="Edit"
-                      href={`/news/${item.id}`}
+                      onClick={() => router.push(`/news/${item.id}`)}
                       sx={{ mr: 2 }}
                     >
                       <EditIcon color="primary" />
@@ -155,10 +167,8 @@ export default function NewsPageClient() {
         {user.role === "admin" && (
           <Button
             variant="contained"
-            color="primary"
-            component={Link}
-            href={`/news/add`}
             sx={{ mt: 3 }}
+            onClick={() => router.push("/news/add")}
           >
             Добавить новость
           </Button>

@@ -93,12 +93,29 @@ const components = {
         borderRadius: 9,
         "&:hover": {
           boxShadow: "none",
-          color: "#fff",
         },
       },
       textPrimary: {
         "&:hover": {
           color: "inherit",
+        },
+      },
+      containedPrimary: {
+        "&:hover": {
+          boxShadow: "none",
+          color: "#fff",
+        },
+      },
+      containedInfo: {
+        "&:hover": {
+          boxShadow: "none",
+          color: "#fff",
+        },
+      },
+      containedSuccess: {
+        "&:hover": {
+          boxShadow: "none",
+          color: "#fff",
         },
       },
     },

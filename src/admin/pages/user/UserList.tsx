@@ -51,7 +51,7 @@ const UserList: React.FC = () => {
         />,
         <GridActionsCellItem
           icon={<DeleteIcon />}
-          label="Delete"
+          label="Удалить"
           onClick={() => handleDelete((params.row as ForumUserDto).id)}
         />,
       ],

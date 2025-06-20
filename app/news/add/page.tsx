@@ -1,5 +1,8 @@
+// app/news/add/page.tsx
+"use client";
+
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import {
   Typography,
   Box,
@@ -8,16 +11,13 @@ import {
   Switch,
   FormControlLabel,
 } from "@mui/material";
-import FullLayout from "../../src/layouts/FullLayout";
-import BaseCard from "../../src/components/baseCard/BaseCard";
-import { updateNewsItem } from "../../src/actions/news";
-import { useUserStateDispatch } from "../../src/context/UserContext";
-import { checkAuth } from "../../src/actions/user";
-import {
-  NewsProvider,
-  useNewsStateDispatch,
-} from "../../src/context/NewsContext";
-import img from "../../assets/images/bg/bg2.jpg";
+import FullLayout from "layouts/FullLayout";
+import BaseCard from "components/baseCard/BaseCard";
+import { updateNewsItem } from "actions/news";
+import { useUserStateDispatch } from "context/UserContext";
+import { checkAuth } from "actions/user";
+import { NewsProvider, useNewsStateDispatch } from "context/NewsContext";
+import img from "../../../assets/images/bg/bg2.jpg";
 import dynamic from "next/dynamic";
 import "react-markdown-editor-lite/lib/index.css";
 import ReactMarkdown from "react-markdown";
@@ -34,93 +34,83 @@ function AddNews() {
   } = useUserStateDispatch();
   const newsDispatch = useNewsStateDispatch();
 
-  const [newNewsItem, setNewNewsItem] = useState<{
+  const [newsItem, setNewsItem] = useState<{
     title: string;
     content: string;
     status: 0 | 1;
-    created_at: string;
-    updated_at: string;
   }>({
     title: "",
     content: "",
     status: 0,
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
   });
 
   useEffect(() => {
-    checkAuth(userDispatch, user.token);
-  }, [user.token, userDispatch]);
+    if (user?.token) checkAuth(userDispatch, user.token);
+  }, [user?.token, userDispatch]);
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      router.push("/signin");
-    }
+    if (!isAuthenticated) router.push("/signin");
   }, [isAuthenticated, router]);
 
   const handleAdd = async () => {
     try {
-      await updateNewsItem(newsDispatch, newNewsItem);
-      setNewNewsItem({
-        title: "",
-        content: "",
-        status: 0,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      });
+      await updateNewsItem(newsDispatch, newsItem);
+      setNewsItem({ title: "", content: "", status: 0 });
     } catch (err) {
       newsDispatch({ type: "SET_ERROR", payload: (err as Error).message });
     }
   };
 
   const handleEditorChange = ({ text }: { text: string }) => {
-    setNewNewsItem({ ...newNewsItem, content: text });
+    setNewsItem((prev) => ({ ...prev, content: text }));
   };
 
-  const handleStatusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNewNewsItem({ ...newNewsItem, status: event.target.checked ? 1 : 0 });
+  const handleStatusChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewsItem((prev) => ({ ...prev, status: e.target.checked ? 1 : 0 }));
   };
 
   return (
     <FullLayout img={img.src}>
-      <Typography variant="h1" mb={8}>
+      <Typography variant="h1" mb={4}>
         Добавить новость
       </Typography>
       <BaseCard>
-        <Box display="flex" flexDirection="column" gap={2} mb={4}>
+        <Box display="flex" flexDirection="column" gap={2}>
           <TextField
             label="Заголовок"
-            value={newNewsItem.title}
+            value={newsItem.title}
             onChange={(e) =>
-              setNewNewsItem({ ...newNewsItem, title: e.target.value })
+              setNewsItem((prev) => ({ ...prev, title: e.target.value }))
             }
             fullWidth
           />
           <MdEditor
-            value={newNewsItem.content}
-            style={{ height: "500px" }}
+            value={newsItem.content}
+            style={{ height: "400px" }}
             renderHTML={(text) => <ReactMarkdown>{text}</ReactMarkdown>}
             onChange={handleEditorChange}
           />
           <FormControlLabel
             control={
               <Switch
-                checked={newNewsItem.status === 1}
+                checked={newsItem.status === 1}
                 onChange={handleStatusChange}
-                color="primary"
               />
             }
-            label="Status"
+            label="Опубликовано"
           />
-          <Button variant="contained" color="primary" onClick={handleAdd}>
+          <Button variant="contained" onClick={handleAdd}>
             Добавить новость
+          </Button>
+          <Button variant="text" onClick={() => router.push("/news")}>
+            к новостям
           </Button>
         </Box>
       </BaseCard>
     </FullLayout>
   );
 }
-// Оборачиваем в провайдер
+
 export default function AddNewsPage() {
   return (
     <NewsProvider>

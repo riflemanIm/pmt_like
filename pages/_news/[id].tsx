@@ -116,7 +116,7 @@ function NewsItemComp() {
 
         <Box display="flex" flexDirection="column" gap={2} mb={4}>
           <TextField
-            label="Title"
+            label="Заголовок"
             value={newsItem ? newsItem.title : ""}
             onChange={(e) =>
               newsItem &&

@@ -118,7 +118,7 @@ function SignUpForm({
   return (
     <>
       <Fade
-        styte={{ width: "100%" }}
+        style={{ width: "100%" }}
         in={true}
         // style={
         //   serverResponse != null ? { display: "flex" } : { display: "none" }

@@ -61,7 +61,10 @@ export async function getIpData(
     //setValues({ ip: data.ip });
   } catch (error: unknown) {
     console.error("Error fetching IP:", getError(error));
-    throw new Error("Failed to fetch IP data");
+    setValues({
+      ip: "127.0.0.1",
+    });
+    //throw new Error("Failed to fetch IP data");
   }
 }
 
